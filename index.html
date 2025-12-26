@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="projects.css">
+</head>
+
+<body>
+    <video class="background" src="./videos/home-loop.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+    <img class="logo logo-white-state" src="/icons/moon-logo.png" alt="logo">
+    <img class="logo logo-color-state" src="/icons/moon-logo-color-state.png" alt="logo">
+
+    <header id="home">
+        <!-- <div id="gate" class="gate">
+            <div class="gate-card">
+                <h2>Welcome to my portfolio website.</h2>
+                <p>Click to enter</p>
+                <button id="enterBtn">Enter</button>
+            </div>
+        </div> -->
+
+        <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
+
+        <div class="config">
+            <img class="icons" src="./icons/Google Earth.svg" alt="languages">
+            <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
+            <img class="icons" src="./icons/Download from the Cloud.svg" alt="download">
+        </div>
+    </header>
+
+    <nav id="navbar">
+        <ul>
+            <li>🌕<a href="#home">Home</a></li>
+            <li>🌔<a href="#about">About</a></li>
+            <li>🌓<a href="#">Skills</a></li>
+            <li>🌗<a href="#projects">Projects</a></li>
+            <li>🌒<a href="#">Contact</a></li>
+            <li id="locked">🌑<a href="#">🔒</a></li>
+            <span class="star"></span>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="intro">
+            <div class="model"></div>
+            <img src="./images/profile.png" alt="profile">
+            <div class="info">
+                <h4>Hello, I'm <span class="name">KIMYOO</span></h4>
+                <h1 class="video-h1" data-text="Web Developer">
+                    <video id="h1vid" src="./videos/h1.mp4" autoplay muted loop></video>
+                    <canvas id="h1canvas"></canvas>
+                </h1>
+                <div class="text-container">
+                    <p>
+                        Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.
+                    </p>
+                </div>
+                <button class="btn">
+                    <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop></video>
+                    Contact Me
+                </button>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <span><h2 class="section-title">ABOUT</h2></span>
+            <div class="id-card">
+                <div class="card">
+                    <img class="profile" src="./images/id-card-profile.png"alt="id-profile">
+                    <div class="upper-info">
+                        <p>Name: Ngov Kimyoo
+                            Alias: Dorayaki
+                            Age: 21
+                        </p>
+                        <img class="moon-divider" src="./images/moon-divider.png" alt="line divider">
+                        <div class="middle-info">
+                            <div class="left">
+                                <p>Nationality: Cambodian
+                                    Language: English, Chinese, Japanese, Khmer
+                                </p>
+                            </div>
+                            <div class="right">
+                                <p>Status: Student
+                                    Email: kimyou8881@gmail.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lower-info">
+                    <span>Interested in:</span>
+                    <ul>
+                        <li>Web Development</li>
+                        <li>UX/UI Design</li>
+                        <li>Art Design</li>
+                        <li>Game Development</li>
+                        <li>Animation</li>
+                        <li>Object Customization and Creation</li>
+                    </ul>
+                    <span>Hobbies</span>
+                    <ul>
+                        <li>Music</li>
+                        <li>Traveling</li>
+                        <li>Gaming</li>
+                        <li>Self-improvement</li>
+                    </ul>
+                </div>
+                <video src="./videos/blackhole.mp4" type="video/mp4" autoplay loop muted></video>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <span><h2 class="section-title">PROJECTS</h2></span>
+            <div class="project-demo">
+                <figure class="demo-01">
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video src="./videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                    </div>
+                    <figcaption>
+                        <h3>
+                            Fancy Login Page
+                            <a href="https://ngovkimyou.github.io/Login---Fancy-design/" target="_blank"><img src="./icons/moon-icon.png" alt="moon-icon"></a>
+                        </h3>
+                        <p>My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="demo-02">
+                    <figcaption>
+                        <h3>Laundry-weather-forcast
+                            <a href="https://github.com/Ngovkimyou/Laundry-App" target="_blank"><img src="./icons/moon-icon.png" alt="moon-icon"></a>
+                        </h3>
+                        <p>A python related project with integred API. A miles deep-learning into technological environment.
+                            It was a fun and partially learned how it applied in real-world project.
+                        </p>
+                    </figcaption>
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video src="./videos/Laundry-weather-forcast-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                    </div>
+                </figure>
+
+                <figure class="demo-03">
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video src="./videos/Julvry-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                    </div>
+
+                    <figcaption>
+                        <h3>Julvry Service Webpage
+                            <a href="https://ngovkimyou.github.io/Web1-FinalProject---Julvry/" target="_blank"><img src="./icons/moon-icon.png" alt="moon-icon"></a>
+                        </h3>
+                        <p>The first project getting to work in a team to get a jewerly marketing website done. A soft-skill learned from this project is team-communication, an important aspect to achieve efficency, deliverable, time-management, and self-improvement.</p>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="more-projects">
+                <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank">Checkout For More Projects</a> 
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

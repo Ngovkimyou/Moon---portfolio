@@ -1,0 +1,593 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: auto;      
+  scrollbar-width: none; /* Firefox support*/
+}
+
+/* Chrome, Safari support... */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+    font-family: cursive, Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
+}
+
+body .background, .btn video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    transition: 1s opacity;
+}
+
+header {
+    background: linear-gradient(rgb(1, 6, 31), rgba(7, 17, 55, 0.745), rgba(31, 51, 118, 0.888), rgba(113, 78, 255, 0.57), rgba(195, 42, 255, 0.609), transparent);
+}
+
+header .config {
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    margin: 0 10rem;
+}
+
+/* 
+============================================================================
+                             Loading screen
+============================================================================ 
+*/
+
+/* .gate {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgb(16, 15, 15);
+    z-index: 9999;
+}
+
+.gate-card {
+    text-align: center;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    background: white;
+    backdrop-filter: blur(10px);
+}
+
+.gate-card h2 {
+    margin-bottom: 2rem;
+}
+
+.gate button {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.8rem;
+    border: 0;
+    cursor: pointer;
+}
+
+.gate.hidden {
+    display: none;
+} */
+
+/* 
+============================================================================
+                             Config setting
+============================================================================ 
+*/
+
+.config img {
+    width: 5rem;
+    height: 5rem;
+    filter: drop-shadow(1px 1px 5px);
+    transition: 0.3s;
+}
+
+.config img:hover {
+    cursor: pointer;
+    filter: drop-shadow(1px 1px 5px rgb(241, 44, 255));
+}
+
+@keyframes flip {
+    0% { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.2); }
+    100% { transform: rotateY(360deg) scale(1); }
+}
+
+.config img.is-flipped {
+    animation: flip 1s linear;
+}
+
+/* 
+============================================================================
+                             logo
+============================================================================ 
+*/
+
+body .logo {
+    position: fixed;
+    top: 2rem;
+    right: 12.8rem;
+    width: 200px;
+    height: auto;
+    filter: drop-shadow(0 5px 50px black) drop-shadow(0 5px 100px white);
+    transition: transform 0.3s, filter 1s;
+    transform: scale(1);
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    filter: drop-shadow(0 5px 50px black) drop-shadow(1px 1px 10px white);
+}
+
+.logo-color-state {
+    position: relative;
+    z-index: 1;
+}
+
+.logo-white-state {
+    position: relative;
+    z-index: 2;
+}
+
+.logo-white-state.active {
+    animation: logo-fade 1.5s forwards;
+}
+
+@keyframes logo-fade {
+    from {
+        opacity: 1;      
+    }
+    to {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.logo-white-state.deactive {
+    animation: logo-appear 1.5s forwards;
+}
+
+@keyframes logo-appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.logo-color-state.active {
+    animation: radiant-glow 1.5s forwards;
+    transition: filter 1s;
+    filter: drop-shadow(-5px 0 10px blue) drop-shadow(5px 0 5px rgb(255, 0, 0));
+
+}
+@keyframes radiant-glow {
+    from {
+        transform: scale(1);
+        
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+/* 
+============================================================================
+                            Navigation links
+============================================================================ 
+*/
+
+body nav {
+    position: fixed;
+    display: none;
+    pointer-events: none;
+    right: 10.5rem;
+    top: 15rem;
+    width: 18rem;
+    height: 30rem;
+    z-index: 990;
+}
+
+nav.active {
+    position: fixed;
+    display: block;
+    pointer-events: auto;
+    opacity: 1;
+    animation: openSidebar1 0.4s ease both;
+    z-index: 990;
+}
+
+@keyframes openSidebar1 {
+    from {
+        height: 0;
+    }
+    to {
+        height: 30rem;
+    }
+}
+
+nav.deactive {
+    display: block;
+    pointer-events: none;
+    animation: closeSidebar 0.5s ease forwards;
+}
+
+@keyframes closeSidebar {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(1rem);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10rem);
+    }
+}
+
+nav ul {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    list-style: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 2rem 0;
+    font-size: 20px;
+    border: 1px solid white;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    filter: drop-shadow(10px 10px 20px red);
+    box-shadow: 2px 2px 10px rgb(255, 0, 0), -3px -3px 10px rgb(0, 4, 255), 5px 5px 1px rgba(88, 2, 2, 0);
+    z-index: 990;
+}
+
+nav ul li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px outset;
+    background: linear-gradient(rgba(255, 255, 255, 0.084), rgba(255, 255, 255, 0.114), transparent 20%, rgba(255, 255, 255, 0.177) );
+    width: 15rem;
+    margin: auto;
+    height: 100%;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 20px black, inset 0 -5px 20px rgba(255, 255, 255, 0.515);
+    transition: 0.3s;
+    z-index: 999;
+}
+
+nav.active ul li {
+  animation: openSidebar2 2s ease both;
+}
+
+@keyframes openSidebar2 {
+    from {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        width: 15rem;
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+nav ul li:nth-child(odd) {
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+nav ul li:nth-child(even) {
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+nav ul li:nth-child(odd):hover {
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+nav ul li:nth-child(even):hover {
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+nav ul li:hover, nav ul a:hover {
+    cursor: pointer;
+}
+
+nav ul li:hover {
+    box-shadow: inset 0 20px 20px black, 0 1px 5px white;
+    text-shadow: 0 0 5px rgb(1, 6, 31), 0 0 10px rgba(7, 17, 55, 0.745), 0 0 15px rgba(31, 51, 118, 0.888), 0 0 18px rgba(113, 78, 255, 0.57), 0 0 20px rgba(195, 42, 255, 0.609);
+}
+
+nav ul li:hover a {
+    color: #CAF0F8;
+}
+
+nav ul .star {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(45deg, rgb(153, 153, 6), rgb(195, 195, 13), yellow, rgb(255, 255, 255), rgba(255, 255, 0, 0.603));
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transition: .5s;
+}
+
+nav ul li:hover:not(#locked)~.star {
+    opacity: 1;
+    animation: star-rotating .5s;
+}
+
+@keyframes star-rotating {
+  from {
+    transform: rotateX(30deg) rotateY(30deg);
+  }
+  to {
+    transform: rotateX(390deg) rotateY(390deg);
+  }
+}
+
+nav ul li:nth-child(1):hover~.star {
+    left: 190px;
+    top: 50px; 
+}
+
+nav ul li:nth-child(2):hover~.star {
+    left: 190px;
+    top: 120px; 
+}
+
+nav ul li:nth-child(3):hover~.star {
+    left: 190px;
+    top: 190px; 
+}
+
+nav ul li:nth-child(4):hover~.star {
+    left: 190px;
+    top: 260px; 
+}
+
+nav ul li:nth-child(5):hover~.star{
+    left: 190px;
+    top: 330px; 
+} 
+
+nav ul a {
+    width: 100%;
+    height: 100%;
+    padding-left: 2rem;
+    text-decoration: none;
+    color: white;
+    text-align: left;
+}
+
+nav ul li#locked:hover, ul li#locked:hover a {
+    cursor: not-allowed !important;
+    box-shadow: none;
+    text-shadow: none;
+}
+    
+/* 
+============================================================================
+                           Profile Section
+============================================================================ 
+*/
+
+main {
+    position: relative;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    gap: 8rem;
+}
+
+main .intro {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 8rem);
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+.intro .model {
+    width: 10rem;
+    border: 2px dashed white;
+}
+
+.intro img {
+    height: 70%;
+    mix-blend-mode: screen;
+    /* mask-image: url(./images/shadow-splash.png);
+    -webkit-mask-image: url(./images/shadow-splash.png);
+    mask-size: cover;
+    -webkit-mask-size: cover;
+    mask-position: center; */
+}
+
+/* ----------------------------------- Info -------------------------------------*/
+
+.intro .info {
+    align-self: center;
+}
+
+.info .text-container {
+    width: 100%;
+    max-width: 80%;
+}
+
+.intro h1, .intro h4, .intro p {
+    color: white;
+}
+
+.video-h1 {
+    position: relative;
+    font-family: New Rocker ,cursive, Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: .5rem;
+    font-size: 5rem;
+    z-index: 0;
+}
+
+.video-h1::after{
+  content: attr(data-text);
+  position:absolute;
+  inset:0;
+  color: transparent;
+  -webkit-text-stroke: 2px 2px 10px rgba(255, 0, 0, 0.6);
+  text-shadow: 0 10px 20px rgba(0,0,0,.6);
+  pointer-events:none;
+  z-index: -1;
+}
+
+.video-h1 video {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-h1 canvas {
+    display: block;
+    mix-blend-mode: exclusion;
+    filter:drop-shadow(0 0 .1px rgb(255, 255, 255)) saturate(1.2) brightness(1.1);
+}
+
+.intro p {
+    margin-top: 2rem;
+    font-size: 18px;
+}
+
+.info .name {
+    font-family: Syncopate ,cursive, Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(45deg, black,white, gray, black, white);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(-1px 1px 1px white) drop-shadow(1px -1px 1px black);
+    letter-spacing: -1px;
+}
+
+/* ----------------------------------- btn -------------------------------------*/
+
+.intro .btn {
+    position: relative;
+    padding: 1rem;
+    margin-top: 2rem;
+    border: none;
+    outline: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.834);
+    text-shadow:
+        -2px -2px 30px rgba(181, 129, 253, 0.662),
+        1px -1px 5px black,
+        -1px  1px 5px black,
+        1px  1px 5px black,
+        0 0 15px white;
+    cursor: pointer;
+    filter: drop-shadow(0 1px 2px rgb(166, 0, 255)) drop-shadow(0 1px 5px white);
+    transition: 0.3s ease;
+    z-index: 0;
+}
+
+.intro .btn::before {
+    content: "";
+    position: absolute;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    left: -2px;
+    top: -2px;
+    border-radius: 1rem;
+    background: linear-gradient(45deg, rgba(14, 45, 149, 0.888), rgba(113, 78, 255, 0.57), rgba(195, 42, 255, 0.609), rgb(200, 7, 7));
+    z-index: -1;
+}
+
+.intro .btn:hover video {
+    opacity: 0;
+}
+
+.intro .btn:hover {
+    filter: none;
+    text-shadow:
+        -2px -2px 30px rgba(0, 0, 243, 0.662),
+        1px -1px 5px rgb(86, 79, 236),
+        -1px  1px 5px rgb(178, 4, 241),
+        1px  1px 30px rgb(204, 130, 251),
+        0 0 15px white;
+    box-shadow: 8px 10px 20px black;
+}
+
+.intro .btn:hover::before {
+    filter: blur(8px);
+    background-size: 600%;
+    animation: glowing 10s linear infinite;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+.btn video {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 1rem;
+    mask-image: linear-gradient(to bottom, white, white 60%, rgba(255, 255, 255, 0.802),  rgba(255, 255, 255, 0.598) ,rgba(255, 255, 255, 0.214), transparent);
+    transition: 0.3s linear;
+}
+
+
+
+
+
+
+
+
