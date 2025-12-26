@@ -1,0 +1,12 @@
+# Media files
+*.mp4
+*.mp3
+*.wav
+
+# Build / cache
+node_modules/
+dist/
+
+# OS junk
+.DS_Store
+Thumbs.db
