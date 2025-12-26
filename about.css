@@ -317,15 +317,19 @@
 
 @keyframes move {
   0% {
-    transform: translateX(0) rotate(0);
+    left: 0;
+    transform: rotate(0);
   }
   25% {
-    transform: translateX(61.5rem) rotate(360deg);
+    left: calc(100% - 15rem);
+    transform: rotate(360deg); 
   }
   50% {
-    transform: translateX(0) rotate(0);
+    left: 0;
+    transform: rotate(0);
   }
   100% {
+    left: 0;
     transform: translateX(0) rotate(0);
   }
 }
@@ -372,4 +376,21 @@
     mix-blend-mode: overlay;
 }
 
-
+.id-card blockquote {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 22rem;
+  height: 8rem;
+  right: 30rem; top: 25rem;
+  font-size: 18px;
+  color: white;
+  background: black;
+  backdrop-filter: blur(1px);
+  filter: drop-shadow(-1px 1px 2px black);
+  border-radius: .5rem;
+  padding: 0 1rem;
+  text-align: center;
+  mix-blend-mode: overlay;
+  z-index: 2;
+}
