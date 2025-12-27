@@ -146,6 +146,165 @@ logoColorState.addEventListener("mouseleave", () => {
 });
 
 // =============================================================================
+// Bottom Navigation - FIXED VERSION
+// =============================================================================
+(() => {
+  const bottomNav = document.getElementById("bottomNav");
+  if (!bottomNav) return;
+
+  const links = Array.from(bottomNav.querySelectorAll("a"));
+
+  // Track ONLY sections that exist right now
+  const mapHrefToSectionId = {
+    home: "home",        // <header id="home">
+    about: "about",      // <section id="about">
+    skills: "skilss",
+    projects: "projects", // <section id="projects">
+    contact: "contact",
+    locked: "locked",
+  };
+
+  // -----------------------------
+  // A) Hide nav when user stops scrolling
+  // -----------------------------
+  let hideTimer = null;
+  const HIDE_DELAY = 2500;
+  let isHoveringNav = false;
+
+  function showNav() {
+    bottomNav.classList.remove("is-hidden");
+  }
+
+  function scheduleHide() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      if (!isHoveringNav) bottomNav.classList.add("is-hidden");
+    }, HIDE_DELAY);
+  }
+
+  function setActiveLink(navKey) {
+    links.forEach(a => {
+      const key = a.getAttribute("href").replace("#", "");
+      a.classList.toggle("active", key === navKey);
+    });
+  }
+
+  function activateSection(sectionEl) {
+    sectionEl.classList.add("in-view");
+  }
+
+  // -----------------------------
+  // B) Build section targets (only SECTION/HEADER)
+  // -----------------------------
+  const sections = Object.entries(mapHrefToSectionId)
+    .map(([navKey, sectionId]) => {
+      const el = document.getElementById(sectionId);
+      if (!el) return null;
+
+      const tag = el.tagName;
+      if (tag !== "SECTION" && tag !== "HEADER") return null;
+
+      return { navKey, el };
+    })
+    .filter(Boolean);
+
+  sections.sort((a, b) => a.el.offsetTop - b.el.offsetTop);
+
+  // -----------------------------
+  // C) Active section tracking (viewport scan line)
+  // -----------------------------
+  function updateActiveByScroll() {
+    if (!sections.length) return;
+
+    const scanY = window.innerHeight * 0.35; // 0.25 earlier, 0.5 later
+    let current = sections[0];
+
+    for (const s of sections) {
+      const top = s.el.getBoundingClientRect().top;
+      if (top <= scanY) current = s;
+    }
+
+    setActiveLink(current.navKey);
+    activateSection(current.el);
+  }
+
+  function onUserScroll() {
+    showNav();
+    if (!isHoveringNav) scheduleHide();
+    updateActiveByScroll();
+  }
+
+  window.addEventListener("scroll", onUserScroll, { passive: true });
+  window.addEventListener("wheel", onUserScroll, { passive: true });
+  window.addEventListener("touchmove", onUserScroll, { passive: true });
+  window.addEventListener("resize", updateActiveByScroll);
+
+  // start hidden (remove if you want always visible)
+  bottomNav.classList.add("is-hidden");
+
+  // -----------------------------
+  // D) Hover: keep nav visible while mouse is on it
+  // -----------------------------
+  bottomNav.addEventListener("mouseenter", () => {
+    isHoveringNav = true;
+    showNav();
+    clearTimeout(hideTimer);
+  });
+
+  bottomNav.addEventListener("mouseleave", () => {
+    isHoveringNav = false;
+    scheduleHide();
+  });
+
+  // Optional: keyboard focus should also keep it visible
+  bottomNav.addEventListener("focusin", () => {
+    isHoveringNav = true;
+    showNav();
+    clearTimeout(hideTimer);
+  });
+
+  bottomNav.addEventListener("focusout", () => {
+    isHoveringNav = false;
+    scheduleHide();
+  });
+
+  // -----------------------------
+  // E) Click behavior
+  // -----------------------------
+  links.forEach(a => {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const key = a.getAttribute("href").replace("#", "");
+      showNav();
+      clearTimeout(hideTimer);
+
+      // Home: always go to very top so header is visible
+      if (key === "home") {
+        const homeEl = document.getElementById("home");
+        homeEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+        setActiveLink("home");
+        return;
+      }
+
+      const targetId = mapHrefToSectionId[key];
+      const target = targetId ? document.getElementById(targetId) : null;
+
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        setActiveLink(key);
+      }
+
+      // after click, resume normal hide behavior unless still hovering
+      if (!isHoveringNav) scheduleHide();
+    });
+  });
+
+  // initial state
+  updateActiveByScroll();
+})();
+
+// =============================================================================
 // H1's background
 // =============================================================================
 

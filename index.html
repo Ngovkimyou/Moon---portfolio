@@ -21,13 +21,13 @@
     <img class="logo logo-color-state" src="/icons/moon-logo-color-state.png" alt="logo">
 
     <!-- Fixed bottom-navigation -->
-    <div class="bottom-nav">
-        <a href="#home"><img src="./images/moon-phases/first-phase.png" alt="first-phase"></a>
-        <a href="#about"><img src="./images/moon-phases/second-phase.png" alt="second-phase"></a>
-        <a href="#skills"><img src="./images/moon-phases/third-phase.png" alt="third-phase"></a>
-        <a href="#projects"><img src="./images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
-        <a href="#contact"><img src="./images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
-        <a href="#locked"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
+    <div id="bottomNav" class="bottom-nav">
+        <a href="#home" data-emoji="🌕"><img src="./images/moon-phases/first-phase.png" alt="first-phase"></a>
+        <a href="#about" data-emoji="🌔"><img src="./images/moon-phases/second-phase.png" alt="second-phase"></a>
+        <a href="#skills" data-emoji="🌓"><img src="./images/moon-phases/third-phase.png" alt="third-phase"></a>
+        <a href="#projects" data-emoji="🌗"><img src="./images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
+        <a href="#contact" data-emoji="🌒"><img src="./images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
+        <a href="#locked" data-emoji="🌑"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
     </div>
 
     <header id="home">
@@ -52,10 +52,10 @@
         <ul>
             <li>🌕<a href="#home">Home</a></li>
             <li>🌔<a href="#about">About</a></li>
-            <li>🌓<a href="skills">Skills</a></li>
+            <li>🌓<a href="#skills">Skills</a></li>
             <li>🌗<a href="#projects">Projects</a></li>
-            <li>🌒<a href="contact">Contact</a></li>
-            <li id="locked">🌑<a href="locked">🔒</a></li>
+            <li>🌒<a href="#contact">Contact</a></li>
+            <li id="lockedBtn">🌑<a href="#locked">🔒</a></li>
             <span class="star"></span>
         </ul>
     </nav>
@@ -184,7 +184,7 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="main.js" defer></script>
 </body>
 </html>
 
