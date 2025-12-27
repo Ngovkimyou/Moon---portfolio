@@ -192,6 +192,55 @@ body .logo {
 
 /* 
 ============================================================================
+                             Bottom-Navigation
+============================================================================ 
+*/
+
+/* .bottom-nav-container {
+    display:;
+} */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(images/crescent-moon.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 15rem;
+    height: 5rem;
+    gap: 1rem;
+    mix-blend-mode: screen;
+    z-index: 9990;
+}
+
+.bottom-nav img {
+    position: relative;
+    width: 1rem;
+    object-fit: contain;
+    filter: contrast(1.5) brightness(2);
+    z-index: 9991;
+}
+
+.bottom-nav a {
+    position: relative;
+}
+
+.bottom-nav a:nth-child(2), .bottom-nav a:nth-child(5) {
+    bottom: 1rem;
+}
+
+.bottom-nav a:nth-child(1), .bottom-nav a:nth-child(6) {
+    bottom: 2.5rem;
+}
+
+/* 
+============================================================================
                             Navigation links
 ============================================================================ 
 */

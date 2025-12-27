@@ -1,7 +1,13 @@
-# Media files
-*.mp4
-*.mp3
-*.wav
+# # Media files
+# *.mp4
+
+# # allow only portfolio assets
+# !videos/
+# !videos/*.mp4
+
+# # BUT ignore the two huge videos (put exact filenames)
+# videos/h1.mp4
+# videos/button.mp4
 
 # Build / cache
 node_modules/
