@@ -349,6 +349,7 @@
 
 .upper-info .moon-divider {
   width: 50rem;
+  pointer-events: none;
 }
 
 .upper-info .middle-info {

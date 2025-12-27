@@ -496,10 +496,14 @@ nav ul li:nth-child(5):hover~.star{
     top: 330px; 
 } 
 
-nav ul a {
+nav ul li > a {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 100%;
-    padding-left: 2rem;
+    padding-left: 3.5rem;
     text-decoration: none;
     color: white;
     text-align: left;
@@ -532,6 +536,7 @@ main .intro {
     height: calc(100vh - 8rem);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4rem;
 }
 
@@ -540,9 +545,31 @@ main .intro {
     border: 2px dashed white;
 }
 
+.intro a {
+    display: block;
+    width: 40%;
+    height: 60%;
+    mix-blend-mode: screen; 
+    animation: profile-float 10s ease infinite alternate;
+}
+
+@keyframes profile-float {
+    0%, 100% { transform: translateX(0); }
+    30% { transform: translateY(-1rem); }
+    50% { transform: translateY(0); }
+    70% { transform: translateY(-1rem); }
+}
+
+.intro a:hover {
+    mix-blend-mode: color-dodge;
+    filter: blur(1px) drop-shadow(0 1px 5px red) invert();
+}
+
 .intro img {
-    height: 70%;
-    mix-blend-mode: screen;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
     /* mask-image: url(./images/shadow-splash.png);
     -webkit-mask-image: url(./images/shadow-splash.png);
     mask-size: cover;
@@ -595,7 +622,7 @@ main .intro {
 .video-h1 canvas {
     display: block;
     mix-blend-mode: exclusion;
-    filter:drop-shadow(0 0 .1px rgb(255, 255, 255)) saturate(1.2) brightness(1.1);
+    filter:drop-shadow(0 0 .1px rgb(255, 255, 255)) saturate(1.2) brightness(1.1) contrast(1.5);
 }
 
 .intro p {
