@@ -530,6 +530,10 @@ main {
     gap: 8rem;
 }
 
+ main .section {
+  contain: layout paint;
+}
+
 main .intro {
     position: relative;
     width: 100%;
