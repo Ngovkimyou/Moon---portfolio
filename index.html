@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="about.css">
     <link rel="stylesheet" href="projects.css">
+    <link rel="stylesheet" href="skills.css">
 </head>
 
 <body>
@@ -64,6 +65,7 @@
     </nav>
 
     <main>
+        <!-- Home Section -->
         <section class="intro">
             <div class="model"></div>
             <a href="#about">
@@ -87,6 +89,7 @@
             </div>
         </section>
 
+        <!-- About Section -->
         <section id="about" class="about">
             <span><h2 class="section-title">ABOUT</h2></span>
             <div class="id-card">
@@ -133,10 +136,41 @@
                 <blockquote>
                     The pinnacle of knowledge is not whole—it is shattered throughout the cosmos, waiting to be claimed by those who dare to explore.
                 </blockquote>
-                <video src="./videos/blackhole.mp4" type="video/mp4" autoplay loop muted playsinline preload="none" disablepictureinpicture></video>
+                <video id="bhVideo" src="./videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload=auto></video>
             </div>
         </section>
 
+        <div class="section-divider">
+            <img src="./images/section-moon-divider.png" alt="section-divider">
+        </div>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills">
+            <span><h2 class="section-title">SKILLS</h2></span>
+            <div class="solar-container">
+                <div class="inner-ring-container">
+                    <img class="scale-up inner-ring" src="./images/inner-ring.png" alt="inner-ring" data-delay="0.1">
+                </div>
+                <div class="outer-ring-container">
+                    <img class="scale-up outer-ring" src="./images/outer-ring.png" alt="outter-ring" data-delay="0.2">
+                </div>
+                <div class="solar-ring-container">
+                    <img class="scale-up solar-ring" src="./images/solar-ring.png" alt="solar-ring" data-delay="0.3">
+                </div>
+                <div class="cloud">
+                    <img src="./images/upper-cloud-1.png" alt="upper-cloud-1">                    
+                    <img src="./images/upper-cloud-2.png" alt="upper-cloud-2">
+                    <img src="./images/upper-cloud-3.png" alt="upper-cloud-3">
+                    <img src="./images/upper-cloud-4.png" alt="upper-cloud-4">
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider">
+            <img src="./images/section-moon-divider.png" alt="section-divider">
+        </div>
+
+        <!-- Projects Section -->
         <section id="projects" class="projects">
             <span><h2 class="section-title">PROJECTS</h2></span>
             <div class="project-demo">

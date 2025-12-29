@@ -21,7 +21,7 @@
 
 /* ----------------------------------- Global Title Style -------------------------------------*/
 
-.about .section-title, .projects .section-title {
+.about .section-title, .skills .section-title, .projects .section-title {
     font-family: Syncopate ,cursive, Tahoma, Geneva, Verdana, sans-serif;
     font-size: 3rem;
     position: relative;
@@ -49,7 +49,7 @@
   25%, 50% { filter: blur(0); }
 }
 
-.about .section-title::after, .projects .section-title::after {
+.about .section-title::after, .skills .section-title::after, .projects .section-title::after {
     position: absolute;
     inset: 0;
     text-shadow: none;
@@ -63,6 +63,10 @@
 
 .projects .section-title::after {
     content: "PROJECTS";
+}
+
+.skills .section-title::after {
+  content: "SKILLS";
 }
 
 @keyframes water {
@@ -201,7 +205,7 @@
         rgba(255,255,255,0.05)), */
       radial-gradient(circle at bottom right, #10002B, #023E8A, transparent, #0077B6, #0096C7, #00B4D8, #48CAE4, #90E0EF, #ADE8F4, #CAF0F8, transparent, #fac5f4, #dec5fa, #d2d9fa, #c5ecfa, #c7f3e0, #c9fac5, #e2f8c5, #ffd6a5, #ffc2a9, #ffadad, #E0AAFF 30%, #C77DFF 40%, #9D4EDD 50%, #7B2CBF, #5A189A, transparent, #3C096C 85%, #240046 90%,#10002B, transparent);
 
-    margin: 6rem 0;
+    margin-top: 6rem;
     padding: 5rem;
     /* border: 6px inset white; */
     border-radius: 2rem;
@@ -228,7 +232,7 @@
   100% { background-position:   0% 50%; }
 }
 
-.id-card video {
+.id-card #bhVideo {
   position: absolute;
   object-fit: cover;
   width: 50%;
@@ -244,7 +248,15 @@
   -webkit-mask-size: contain;
   mix-blend-mode: luminosity;
   pointer-events: none;
+  will-change: transition, opacity;
+  transform: translateZ(0);
+  transition: opacity .4s ease;
+  opacity: 0;
   z-index: 1;
+}
+
+#bhVideo.is-ready {
+   opacity: 1; 
 }
 
 .about span {
@@ -312,6 +324,7 @@
     border-radius: 50%;
     box-shadow: 0 0 2px red, 1px 1px 2px black;
     pointer-events: none;
+    will-change: transform;
     animation: move 10s ease-in-out infinite;
 }
 

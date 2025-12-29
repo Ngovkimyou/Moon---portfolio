@@ -89,6 +89,23 @@ header .config {
 
 /* 
 ============================================================================
+                             Section divider
+============================================================================ 
+*/
+
+main .section-divider {
+    width: 80%;
+    height: 100%;
+}
+
+.section-divider img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 
+============================================================================
                              Config setting
 ============================================================================ 
 */
@@ -276,14 +293,6 @@ body .logo {
     transition: opacity .3s ease, transform .3s ease;
     z-index: 9991;
 }
-
-.bottom-nav a:nth-child(1) img, .bottom-nav a:nth-child(2) img, .bottom-nav a:nth-child(3) img {
-    box-shadow: -1px 1px 1px rgba(0, 0, 255, 0.219), -2px 2px 15px blue;
-} 
-
-.bottom-nav a:nth-child(4) img, .bottom-nav a:nth-child(5) img, .bottom-nav a:nth-child(6) img {
-    box-shadow: 1px 1px 1px rgba(255, 0, 0, 0.151), 2px 2px 15px red;
-} 
 
 .bottom-nav a:nth-child(1):hover img, .bottom-nav a:nth-child(2):hover img, .bottom-nav a:nth-child(3):hover img {
     box-shadow: -1px 1px 5px black, -2px 2px 1px black, -3px 3px 1px black, -4px 4px 1px gold, -5px 5px gold;
@@ -523,20 +532,24 @@ nav ul li#lockedBtn:hover, ul li#lockedBtn:hover a {
 
 main {
     position: relative;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-self: center;
+    justify-content: center;
+    align-items: center;
     gap: 8rem;
 }
 
- main .section {
+main .section {
   contain: layout paint;
+}
+
+main .intro, main .about, main .projects {
+    width: 80%;
 }
 
 main .intro {
     position: relative;
-    width: 100%;
     height: calc(100vh - 8rem);
     display: flex;
     align-items: center;

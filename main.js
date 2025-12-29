@@ -158,7 +158,7 @@ logoColorState.addEventListener("mouseleave", () => {
   const mapHrefToSectionId = {
     home: "home",        // <header id="home">
     about: "about",      // <section id="about">
-    skills: "skilss",
+    skills: "skills",
     projects: "projects", // <section id="projects">
     contact: "contact",
     locked: "locked",
@@ -376,6 +376,108 @@ video.addEventListener("loadeddata", () => {
 });
 
 window.addEventListener("resize", resizeCanvas);
+
+// =============================================================================
+// About section - decrease video resolution
+// =============================================================================
+
+const v = document.getElementById("bhVideo");
+if (!v) throw new Error("bhVideo not found");
+
+const io = new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting) {
+    // load only once (use getAttribute, not v.src)
+    if (!v.getAttribute("src")) {
+      v.setAttribute("src", "./videos/blackhole.mp4");
+      v.load();
+    }
+
+    // try to play
+    v.play().catch(() => {});
+  } else {
+    v.pause();
+  }
+}, { rootMargin: "800px 0px", threshold: 0.01 });
+
+io.observe(v);
+
+// fade in when ready
+v.addEventListener("canplay", () => v.classList.add("is-ready"), { once: true });
+
+// =============================================================================
+// Skills section - 3 solar rings scale-up animation
+// =============================================================================
+
+// ===== ELEMENTS =====
+const skillsSection = document.querySelector("#skills");
+const rings = document.querySelectorAll("#skills .scale-up");
+const clouds = document.querySelectorAll("#skills .cloud img");
+
+// ===== STATE =====
+let hasPlayed = false;
+let cooldownReady = true;
+let cooldownTimer = null;
+
+// ===== RINGS: scale-up with delay in SECONDS =====
+function playRingEnter() {
+  rings.forEach(ring => {
+    const delaySec = Number(ring.dataset.delay) || 0;
+
+    ring.classList.remove("enter");
+    ring.style.animationDelay = `${delaySec}s`;
+    void ring.offsetWidth; // force reflow
+    ring.classList.add("enter");
+
+    ring.addEventListener(
+      "animationend",
+      () => {
+        ring.style.animationDelay = "0s";
+      },
+      { once: true }
+    );
+  });
+}
+
+// ===== CLOUDS: opacity fade (no scale) =====
+function playCloudEnter() {
+  clouds.forEach(img => {
+    img.classList.remove("cloud-enter");
+    void img.offsetWidth; // force reflow
+    img.classList.add("cloud-enter");
+  });
+}
+
+// ===== RESET CLOUDS (so animation can replay) =====
+function resetClouds() {
+  clouds.forEach(img => {
+    img.classList.remove("cloud-enter");
+  });
+}
+
+// ===== INTERSECTION OBSERVER =====
+const observer = new IntersectionObserver(
+  ([entry]) => {
+    if (entry.isIntersecting) {
+      if (!hasPlayed || cooldownReady) {
+        playRingEnter();
+        playCloudEnter();
+
+        hasPlayed = true;
+        cooldownReady = false;
+      }
+    } else {
+      clearTimeout(cooldownTimer);
+      cooldownTimer = setTimeout(() => {
+        cooldownReady = true;
+        resetClouds(); // allow fade-in again
+      }, 5000);
+    }
+  },
+  { threshold: 0.35 }
+);
+
+// ===== START OBSERVING =====
+if (skillsSection) observer.observe(skillsSection);
 
 // =============================================================================
 // Projects section - videos
