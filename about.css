@@ -232,7 +232,7 @@
   100% { background-position:   0% 50%; }
 }
 
-.id-card #bhVideo {
+.id-card video {
   position: absolute;
   object-fit: cover;
   width: 50%;
@@ -249,13 +249,12 @@
   mix-blend-mode: luminosity;
   pointer-events: none;
   will-change: transition, opacity;
-  transform: translateZ(0);
-  transition: opacity .4s ease;
   opacity: 0;
+  transition: opacity .5s ease;
   z-index: 1;
 }
 
-#bhVideo.is-ready {
+video.is-ready {
    opacity: 1; 
 }
 

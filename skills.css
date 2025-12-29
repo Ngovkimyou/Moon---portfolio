@@ -30,7 +30,7 @@
     height: 180%;
     transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
-    animation: solar-orbit 200s linear infinite;
+    animation: solar-orbit 100s linear infinite;
 }
 
 .solar-container .solar-ring {
@@ -47,7 +47,7 @@
     height: 100%;
     transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
-    animation: outer-orbit 160s linear infinite;
+    animation: outer-orbit 100s linear infinite;
 }
 
 .solar-container .outer-ring {
@@ -100,14 +100,20 @@
     0% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }
+    50% {
+        transform: rotateX(60deg) rotateY(-20deg) rotateZ(180deg);      
+    }
     100% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);      
+        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
     }
 }
 
 @keyframes inner-orbit {
     0% {
         transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);           
     }
     100% {
         transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);      
@@ -117,6 +123,9 @@
 @keyframes solar-orbit {
     0% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    }
+    50% {
+        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);  
     }
     100% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
@@ -131,21 +140,25 @@
     left: 0rem;
     object-fit: cover;
     pointer-events: none;
-    transform: translateX(-10rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    animation: cloud-orbit 350s linear infinite;
+    will-change: transform;
+    transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+    animation: cloud-orbit 200s linear infinite;
 }
 
 @keyframes cloud-orbit {
     0% {
-        transform: translateX(-10rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+        transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    }
+    50% {
+        transform: translateX(-15rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);       
     }
     100% {
-        transform: translateX(-10rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+        transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }  
 }
 
 .cloud img.cloud-enter {
-    animation: cloudFade 5s ease-in forwards;
+    animation: cloudFade 4s ease-in-out forwards;
 }
 
 @keyframes cloudFade {
