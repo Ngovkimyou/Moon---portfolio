@@ -297,6 +297,7 @@
 .inner-icons img.enter, 
 .outer-icons img.enter {
     will-change: transform, opacity;
+    transition: 1s ease;
     animation: iconPop 1s ease-in forwards;
     animation-delay: calc(2s + var(--delay, 0ms));
 }
@@ -305,4 +306,13 @@
     0%   { opacity: 0; transform: translate(-50%, -50%) translateY(-1.5rem) scale(0); }
     70%  { opacity: 1; transform: translate(-50%, -50%) translateY(-1.5rem) scale(1.2); }
     100% { opacity: 1; transform: translate(-50%, -50%) translateY(-1.5rem) scale(1); }
+}
+
+/* ----------------------------------- logo-hovered-frame -------------------------------------*/
+
+.inner-icons img:hover,
+.outer-icons img:hover {
+    scale: 1.3;
+    filter: contrast(20);
+    border: transparent;
 }
