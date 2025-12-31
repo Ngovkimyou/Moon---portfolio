@@ -1,3 +1,9 @@
+/* 
+============================================================================
+                             Three Solar Rings
+============================================================================ 
+*/
+
 .skills {
     display: flex;
     flex-direction: column;
@@ -17,6 +23,7 @@
     height: 55%;
     top: -7rem;
     perspective: 1200px;
+    perspective-origin: center;
     mix-blend-mode: screen;
     filter: contrast(1.1);
 }
@@ -57,14 +64,14 @@
     object-fit: contain;
     margin: auto;
     will-change: transform;
-    transform: scale(1);5}
+    transform: scale(1);
+}
 
 .inner-ring-container {
     position: absolute;
     width: 50%;
     height: 50%;
-    top: 50%; left: 50%; 
-    transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+    transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
     animation: inner-orbit 100s linear infinite;
     z-index: 2;
@@ -100,7 +107,7 @@
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }
     50% {
-        transform: rotateX(60deg) rotateY(-20deg) rotateZ(180deg);      
+        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);      
     }
     100% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
@@ -109,13 +116,13 @@
 
 @keyframes inner-orbit {
     0% {
-        transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
     }
     50% {
-        transform: translate(-50%, -50%) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);           
+        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);           
     }
     100% {
-        transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);      
+        transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);      
     }
 }
 
@@ -130,6 +137,12 @@
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }
 }
+
+/* 
+============================================================================
+                             Cloud
+============================================================================ 
+*/
 
 .solar-container .cloud {
     transform-style: preserve-3d;
@@ -185,63 +198,68 @@
     left: -10rem; bottom: -3rem;
 }
 
-/* ----------------------------------------------------- */
+/* 
+============================================================================
+                             Programming Icons
+============================================================================ 
+*/
+
+@property --spin {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --tiltX {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 70deg;
+}
+
 .solar-container .inner-icons {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    will-change: transform;
+    inset: 0;
     transform-style: preserve-3d;
+    will-change: transform;
+    transform: rotateX(var(--tiltX)) rotateY(-20deg) rotateZ(var(--spin));
     animation: logo-outer-orbit 100s linear infinite;
     z-index: 10;
 }
 
-.inner-icons .anchor {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-style: preserve-3d;
-}
-
-.inner-icons .anchor:nth-child(1) { transform: rotateZ(0deg)   translateX(25rem); }
-.inner-icons .anchor:nth-child(2) { transform: rotateZ(45deg)  translateX(25rem); }
-.inner-icons .anchor:nth-child(3) { transform: rotateZ(90deg)  translateX(25rem); }
-.inner-icons .anchor:nth-child(4) { transform: rotateZ(135deg) translateX(25rem); }
-.inner-icons .anchor:nth-child(5) { transform: rotateZ(180deg) translateX(25rem); }
-.inner-icons .anchor:nth-child(6) { transform: rotateZ(225deg) translateX(25rem); }
-.inner-icons .anchor:nth-child(7) { transform: rotateZ(270deg) translateX(25rem); }
-.inner-icons .anchor:nth-child(8) { transform: rotateZ(315deg) translateX(25rem); }
-
-.inner-icons img {
-    position: absolute;
-    width: 4rem;
-    height: 4rem;
-    object-fit: contain;
-    border: 2px solid gold;
-    border-radius: 50%;
-    will-change: transform;
-    transform: translate(-50%, -50%) rotateX(-70deg) rotateY(20deg);
-}
-
 @keyframes logo-outer-orbit {
     0% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    }   
+    --tiltX: 70deg;
+    --spin: 0deg;
+    }
     50% {
-        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);
-    }     
+    --tiltX: 65deg;
+    --spin: 180deg;
+    }
     100% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    --tiltX: 70deg;
+    --spin: 360deg;
     }
 }
 
-/* ------------------------------------------------------- */
-
-/* .solar-container .inner-icons {
+.inner-icons .anchor {
     position: absolute;
-    perspective: 1000px;
-    z-index: 10;
+    width: 100%;
+    height: 90%;
+    transform-style: preserve-3d;
+
+    transform: rotateZ(var(--pos)) translateX(50%);
+}
+
+.inner-icons .billboard {
+    position: absolute;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    transform:
+        rotateZ(calc(-1 * var(--spin)))    /* cancel orbit spin */
+        rotateZ(calc(-1 * var(--pos)))     /* cancel slot rotation */
+        rotateY(20deg)                     /* inverse of rotateY(-20deg) */
+        rotateX(calc(-1 * var(--tiltX))); /* inverse of rotateX(70deg) */
 }
 
 .inner-icons img {
@@ -249,101 +267,13 @@
     width: 4rem;
     height: 4rem;
     object-fit: contain;
+
     border: 2px solid gold;
     border-radius: 50%;
-    will-change: transform;
+
+    transform: translate(-50%, -50%) translateY(-1.5rem);
+    backface-visibility: hidden;
 }
 
-.inner-icons img:nth-child(1) {
-    transform: translate3d(.5rem, 5rem, 0);
-    animation: html 100s linear infinite;
-}
+/* ----------------------------------- Outer Icons -------------------------------------*/
 
-.inner-icons img:nth-child(2) {
-    transform: translate3d(19rem, -5rem, 0);
-    animation: css 100s linear infinite;
-}
-
-.inner-icons img:nth-child(3) {
-    transform: translate3d(22.5rem, -12.5rem, 0);
-    animation: js 100s linear infinite;
-}
-
-.inner-icons img:nth-child(4) {
-    transform: translate3d(12rem, -14.5rem, -5rem);
-    animation: java 100s linear infinite;
-}
-
-.inner-icons img:nth-child(5) {
-    transform: translate3d(-2rem, -11.5rem, -8rem);
-    animation: python 100s linear infinite;
-}
-
-.inner-icons img:nth-child(6) {
-    transform: translate3d(-15.5rem, -5.5rem, -5rem);
-    animation: php 100s linear infinite;
-}
-
-.inner-icons img:nth-child(7) {
-    transform: translate3d(-24.5rem, 3rem, 0rem);
-    animation: tailwind 100s linear infinite;
-}
-
-.inner-icons img:nth-child(8) {
-    transform: translate3d(-21.5rem, 8.5rem, 0rem);
-    animation: bootstrap 100s linear infinite;
-}
- */
-
-/* ----------------------------------------------------- */
-/* @keyframes html {
-    0%, 100% { transform: translate3d(.5rem, 5rem, 0); }
-    12.5% { transform: translate3d(19rem, -5rem, 0); }
-    25% { transform: translate3d(22.5rem, -12.5rem, 0); }
-    37.5% { transform: translate3d(12.5rem, -14.5rem, -5rem); }
-    50% { transform: translate3d(-2rem, -11.5rem, -8rem); }
-    62.5% { transform: translate3d(-15.5rem, -5.5rem, -5rem); }
-    75% { transform: translate3d(-24.5rem, 3rem, 0rem); }
-    87.5% { transform: translate3d(-21.5rem, 8.5rem, 0rem); }
-}
-
-@keyframes css {
-    0% { 
-        transform: translate3d(19rem, -5rem, 0);
-    }
-}
-
-@keyframes js {
-    0% { 
-        transform: translate3d(22.5rem, -12.5rem, 0)
-    }
-}
-
-@keyframes java {
-    0% { 
-        transform: translate3d(12.5rem, -14.5rem, -5rem);
-    }
-}
-
-@keyframes python {
-    0% { 
-        transform: translate3d(-2rem, -11.5rem, -8rem);
-    }
-}
-
-@keyframes php {
-    0% { 
-        transform: translate3d(-15.5rem, -5.5rem, -5rem);
-    }
-}
-
-@keyframes tailwind {
-    0% { 
-        transform: translate3d(-24.5rem, 3rem, 0rem);
-    }
-}
-@keyframes bootstrap {
-    0% { 
-        transform: translate3d(-21.5rem, 8.5rem, 0rem);
-    }
-} */
