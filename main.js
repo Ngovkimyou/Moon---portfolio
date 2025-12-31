@@ -480,6 +480,67 @@ const observer = new IntersectionObserver(
 if (skillsSection) observer.observe(skillsSection);
 
 // =============================================================================
+// Skills section - Logo icons pop-up animation
+// =============================================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const skills = document.querySelector("#skills");
+  if (!skills) return;
+
+  const icons = skills.querySelectorAll(".inner-icons img, .outer-icons img");
+
+  // auto stagger: you can tweak these
+  const step = 120;      // delay between icons (ms)
+  const outerOffset = 300; // extra delay for outer ring start (ms)
+
+  // assign delays without data-delay
+  icons.forEach((img, i) => {
+    // if you want outer ring later:
+    const isOuter = img.closest(".outer-icons");
+    const base = isOuter ? outerOffset : 0;
+
+    img.style.setProperty("--delay", `${base + i * step}ms`);
+  });
+
+  const resetAnimation = (el) => {
+    // remove class
+    el.classList.remove("enter");
+
+    // hard reset animation so it can replay instantly next time
+    el.style.animation = "none";
+    el.offsetHeight; // force reflow
+    el.style.animation = "";
+  };
+
+  const playAnimation = () => {
+    icons.forEach((img) => {
+      // reset + add so it always replays
+      resetAnimation(img);
+      img.classList.add("enter");
+    });
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          playAnimation();
+        } else {
+          // leaving: reset so next enter plays again immediately
+          icons.forEach(resetAnimation);
+        }
+      });
+    },
+    {
+      threshold: 0.25,
+      rootMargin: "0px 0px -10% 0px", // makes it trigger a bit earlier
+    }
+  );
+
+  io.observe(skills);
+});
+
+// =============================================================================
 // Projects section - videos
 // =============================================================================
 
