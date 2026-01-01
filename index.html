@@ -31,18 +31,30 @@
         <a href="#locked" data-emoji="🌑"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
     </div>
 
-    <header id="home">
-<!-- -------------------------------------------------------- -->
+    <!-- --------------------- Loading Screen ---------------------- -->
+    <div id="loader" class="loader">
+        <div class="ring-wrap">
+            <!-- dim base -->
+            <img class="ring ring--dim" src="./images/dim-loading-screen.png" alt="dim-ring" />
 
-        <!-- <div id="gate" class="gate">
-            <div class="gate-card">
-                <h2>Welcome to my portfolio website.</h2>
-                <p>Click to enter</p>
-                <button id="enterBtn">Enter</button>
+            <!-- full color reveal -->
+            <img class="ring ring--full" src="./images/loading-screen.png" alt="full-ring" />
+
+            <!-- percentage -->
+            <div class="pct">
+                <span id="pct">0%</span>
             </div>
-        </div> -->
+            <div class="loading-text">
+                <img src="./images/start-loading-text.png" alt="start-loading-text">
+                <span>Start</span>
+            </div>
+        </div>
+    </div>
 
-<!-- -------------------------------------------------------- -->
+
+    <header id="home">
+
+        <!-- -------------------- OST ------------------- -->
         <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
 
         <div class="config">
@@ -94,7 +106,9 @@
             <h2 class="section-title">ABOUT</h2>
             <div class="id-card">
                 <div class="card">
-                    <img class="profile" src="./images/id-card-profile.png"alt="id-profile">
+                    <div class="profile-wrapper">
+                        <img class="profile" src="./images/id-card-profile.png"alt="id-profile">
+                    </div>
                     <div class="upper-info">
                         <p>Name: Ngov Kimyoo
                             Alias: Dorayaki

@@ -54,38 +54,100 @@ header .config {
 ============================================================================ 
 */
 
-/* .gate {
+.loader{
     position: fixed;
     inset: 0;
     display: grid;
     place-items: center;
-    background: rgb(16, 15, 15);
+    background: #050508;
+    cursor: default;
     z-index: 9999;
 }
 
-.gate-card {
+.ring-wrap{
+    --p: 0;               /* progress 0 -> 100% */
+    --start: 0deg;        /* start at top */
+    position: relative;
+    width: min(520px, 70vw);
+    aspect-ratio: 1/1;
+}
+
+.ring{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    pointer-events:none;
+    user-select:none;
+}
+
+.ring--full{
+    -webkit-mask-image: conic-gradient(
+        from var(--start),
+        #000 calc(var(--p) * 1%),
+        transparent 0
+    );
+    mask-image: conic-gradient(
+        from var(--start),
+        #000 calc(var(--p) * 1%),
+        transparent 0
+    );
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.pct{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    font: 700 clamp(18px, 4vw, 28px)/1 system-ui, sans-serif;
+    color: rgba(255,255,255,0.92);
+    text-shadow: 0 0 14px rgba(255,255,255,0.25);
+}
+
+.loading-text {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    object-fit: contain;
     text-align: center;
-    padding: 2rem 3rem;
-    border-radius: 1rem;
-    background: white;
-    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2s ease;
 }
 
-.gate-card h2 {
-    margin-bottom: 2rem;
+.loading-text img {
+    width: 80%;
+    height: 10%;
+    object-fit: contain;
 }
 
-.gate button {
-    margin-top: 1rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 0.8rem;
-    border: 0;
-    cursor: pointer;
+.loading-text span {
+    position: absolute;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font: 700 clamp(16px, 4vw, 20px)/1 system-ui, sans-serif;
 }
 
-.gate.hidden {
-    display: none;
-} */
+.loader.ready .loading-text {
+    opacity: 1;
+}
+
+.loader.ready,
+.loader.ready * {
+  cursor: pointer;
+}
+
+.loader.hide {
+    opacity: 0;
+    transition: opacity 500ms ease;
+    pointer-events: none;
+}
 
 /* 
 ============================================================================

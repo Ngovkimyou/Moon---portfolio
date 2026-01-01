@@ -134,7 +134,7 @@ figcaption h3 {
     background: transparent;
     width: 30.5rem;
     height: 14.5rem;
-    filter: drop-shadow(0 0 5px white);
+    box-shadow: 0 0 8px white;
     transform: scale(1);
     transition: all .2s linear;
 }
@@ -148,14 +148,14 @@ figcaption h3 {
     animation:
         slide-in linear forwards,
         fade-out linear forwards;
-    animation-timeline: view();
+        animation-timeline: view();
 }
 
 .demo-02 .video-wrapper {
     animation:
         slide-in-video2 linear forwards,
         fade-out linear forwards;
-    animation-timeline: view();
+        animation-timeline: view();
 }
 
 @keyframes slide-in{
@@ -184,6 +184,7 @@ figcaption h3 {
         black 0 15deg,
         white 15deg 30deg
     );
+    will-change: transform;
 }
 
 .demo-02 .video-wrapper .video-background {
@@ -193,6 +194,7 @@ figcaption h3 {
         black 15deg 30deg
     );
     box-shadow: 0 10px 20px rgba(0,0,0,.6);
+    will-change: transform;
 }
 
 .video-wrapper:hover .video-background {
