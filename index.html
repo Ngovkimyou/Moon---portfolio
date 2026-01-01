@@ -51,19 +51,7 @@
         </div>
     </div>
 
-
-    <header id="home">
-
-        <!-- -------------------- OST ------------------- -->
-        <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
-
-        <div class="config">
-            <img class="icons" src="./icons/Google Earth.svg" alt="languages">
-            <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
-            <img class="icons" src="./icons/Download from the Cloud.svg" alt="download">
-        </div>
-    </header>
-
+    <!-- Navigation -->
     <nav id="navbar">
         <ul>
             <li>🌕<a href="#home">Home</a></li>
@@ -76,33 +64,48 @@
         </ul>
     </nav>
 
-    <main>
+    <main class="snap-container">
         <!-- Home Section -->
-        <section class="intro">
-            <div class="model"></div>
-            <a href="#about">
-                <img src="./images/profile.png" alt="profile">
-            </a>
-            <div class="info">
-                <h4>Hello, I'm <span class="name">KIMYOO</span></h4>
-                <h1 class="video-h1" data-text="Web Developer">
-                    <video id="h1vid" src="./videos/h1.mp4" autoplay muted loop playsinline></video>
-                    <canvas id="h1canvas"></canvas>
-                </h1>
-                <div class="text-container">
-                    <p>
-                        Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.
-                    </p>
+        <section id="home" class="snap-section home-section">
+
+            <!-- Header -->
+            <header>
+                <!-- -------------------- OST ------------------- -->
+                <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
+
+                <div class="config">
+                    <img class="icons" src="./icons/Google Earth.svg" alt="languages">
+                    <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
+                    <img class="icons" src="./icons/Download from the Cloud.svg" alt="download">
                 </div>
-                <button class="btn">
-                    <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
-                    Contact Me
-                </button>
-            </div>
+            </header>
+
+            <section class="intro">
+                <div class="model"></div>
+                <a href="#about">
+                    <img src="./images/profile.png" alt="profile">
+                </a>
+                <div class="info">
+                    <h4>Hello, I'm <span class="name">KIMYOO</span></h4>
+                    <h1 class="video-h1" data-text="Web Developer">
+                        <video id="h1vid" src="./videos/h1.mp4" autoplay muted loop playsinline></video>
+                        <canvas id="h1canvas"></canvas>
+                    </h1>
+                    <div class="text-container">
+                        <p>
+                            Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.
+                        </p>
+                    </div>
+                    <button class="btn">
+                        <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+                        Contact Me
+                    </button>
+                </div>
+            </section>
         </section>
 
         <!-- About Section -->
-        <section id="about" class="about">
+        <section id="about" class="snap-section about">
             <h2 class="section-title">ABOUT</h2>
             <div class="id-card">
                 <div class="card">
@@ -154,12 +157,12 @@
             </div>
         </section>
 
-        <div class="section-divider">
+        <div class="divider section-divider">
             <img src="./images/section-moon-divider.png" alt="section-divider">
         </div>
 
         <!-- Skills Section -->
-        <section id="skills" class="skills">
+        <section id="skills" class="snap-section skills">
             <h2 class="section-title">SKILLS</h2>
             <div class="solar-container">
                 <div class="inner-ring-container">
@@ -178,49 +181,49 @@
                     <img src="./images/upper-cloud-4.png" alt="upper-cloud-4">
                 </div>
                 <div class="inner-icons">
-                    <div class="anchor" style="--pos: 0deg;">
+                    <div id="html-anchor" class="anchor" style="--pos: 0deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/html.png" alt="html-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 45deg;">
+                    <div id="css-anchor" class="anchor" style="--pos: 45deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/css.png" alt="css-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 90deg;">
+                    <div id="js-anchor" class="anchor" style="--pos: 90deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/js.png" alt="js-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 135deg;">
+                    <div id="java-anchor" class="anchor" style="--pos: 135deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/java.png" alt="java-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 180deg;">
+                    <div id="python-anchor" class="anchor" style="--pos: 180deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/python.png" alt="python-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 225deg;">
+                    <div id="php-anchor" class="anchor" style="--pos: 225deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/php.png" alt="php-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 270deg;">
+                    <div id="tailwind-anchor" class="anchor" style="--pos: 270deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/tailwind.png" alt="tailwind-logo">
                         </div>
                     </div>
 
-                    <div class="anchor" style="--pos: 315deg;">
+                    <div id="bootstrap-anchor" class="anchor" style="--pos: 315deg;">
                         <div class="billboard">
                             <img src="./images/programming-logo/bootstrap.png" alt="bootstrap-logo">
                         </div>
@@ -267,12 +270,12 @@
             </div>
         </section>
 
-        <div class="section-divider">
+        <div class="divider section-divider">
             <img src="./images/section-moon-divider.png" alt="section-divider">
         </div>
 
         <!-- Projects Section -->
-        <section id="projects" class="projects">
+        <section id="projects" class="snap-section projects">
             <h2 class="section-title">PROJECTS</h2>
             <div class="project-demo">
                 <figure class="demo-01">
@@ -332,6 +335,9 @@
             </div>
             <div class="more-projects">
                 <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank">Checkout For More Projects</a> 
+            </div>
+            <div class="section-divider">
+                <img src="./images/section-moon-divider.png" alt="section-divider">
             </div>
         </section>
     </main>

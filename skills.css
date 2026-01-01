@@ -107,6 +107,9 @@
     0% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }
+    25% { 
+        transform: rotateX(60deg) rotateY(-20deg) rotateZ(90deg);
+    }
     50% {
         transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);      
     }
@@ -119,6 +122,9 @@
     0% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
     }
+    25% { 
+        transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
+    }
     50% {
         transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);           
     }
@@ -130,6 +136,9 @@
 @keyframes solar-orbit {
     0% {
         transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    }
+    25% { 
+        transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
     }
     50% {
         transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);  
@@ -162,6 +171,9 @@
 @keyframes cloud-orbit {
     0% {
         transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+    }
+    25% { 
+        transform: translateX(-15rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
     }
     50% {
         transform: translateX(-15rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);       
@@ -233,6 +245,10 @@
     --tiltX: 70deg;
     --spin: 0deg;
     }
+    25% {
+    --tiltX: 60deg;
+    --spin: 90deg;
+    }
     50% {
     --tiltX: 65deg;
     --spin: 180deg;
@@ -257,6 +273,39 @@
 .outer-icons .outer-anchor {
     transform: rotateZ(var(--pos)) translateX(100%);   
 }
+
+#html-anchor {
+    transform: rotateZ(var(--pos)) translateX(51%) translateY(6%); 
+}
+
+#css-anchor {
+    transform: rotateZ(var(--pos)) translateX(52.5%) translateY(3%); 
+}
+
+#js-anchor {
+    transform: rotateZ(var(--pos)) translateX(55%) translateY(-2%); 
+}
+
+#java-anchor {
+    transform: rotateZ(var(--pos)) translateX(52%) translateY(-3%);
+}
+
+#python-anchor {
+    transform: rotateZ(var(--pos)) translateX(47.5%) translateY(-2%);
+}
+
+#php-anchor {
+    transform: rotateZ(var(--pos)) translateX(50.5%) translateY(-2.5%);
+}
+
+#tailwind-anchor {
+    transform: rotateZ(var(--pos)) translateX(47%) translateY(-1.5%);
+}
+
+#bootstrap-anchor {
+    transform: rotateZ(var(--pos)) translateX(49.5%) translateY(3.5%);
+}
+
 
 .inner-icons .billboard, .outer-icons .billboard {
     position: absolute;
@@ -288,7 +337,7 @@
     opacity: 0;
     backface-visibility: hidden;
     will-change: transform, opacity;
-    transform: translate(-50%, -50%) translateY(-1.5rem) scale(0);
+    transform: translate(-50%, -50%) translateY(-2.5rem) scale(0);
 
     pointer-events: auto;
     animation: logoIcons-FadeIn 4s ease-in-out forwards;
@@ -303,9 +352,9 @@
 }
 
 @keyframes iconPop {
-    0%   { opacity: 0; transform: translate(-50%, -50%) translateY(-1.5rem) scale(0); }
-    70%  { opacity: 1; transform: translate(-50%, -50%) translateY(-1.5rem) scale(1.2); }
-    100% { opacity: 1; transform: translate(-50%, -50%) translateY(-1.5rem) scale(1); }
+    0%   { opacity: 0; transform: translate(-50%, -50%) translateY(-2.5rem) scale(0); }
+    70%  { opacity: 1; transform: translate(-50%, -50%) translateY(-2.5rem) scale(1.2); }
+    100% { opacity: 1; transform: translate(-50%, -50%) translateY(-2.5rem) scale(1); }
 }
 
 /* ----------------------------------- logo-hovered-frame -------------------------------------*/

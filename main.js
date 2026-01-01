@@ -776,4 +776,3 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     video.currentTime = 0; // reset back
   });
 });
-
