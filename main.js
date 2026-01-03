@@ -304,6 +304,165 @@ icons.forEach((icon) => {
 });
 
 // =============================================================================
+// Languages Display
+// ============================================================================
+
+const langIcon = document.getElementById("langIcon");
+const langContainer = document.querySelector(".lang-container");
+const langItems = document.querySelectorAll(".languages .lang");
+
+// --- Config ---
+const SUPPORTED = ["en", "ja"]; // add "km" later if you want
+const DEFAULT_LANG = "en";
+
+// --- i18n state ---
+let dict = {};
+
+// ---------- Helpers ----------
+function safeLang(lang) {
+  return SUPPORTED.includes(lang) ? lang : DEFAULT_LANG;
+}
+
+function getSavedLang() {
+  return safeLang(localStorage.getItem("lang") || "");
+}
+
+function getBrowserLang() {
+  const b = (navigator.language || "").slice(0, 2).toLowerCase();
+  return safeLang(b);
+}
+
+function setActiveLangUI(lang) {
+  langItems.forEach((el) => {
+    el.classList.toggle("active", el.dataset.lang === lang);
+  });
+}
+
+// ---------- Load + Apply Translations ----------
+async function fetchDict(lang) {
+  // Works even if index.html is nested in folders
+  const url = new URL(`locales/${lang}.json`, document.baseURI);
+
+  const res = await fetch(url, { cache: "no-cache" });
+  if (!res.ok) throw new Error(`Missing locale file: ${lang} (${res.status})`);
+  return res.json();
+}
+
+function syncSectionTitleShadows() {
+  // Keeps your CSS animation but makes the pseudo-element text translate
+  // CSS should use: .section-title::after { content: attr(data-shadow); }
+  document.querySelectorAll(".section-title").forEach((titleEl) => {
+    const textEl = titleEl.querySelector("[data-i18n]");
+    if (textEl) {
+      titleEl.setAttribute("data-shadow", textEl.textContent.trim());
+    }
+  });
+}
+
+function applyDict(lang) {
+  // text nodes
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    const val = dict[key];
+    if (val != null) el.textContent = val;
+  });
+
+  // placeholders
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    const val = dict[key];
+    if (val != null) el.setAttribute("placeholder", val);
+  });
+
+  // titles (optional)
+  document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-title");
+    const val = dict[key];
+    if (val != null) el.setAttribute("title", val);
+  });
+
+  // SPECIAL: attribute translations (for things like data-text)
+  document.querySelectorAll("[data-i18n-attr][data-i18n-key]").forEach((el) => {
+    const attr = el.getAttribute("data-i18n-attr");
+    const key = el.getAttribute("data-i18n-key");
+    const val = dict[key];
+    if (attr && key && val != null) el.setAttribute(attr, val);
+  });
+
+   if (typeof window.refreshH1Title === "function") {
+    window.refreshH1Title();
+  }
+
+  // Sync animated section title shadow text after translations applied
+  syncSectionTitleShadows();
+
+  document.documentElement.lang = lang;
+}
+
+async function setLang(lang) {
+  const l = safeLang(lang);
+
+  try {
+    dict = await fetchDict(l);
+    applyDict(l);
+  } catch (err) {
+    console.warn(`Locale "${l}" not loaded yet (using HTML fallback):`, err);
+    document.documentElement.lang = l;
+
+    // Even with fallback, still sync section title shadows from current HTML
+    syncSectionTitleShadows();
+  }
+
+  localStorage.setItem("lang", l);
+  setActiveLangUI(l);
+  return l;
+}
+
+// ---------- Modal open/close ----------
+langIcon?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  langContainer.hidden = false;
+});
+
+// click anywhere closes, but clicking inside .languages won't close
+document.addEventListener("click", (e) => {
+  if (!langContainer.hidden && !e.target.closest(".languages")) {
+    langContainer.hidden = true;
+  }
+});
+
+// ESC closes
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !langContainer.hidden) {
+    langContainer.hidden = true;
+  }
+});
+
+// ---------- Language selection clicks ----------
+langItems.forEach((el) => {
+  el.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const lang = el.dataset.lang; // expects data-lang="en" / "ja"
+    await setLang(lang);
+    langContainer.hidden = true;
+  });
+});
+
+// ---------- Init on load ----------
+(async function initLanguage() {
+  const initial = getSavedLang() || getBrowserLang() || DEFAULT_LANG;
+
+  // highlight immediately
+  setActiveLangUI(initial);
+
+  // sync section title shadows immediately from fallback HTML
+  syncSectionTitleShadows();
+
+  // then try to load translations
+  await setLang(initial);
+})();
+
+// =============================================================================
 // PDF Display
 // ============================================================================
 
@@ -610,24 +769,37 @@ const canvas = document.getElementById("h1canvas");
 const ctx = canvas.getContext("2d");
 
 // 0–1 range (like object-position percentages)
-let posX = 0.5;  
-let posY = 0.9; 
+let posX = 0.5;
+let posY = 0.9;
+
+// keep a vertical padding so glyphs never clip at the top
+let textOffsetY = 0;
 
 function resizeCanvas() {
-  const text = h1.dataset.text;
+  const text = h1.dataset.text || "";
   const style = getComputedStyle(h1);
 
   ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
   const metrics = ctx.measureText(text);
 
-  const height = parseFloat(style.fontSize) * 1.2;
-  canvas.width = Math.ceil(metrics.width);
-  canvas.height = Math.ceil(height);
+  const padX = 8; // a bit wider so edges don't clip
+  const padY = 8; // vertical breathing room (top + bottom)
+
+  // Use real font bounding boxes when available (best + fixes top clipping)
+  const ascent = metrics.actualBoundingBoxAscent ?? parseFloat(style.fontSize) * 0.9;
+  const descent = metrics.actualBoundingBoxDescent ?? parseFloat(style.fontSize) * 0.3;
+
+  canvas.width = Math.ceil(metrics.width + padX);
+  canvas.height = Math.ceil(ascent + descent + padY);
+
+  // draw baseline position so text sits fully inside canvas
+  // we draw with alphabetic baseline at y = ascent (+ a tiny extra)
+  textOffsetY = Math.ceil(ascent + 2);
 }
 
 function draw() {
   if (video.readyState >= 2) {
-    const text = h1.dataset.text;
+    const text = h1.dataset.text || "";
     const style = getComputedStyle(h1);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -635,9 +807,9 @@ function draw() {
     // draw text mask
     ctx.save();
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    ctx.textBaseline = "top";
+    ctx.textBaseline = "alphabetic"; // ✅ avoids top clipping vs "top"
     ctx.fillStyle = "white";
-    ctx.fillText(text, 0, 0);
+    ctx.fillText(text, 0, textOffsetY);
 
     // clip video into text
     ctx.globalCompositeOperation = "source-in";
@@ -667,11 +839,20 @@ function draw() {
 
 video.addEventListener("loadeddata", () => {
   resizeCanvas();
-  video.play().catch(() => {}); // just in case autoplay is picky
+  video.play().catch(() => {});
   draw();
 });
 
 window.addEventListener("resize", resizeCanvas);
+
+// ✅ Allow i18n system to force recalculation on language switch
+window.refreshH1Title = function () {
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => resizeCanvas());
+  } else {
+    resizeCanvas();
+  }
+};
 
 // =============================================================================
 // About section - decrease video resolution

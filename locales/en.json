@@ -1,0 +1,63 @@
+{
+    "nav.home": "Home",
+    "nav.about": "About",
+    "nav.skills": "Skills",
+    "nav.projects": "Projects",
+    "nav.contact": "Contact",
+
+    "pdf.preview": "Preview",
+    "pdf.download": "Download",
+
+    "hero.greeting": "Hello, I'm",
+    "hero.name": "KIMYOO",
+    "hero.role": "Web Developer",
+    "hero.description": "Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.",
+    "hero.cta": "Contact Me",
+
+    "lang.english.native": "English",
+    "lang.english.en": "English",
+    "lang.japanese.native": "日本語",
+    "lang.japanese.en": "Japanese",
+
+    "about.title": "ABOUT",
+    "about.name": "Name",
+    "about.alias": "Alias",
+    "about.age": "Age",
+    "about.nationality": "Nationality",
+    "about.country": "Cambodia",
+    "about.language": "Language",
+    "about.spoken-languages": "English, Chinese, Japanese, Khmer",
+    "about.status": "Status",
+    "about.student": "Student",
+    "about.email": "Email",
+
+    "about.interested": "Interested in:",
+    "about.interest.web": "Web Development",
+    "about.interest.ux": "UX/UI Design",
+    "about.interest.art": "Art Design",
+    "about.interest.game": "Game Development",
+    "about.interest.animation": "Animation",
+    "about.interest.object": "Object Customization and Creation",
+
+    "about.hobbies": "Hobbies",
+    "about.hobby.music": "Music",
+    "about.hobby.travel": "Traveling",
+    "about.hobby.gaming": "Gaming",
+    "about.hobby.self": "Self-improvement",
+
+    "about.quote": "The pinnacle of knowledge is not whole—it is shattered throughout the cosmos, waiting to be claimed by those who dare to explore.",
+
+    "skills.title": "SKILLS",
+
+    "projects.title": "PROJECTS",
+    "projects.more": "Checkout For More Projects",
+
+    "project.login.title": "Fancy Login Page",
+    "project.login.desc": "My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.",
+
+    "project.laundry.title": "Laundry-weather-forcast",
+    "project.laundry.desc": "A python related project with integrated API. A miles deep-learning into technological environment. It was fun and helped me understand real-world application.",
+
+    "project.julvry.title": "Julvry Service Webpage",
+    "project.julvry.desc": "The first project working in a team to build a jewelry marketing website. I learned teamwork, communication, time management, and self-improvement."
+}

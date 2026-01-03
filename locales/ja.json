@@ -1,0 +1,63 @@
+{
+    "nav.home": "ホーム",
+    "nav.about": "概要",
+    "nav.skills": "スキル",
+    "nav.projects": "プロジェクト",
+    "nav.contact": "連絡先",
+
+    "pdf.preview": "プレビュー",
+    "pdf.download": "ダウンロード",
+
+    "hero.greeting": "こんにちは、私は",
+    "hero.name": "キンユー",
+    "hero.role": "ウェブ開発者",
+    "hero.description": "最先端の技術を学び、創造性とテクノロジーを融合したデジタル体験を構築することに情熱を注いでいます。",
+    "hero.cta": "お問い合わせ",
+
+    "lang.english.native": "英語",
+    "lang.english.en": "English",
+    "lang.japanese.native": "日本語",
+    "lang.japanese.en": "Japanese",
+
+    "about.title": "私について",
+    "about.name": "名前",
+    "about.alias": "別名",
+    "about.age": "年齢",
+    "about.nationality": "国籍",
+    "about.country": "カンボジア",
+    "about.language": "言語",
+    "about.spoken-languages": "英語、中国語、日本語、クメール語",
+    "about.status": "ステータス",
+    "about.student": "学生",
+    "about.email": "メール",
+
+    "about.interested": "興味分野:",
+    "about.interest.web": "Web開発",
+    "about.interest.ux": "UX/UIデザイン",
+    "about.interest.art": "アートデザイン",
+    "about.interest.game": "ゲーム開発",
+    "about.interest.animation": "アニメーション",
+    "about.interest.object": "オブジェクトのカスタマイズと制作",
+
+    "about.hobbies": "趣味",
+    "about.hobby.music": "音楽",
+    "about.hobby.travel": "旅行",
+    "about.hobby.gaming": "ゲーム",
+    "about.hobby.self": "自己成長",
+
+    "about.quote": "知識の頂点は完全ではない。それは宇宙の彼方に散らばり、探求する勇気のある者を待っている。",
+
+    "skills.title": "スキル",
+
+    "projects.title": "プロジェクト",
+    "projects.more": "さらにプロジェクトを見る",
+
+    "project.login.title": "ログインページデザイン",
+    "project.login.desc": "Web開発の最初の実践経験として、シンプルな認証デザインから始めました。これが私の第一歩となりました。",
+
+    "project.laundry.title": "洗濯天気予報",
+    "project.laundry.desc": "APIを統合したPythonプロジェクトです。実世界での応用を学ぶ良い経験になりました。",
+
+    "project.julvry.title": "Julvry サービスWebページ",
+    "project.julvry.desc": "チームで制作したジュエリーマーケティングサイト。コミュニケーション、時間管理、自己成長を学びました。"
+}

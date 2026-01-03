@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moon</title>
-    <!-- Fonts -->
+    <!-- EN Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <!-- JP Fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="about.css">
@@ -51,12 +55,12 @@
     <!-- Navigation -->
     <nav id="navbar">
         <ul>
-            <li>🌕<a href="#home">Home</a></li>
-            <li>🌔<a href="#about">About</a></li>
-            <li>🌓<a href="#skills">Skills</a></li>
-            <li>🌗<a href="#projects">Projects</a></li>
-            <li>🌒<a href="#contact">Contact</a></li>
-            <li id="lockedBtn">🌑<a href="#locked">🔒</a></li>
+            <li>🌕<a href="#home" data-i18n="nav.home">Home</a></li>
+            <li>🌔<a href="#about" data-i18n="nav.about">About</a></li>
+            <li>🌓<a href="#skills" data-i18n="nav.skills">Skills</a></li>
+            <li>🌗<a href="#projects" data-i18n="nav.projects">Projects</a></li>
+            <li>🌒<a href="#contact" data-i18n="nav.contact">Contact</a></li>
+            <li id="lockedBtn">🌑<a href="#locked" data-i18n="nav.locked">🔒</a></li>
             <span class="star"></span>
         </ul>
     </nav>
@@ -71,19 +75,39 @@
                 <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
 
                 <div class="config">
-                    <img class="icons" src="./icons/Google Earth.svg" alt="languages">
+                    <img id="langIcon" class="icons" src="./icons/Google Earth.svg" alt="languages">
                     <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
                     <img id="downloadIcon" class="icons" src="./icons/Download from the Cloud.svg" alt="download">
                 </div>
             </header>
 
-            <!-- PDF display -->
+            <!-- Languages Display -->
+            <div class="lang-container" hidden>
+                <div class="lang-backdrop"></div>
+
+                <div class="languages">
+                    <div class="lang-top-logo">
+                        <img src="./images/small-moon-divider.png" alt="moon-divider">
+                    </div>
+
+                    <div class="lang en" data-lang="en">
+                        <span data-i18n="lang.english.native">English</span>
+                        <i data-i18n="lang.english.en">English</i>
+                    </div>
+                    <div class="lang jp" data-lang="ja">
+                        <span data-i18n="lang.japanese.native">日本語</span> 
+                        <i data-i18n="lang.japanese.en">Japanese</i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Display -->
             <div id="downloadPDF" class="pdf" hidden>
                 <div class="pdf-backdrop" data-close="true"></div>
 
                 <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
                     <div class="pdf-title">
-                        <h1>Preview</h1>
+                        <h1 data-i18n="pdf.preview">Preview</h1>
                         <img src="./images/start-loading-text.png" alt="title-decorator">
                     </div>
                     <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
@@ -94,7 +118,7 @@
                             src="./images/resume.jpg" alt="resume"
                         />
                         <div class="download-container">
-                            <button id="downloadPdfBtn" class="btn" type="button">Download</button>
+                            <button id="downloadPdfBtn" class="btn" type="button" data-i18n="pdf.download">Download</button>
                             <img class="download-decorator" src="./images/download-decorator.png" alt="download-decorator">
                         </div>
                     </div>
@@ -107,19 +131,22 @@
                     <img src="./images/profile.png" alt="profile">
                 </a>
                 <div class="info">
-                    <h4>Hello, I'm <span class="name">KIMYOO</span></h4>
-                    <h1 class="video-h1" data-text="Web Developer">
+                    <h4>
+                        <span data-i18n="hero.greeting">Hello, I'm</span>
+                        <span class="name" data-i18n="hero.name">KIMYOO</span>
+                    </h4>
+                    <h1 class="video-h1" data-text="Web Developer" data-i18n-attr="data-text" data-i18n-key="hero.role">
                         <video id="h1vid" src="./videos/h1.mp4" autoplay muted loop playsinline></video>
                         <canvas id="h1canvas"></canvas>
                     </h1>
                     <div class="text-container">
-                        <p>
+                        <p data-i18n="hero.description">
                             Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.
                         </p>
                     </div>
                     <button class="btn">
                         <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
-                        Contact Me
+                        <span data-i18n="hero.cta">Contact Me</span>
                     </button>
                 </div>
             </section>
@@ -127,51 +154,88 @@
 
         <!-- About Section -->
         <section id="about" class="snap-section about">
-            <h2 class="section-title">ABOUT</h2>
+            <h2 class="section-title" data-shadow="">
+                <span class="section-text" data-i18n="about.title">ABOUT</span>
+            </h2>
             <div class="id-card">
                 <div class="card">
                     <div class="profile-wrapper">
                         <img class="profile" src="./images/id-card-profile.png"alt="id-profile">
                     </div>
                     <div class="upper-info">
-                        <p>Name: Ngov Kimyoo
-                            Alias: Dorayaki
-                            Age: 21
+                        <p class="info-grid">
+                            <span class="field">
+                                <span class="label" data-i18n="about.name">Name</span>
+                                <span class="value">Ngov Kimyoo</span>
+                            </span>
+
+                            <span class="field">
+                                <span class="label" data-i18n="about.alias">Alias</span>
+                                <span class="value">Dorayaki</span>
+                            </span>
+
+                            <span class="field">
+                                <span class="label" data-i18n="about.age">Age</span>
+                                <span class="value">21</span>
+                            </span>
                         </p>
-                        <img class="moon-divider" src="./images/moon-divider.png" alt="line divider">
+
+                        <img class="moon-divider" src="./images/moon-divider.png" alt="line divider" />
+
                         <div class="middle-info">
                             <div class="left">
-                                <p>Nationality: Cambodian
-                                    Language: English, Chinese, Japanese, Khmer
+                                <p class="info-grid">
+                                    <span class="field">
+                                        <span class="label" data-i18n="about.nationality">Nationality</span>
+                                        <span class="value" data-i18n="about.country">Cambodia</span>
+                                    </span>
+
+                                    <span class="field">
+                                        <span class="label" data-i18n="about.language">Language</span>
+                                        <span class="value" data-i18n="about.spoken-languages">English, Chinese, Japanese, Khmer</span>
+                                    </span>
                                 </p>
                             </div>
+
                             <div class="right">
-                                <p>Status: Student
-                                    Email: kimyou8881@gmail.com
+                                <p class="info-grid">
+                                    <span class="field">
+                                        <span class="label" data-i18n="about.status">Status</span>
+                                        <span class="value" data-i18n="about.student">Student</span>
+                                    </span>
+
+                                    <span class="field">
+                                        <span class="label" data-i18n="about.email">Email</span>
+                                        <span class="value">kimyou8881@gmail.com</span>
+                                    </span>
                                 </p>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="lower-info">
-                    <span>Interested in:</span>
+                    <span class="lower-info-title" data-i18n="about.interested">Interested in:</span>
                     <ul>
-                        <li>Web Development</li>
-                        <li>UX/UI Design</li>
-                        <li>Art Design</li>
-                        <li>Game Development</li>
-                        <li>Animation</li>
-                        <li>Object Customization and Creation</li>
+                        <li data-i18n="about.interest.web">Web Development</li>
+                        <li data-i18n="about.interest.ux">UX/UI Design</li>
+                        <li data-i18n="about.interest.art">Art Design</li>
+                        <li data-i18n="about.interest.game">Game Development</li>
+                        <li data-i18n="about.interest.animation">Animation</li>
+                        <li data-i18n="about.interest.object">Object Customization and Creation</li>
                     </ul>
-                    <span>Hobbies</span>
+
+                    <span class="lower-info-title" data-i18n="about.hobbies">Hobbies</span>
+
                     <ul>
-                        <li>Music</li>
-                        <li>Traveling</li>
-                        <li>Gaming</li>
-                        <li>Self-improvement</li>
+                        <li data-i18n="about.hobby.music">Music</li>
+                        <li data-i18n="about.hobby.travel">Traveling</li>
+                        <li data-i18n="about.hobby.gaming">Gaming</li>
+                        <li data-i18n="about.hobby.self">Self-improvement</li>
                     </ul>
+
                 </div>
-                <blockquote>
+                <blockquote data-i18n="about.quote">
                     The pinnacle of knowledge is not whole—it is shattered throughout the cosmos, waiting to be claimed by those who dare to explore.
                 </blockquote>
                 <video id="bhVideo" src="./videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload=auto></video>
@@ -184,7 +248,9 @@
 
         <!-- Skills Section -->
         <section id="skills" class="snap-section skills">
-            <h2 class="section-title">SKILLS</h2>
+            <h2 class="section-title" data-shadow="">
+                <span class="section-text" data-i18n="skills.title">SKILLS</span>
+            </h2>
             <div class="solar-container">
                 <div class="inner-ring-container">
                     <img class="scale-up inner-ring" src="./images/inner-ring.png" alt="inner-ring" data-delay="0.1">
@@ -297,7 +363,9 @@
 
         <!-- Projects Section -->
         <section id="projects" class="snap-section projects">
-            <h2 class="section-title">PROJECTS</h2>
+            <h2 class="section-title" data-shadow="">
+                <span class="section-text" data-i18n="projects.title">PROJECTS</span>
+            </h2>
             <div class="project-demo">
                 <figure class="demo-01">
                     <div class="video-wrapper">
@@ -306,27 +374,28 @@
                     </div>
                     <figcaption>
                         <h3>
-                            Fancy Login Page
+                            <span data-i18n="project.login.title">Fancy Login Page</span>
                             <a href="https://ngovkimyou.github.io/Login---Fancy-design/" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p>My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.</p>
+                        <p data-i18n="project.login.desc">My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.</p>
                     </figcaption>
                 </figure>
 
                 <figure class="demo-02">
                     <figcaption>
-                        <h3>Laundry-weather-forcast
+                        <h3>
+                            <span data-i18n="project.laundry.title">Laundry-weather-forcast</span>
                             <a href="https://github.com/Ngovkimyou/Laundry-App" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p>A python related project with integred API. A miles deep-learning into technological environment.
+                        <p data-i18n="project.laundry.desc">A python related project with integrated API. A miles deep-learning into technological environment.
                             It was a fun and partially learned how it applied in real-world project.
                         </p>
                     </figcaption>
@@ -343,19 +412,20 @@
                     </div>
 
                     <figcaption>
-                        <h3>Julvry Service Webpage
+                        <h3>
+                            <span data-i18n="project.julvry.title">Julvry Service Webpage</span>
                             <a href="https://ngovkimyou.github.io/Web1-FinalProject---Julvry/" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p>The first project getting to work in a team to get a jewerly marketing website done. A soft-skill learned from this project is team-communication, an important aspect to achieve efficency, deliverable, time-management, and self-improvement.</p>
+                        <p data-i18n="project.julvry.desc">The first project getting to work in a team to get a jewerly marketing website done. A soft-skill learned from this project is team-communication, an important aspect to achieve efficency, deliverable, time-management, and self-improvement.</p>
                     </figcaption>
                 </figure>
             </div>
             <div class="more-projects">
-                <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank">Checkout For More Projects</a> 
+                <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank" data-i18n="projects.more">Checkout For More Projects</a> 
             </div>
             <div class="section-divider">
                 <img src="./images/section-moon-divider.png" alt="section-divider">
