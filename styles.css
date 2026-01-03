@@ -64,7 +64,7 @@ header .config {
 ============================================================================ 
 */
 
-.loader{
+/* .loader{
     position: fixed;
     inset: 0;
     display: grid;
@@ -75,8 +75,8 @@ header .config {
 }
 
 .ring-wrap{
-    --p: 0;               /* progress 0 -> 100% */
-    --start: 0deg;        /* start at top */
+    --p: 0;               
+    --start: 0deg;        
     position: relative;
     width: min(520px, 70vw);
     aspect-ratio: 1/1;
@@ -159,7 +159,7 @@ header .config {
     opacity: 0;
     transition: opacity 500ms ease;
     pointer-events: none;
-}
+} */
 
 /* 
 ============================================================================
@@ -227,6 +227,167 @@ header .config {
 
 .config img.is-flipped {
     animation: flip 1s linear;
+}
+
+/* 
+============================================================================
+                             PDF Display
+============================================================================ 
+*/
+
+.pdf {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    z-index: 9999;
+}
+
+.pdf[hidden] {
+    display: none;
+}
+
+.pdf-backdrop {
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    background: radial-gradient(circle,rgb(255, 3, 3) 15%, rgba(48, 48, 255, 0.596), rgba(155, 3, 155, 0.603));
+    backdrop-filter: blur(5px);
+}
+
+.pdf-card {
+    position: relative;
+    width: min(900px, 60vw);
+    padding: 2rem;
+    border-radius: 1.5rem;
+
+    background: rgba(20, 20, 30, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+
+    overflow: hidden;
+}
+
+.pdf-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pdf-title h1 {
+    position: absolute;
+    transform: translateY(.1rem);
+    font-family: 'Syncopate', cursive, Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.pdf-title img {
+    width: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.pdf-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    font-weight: 900;
+}
+
+.pdf-close::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-.1rem) translateY(.1rem);
+    background: url(./images/moon-closed-decorator.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.pdf-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+}
+
+.download-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-container .btn {
+    position: relative;
+    width: 10rem;
+    margin-top: 1rem;
+    padding: .5rem 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    border-radius: .5rem;
+    background: transparent;
+    color: white;
+    text-shadow: 1px 1px 5px black;
+    transition: transform 2 ease, filter .2s ease ;
+    z-index: 2;
+}
+
+.pdf-container .btn:hover {
+    filter: invert();
+}
+
+.pdf-container .btn:active {
+    transform: scale(0.95);
+}
+
+.pdf-container .btn:active ~ .download-decorator {
+    transform: scale(0.1);
+}
+
+.pdf-container .download-decorator {
+    position: absolute;
+    bottom: -.8rem;
+    width: 13rem;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.8;
+    transition: transform 2s ease;
+}
+
+.pdf-img {
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 1rem;
+
+    cursor: zoom-in;
+    user-select: none;
+}
+
+body.pdf-open {
+    overflow: hidden;
 }
 
 /* 
@@ -421,7 +582,7 @@ nav.active {
     display: block;
     pointer-events: auto;
     opacity: 1;
-    animation: openSidebar1 0.4s ease both;
+    animation: openSidebar1 0.5s ease both;
     z-index: 990;
 }
 
@@ -493,7 +654,7 @@ nav ul li {
 }
 
 nav.active ul li {
-  animation: openSidebar2 2s ease both;
+  animation: openSidebar2 1s ease-in both;
 }
 
 @keyframes openSidebar2 {

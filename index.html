@@ -32,15 +32,12 @@
     </div>
 
     <!-- --------------------- Loading Screen ---------------------- -->
-    <div id="loader" class="loader">
+    <!-- <div id="loader" class="loader">
         <div class="ring-wrap">
-            <!-- dim base -->
             <img class="ring ring--dim" src="./images/dim-loading-screen.png" alt="dim-ring" />
 
-            <!-- full color reveal -->
             <img class="ring ring--full" src="./images/loading-screen.png" alt="full-ring" />
 
-            <!-- percentage -->
             <div class="pct">
                 <span id="pct">0%</span>
             </div>
@@ -49,7 +46,7 @@
                 <span>Start</span>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -76,9 +73,33 @@
                 <div class="config">
                     <img class="icons" src="./icons/Google Earth.svg" alt="languages">
                     <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
-                    <img class="icons" src="./icons/Download from the Cloud.svg" alt="download">
+                    <img id="downloadIcon" class="icons" src="./icons/Download from the Cloud.svg" alt="download">
                 </div>
             </header>
+
+            <!-- PDF display -->
+            <div id="downloadPDF" class="pdf" hidden>
+                <div class="pdf-backdrop" data-close="true"></div>
+
+                <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
+                    <div class="pdf-title">
+                        <h1>Preview</h1>
+                        <img src="./images/start-loading-text.png" alt="title-decorator">
+                    </div>
+                    <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
+
+                    <div class="pdf-container">
+                        <img
+                            id="previewImg" class="pdf-img" title="Click to view fullscreen"
+                            src="./images/resume.jpg" alt="resume"
+                        />
+                        <div class="download-container">
+                            <button id="downloadPdfBtn" class="btn" type="button">Download</button>
+                            <img class="download-decorator" src="./images/download-decorator.png" alt="download-decorator">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <section class="intro">
                 <div class="model"></div>
@@ -342,7 +363,12 @@
         </section>
     </main>
 
+    <!-- jsPDF (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+    <!-- Main JS -->
     <script src="main.js" defer></script>
+
 </body>
 </html>
 
