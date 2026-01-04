@@ -126,14 +126,24 @@ header .config {
 ============================================================================ 
 */
 
-/* .loader{
+.loader{
     position: fixed;
     inset: 0;
     display: grid;
     place-items: center;
-    background: #050508;
+    background: transparent;
     cursor: default;
     z-index: 9999;
+}
+
+.loader::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:#050508;
+  opacity: 1;
+  transition: opacity 500ms ease;
+  z-index: 0;
 }
 
 .ring-wrap{
@@ -142,6 +152,7 @@ header .config {
     position: relative;
     width: min(520px, 70vw);
     aspect-ratio: 1/1;
+    z-index: 2;
 }
 
 .ring{
@@ -217,11 +228,74 @@ header .config {
     cursor: pointer;
 }
 
-.loader.hide {
-    opacity: 0;
-    transition: opacity 500ms ease;
+/* ------------------------- Black Clouds ------------------------------ */
+
+/* sits over everything in loader */
+.reveal-clouds{
+    position: absolute;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-} */
+    z-index: 10000; /* above ring-wrap */
+}
+
+/* base cloud style */
+.reveal-clouds .cloud{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  object-fit: contain;
+  opacity: 0;
+}
+
+/* start both at the center line */
+.reveal-clouds .cloud--left{
+  left: 10%;
+}
+
+.reveal-clouds .cloud--right{
+  left: 80%;
+}
+
+/* when reveal starts, clouds animate outward */
+.loader.reveal .reveal-clouds .cloud {
+  opacity: 1;
+  animation: cloudSplit 3s ease-in both;
+}
+
+/* left cloud goes left, right cloud goes right */
+.loader.reveal .cloud--left  { --dir: -1; }
+.loader.reveal .cloud--right { --dir: 1; }
+
+@keyframes cloudSplit{
+  0%{
+    transform: translate(-50%, -50%) scale(1);
+  }
+  70%{
+    transform: translate(calc(-50% + (var(--dir) * 90vw)), -50%) scale(1.1);
+  }
+  100%{
+    transform: translate(calc(-50% + (var(--dir) * 100vw)), -50%) scale(1.2);
+  }
+}
+
+/* optional: fade loader after clouds start moving */
+.loader.reveal .ring-wrap{
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.loader.reveal::before{
+  opacity: 0;               /* dark bg fades quick -> page starts revealing */
+  transition: opacity 4s ease;
+}
+
+.loader.cloud-out .reveal-clouds .cloud{
+  opacity: 0;
+  transition: opacity 5s ease; /* long fade */
+}
 
 /* 
 ============================================================================

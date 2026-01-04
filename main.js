@@ -2,284 +2,290 @@
 // Background music
 // ============================================================================
 
-// (() => {
-//   const loader = document.getElementById("loader");
-//   const ringWrap = loader.querySelector(".ring-wrap");
-//   const pctEl = document.getElementById("pct");
+(() => {
+  const loader = document.getElementById("loader");
+  const ringWrap = loader.querySelector(".ring-wrap");
+  const pctEl = document.getElementById("pct");
 
-//   const bgMusic = document.getElementById("bgMusic");
-//   const musicIcon = document.getElementById("musicIcon");
+  const bgMusic = document.getElementById("bgMusic");
+  const musicIcon = document.getElementById("musicIcon");
 
-//   // 🎵 main tracks
-//   const mainTracks = [
-//     "./music/background-music-01.mp3",
-//     "./music/background-music-02.mp3",
-//   ];
+  // 🎵 main tracks
+  const mainTracks = [
+    "./music/background-music-01.mp3",
+    "./music/background-music-02.mp3",
+  ];
 
-//   // 🎵 last track
-//   const lastTrack = "./music/contact-background-music-02.mp3";
+  // 🎵 last track
+  const lastTrack = "./music/contact-background-music-02.mp3";
 
-//   let queue = [];
-//   let isPlaying = false;
+  let queue = [];
+  let isPlaying = false;
 
-//   function loadTrack(src) {
-//     if (!bgMusic) return;
-//     bgMusic.src = src;
-//     bgMusic.load();
-//   }
+  function loadTrack(src) {
+    if (!bgMusic) return;
+    bgMusic.src = src;
+    bgMusic.load();
+  }
 
-//   // Build one full cycle:
-//   // random (01 or 02) -> the other one -> contact track
-//   function buildCycleQueue() {
-//     const first = Math.random() < 0.5 ? 0 : 1; // 50/50
-//     const second = 1 - first;
+  // Build one full cycle:
+  // random (01 or 02) -> the other one -> contact track
+  function buildCycleQueue() {
+    const first = Math.random() < 0.5 ? 0 : 1; // 50/50
+    const second = 1 - first;
 
-//     queue = [
-//       mainTracks[first],
-//       mainTracks[second],
-//       lastTrack,
-//     ];
-//   }
+    queue = [
+      mainTracks[first],
+      mainTracks[second],
+      lastTrack,
+    ];
+  }
 
-//   // play next track when current ends
-//   if (bgMusic) {
-//     bgMusic.addEventListener("ended", async () => {
-//       if (queue.length === 0) buildCycleQueue();
+  // play next track when current ends
+  if (bgMusic) {
+    bgMusic.addEventListener("ended", async () => {
+      if (queue.length === 0) buildCycleQueue();
 
-//       const nextSrc = queue.shift();
-//       loadTrack(nextSrc);
+      const nextSrc = queue.shift();
+      loadTrack(nextSrc);
 
-//       try {
-//         await bgMusic.play();
-//         isPlaying = true;
-//         if (musicIcon) musicIcon.src = "./icons/Musical.svg";
-//       } catch (e) {
-//         console.warn("Playback failed:", e);
-//       }
-//     });
-//   }
+      try {
+        await bgMusic.play();
+        isPlaying = true;
+        if (musicIcon) musicIcon.src = "./icons/Musical.svg";
+      } catch (e) {
+        console.warn("Playback failed:", e);
+      }
+    });
+  }
 
-//   // Start music on user gesture (enter)
-//   async function startBackgroundMusicFromUserGesture() {
-//     if (!bgMusic) return;
+  // Start music on user gesture (enter)
+  async function startBackgroundMusicFromUserGesture() {
+    if (!bgMusic) return;
 
-//     try {
-//       bgMusic.volume = 0.7;
+    try {
+      bgMusic.volume = 0.7;
 
-//       // start a fresh cycle
-//       buildCycleQueue();
+      // start a fresh cycle
+      buildCycleQueue();
 
-//       // play first track from the queue
-//       const firstSrc = queue.shift();
-//       loadTrack(firstSrc);
+      // play first track from the queue
+      const firstSrc = queue.shift();
+      loadTrack(firstSrc);
 
-//       await bgMusic.play();
-//       isPlaying = true;
-//       if (musicIcon) musicIcon.src = "./icons/Musical.svg";
-//     } catch (e) {
-//       console.warn("Playback failed:", e);
-//       // If blocked, keep icon in "No Music" state
-//       isPlaying = false;
-//       if (musicIcon) musicIcon.src = "./icons/No Music.svg";
-//     }
-//   }
+      await bgMusic.play();
+      isPlaying = true;
+      if (musicIcon) musicIcon.src = "./icons/Musical.svg";
+    } catch (e) {
+      console.warn("Playback failed:", e);
+      // If blocked, keep icon in "No Music" state
+      isPlaying = false;
+      if (musicIcon) musicIcon.src = "./icons/No Music.svg";
+    }
+  }
 
-//   // toggle play / pause
-//   if (musicIcon && bgMusic) {
-//     musicIcon.addEventListener("click", async (e) => {
-//       // prevent this click from also triggering "enter" if loader is still up
-//       e.stopPropagation();
+  // toggle play / pause
+  if (musicIcon && bgMusic) {
+    musicIcon.addEventListener("click", async (e) => {
+      // prevent this click from also triggering "enter" if loader is still up
+      e.stopPropagation();
 
-//       if (isPlaying) {
-//         bgMusic.pause();
-//         musicIcon.src = "./icons/No Music.svg";
-//         isPlaying = false;
-//       } else {
-//         try {
-//           await bgMusic.play();
-//           musicIcon.src = "./icons/Musical.svg";
-//           isPlaying = true;
-//         } catch (err) {
-//           console.warn("Playback failed:", err);
-//         }
-//       }
-//     });
-//   }
+      if (isPlaying) {
+        bgMusic.pause();
+        musicIcon.src = "./icons/No Music.svg";
+        isPlaying = false;
+      } else {
+        try {
+          await bgMusic.play();
+          musicIcon.src = "./icons/Musical.svg";
+          isPlaying = true;
+        } catch (err) {
+          console.warn("Playback failed:", err);
+        }
+      }
+    });
+  }
 
-//   // ----------------------------
-//   // 1) DEFINE YOUR CRITICAL ASSETS
-//   // ----------------------------
-//   const ASSETS = [
-//     // Loader assets
-//     { type: "image", url: "./images/dim-loading-screen.png" },
-//     { type: "image", url: "./images/loading-screen.png" },
-//     { type: "image", url: "./images/start-loading-text.png" },
+  // ----------------------------
+  // 1) DEFINE YOUR CRITICAL ASSETS
+  // ----------------------------
+  const ASSETS = [
+    // Loader assets
+    { type: "image", url: "./images/dim-loading-screen.png" },
+    { type: "image", url: "./images/loading-screen.png" },
+    { type: "image", url: "./images/start-loading-text.png" },
 
-//     // Home / hero assets
-//     { type: "image", url: "./icons/moon-logo.png" },
-//     { type: "image", url: "./icons/moon-logo-color-state.png" },
-//     { type: "image", url: "./images/profile.png" },
-//     { type: "image", url: "./images/id-card-profile.png" },
-//     { type: "image", url: "./images/inner-ring.png" },
-//     { type: "image", url: "./images/outer-ring.png" },
-//     { type: "image", url: "./images/solar-ring.png" },
-//     { type: "image", url: "./images/upper-cloud-1.png" },
-//     { type: "image", url: "./images/upper-cloud-2.png" },
-//     { type: "image", url: "./images/upper-cloud-3.png" },
-//     { type: "image", url: "./images/upper-cloud-4.png" },
+    // Home / hero assets
+    { type: "image", url: "./icons/moon-logo.png" },
+    { type: "image", url: "./icons/moon-logo-color-state.png" },
+    { type: "image", url: "./images/profile.png" },
+    { type: "image", url: "./images/id-card-profile.png" },
+    { type: "image", url: "./images/inner-ring.png" },
+    { type: "image", url: "./images/outer-ring.png" },
+    { type: "image", url: "./images/solar-ring.png" },
+    { type: "image", url: "./images/upper-cloud-1.png" },
+    { type: "image", url: "./images/upper-cloud-2.png" },
+    { type: "image", url: "./images/upper-cloud-3.png" },
+    { type: "image", url: "./images/upper-cloud-4.png" },
 
-//     { type: "video", url: "./videos/home-loop.mp4" },
-//     { type: "video", url: "./videos/h1.mp4" },
-//     { type: "video", url: "./videos/button.mp4" },
-//     { type: "video", url: "./videos/blackhole.mp4" },
-//     { type: "video", url: "./videos/fancy-login-page-first-project.mp4" },
-//     { type: "video", url: "./videos/Laundry-weather-forcast-project.mp4" },
-//     { type: "video", url: "./videos/Julvry-project.mp4" },
-//   ];
+    { type: "video", url: "./videos/home-loop.mp4" },
+    { type: "video", url: "./videos/h1.mp4" },
+    { type: "video", url: "./videos/button.mp4" },
+    { type: "video", url: "./videos/blackhole.mp4" },
+    { type: "video", url: "./videos/fancy-login-page-first-project.mp4" },
+    { type: "video", url: "./videos/Laundry-weather-forcast-project.mp4" },
+    { type: "video", url: "./videos/Julvry-project.mp4" },
+  ];
 
-//   // ----------------------------
-//   // 2) FONT DEFINITIONS
-//   // ----------------------------
-//   const FONTS = [
-//     "400 1em Orbitron",
-//     "700 1em Orbitron",
-//     "400 1em Inter",
-//     "600 1em Inter"
-//   ];
+  // ----------------------------
+  // 2) FONT DEFINITIONS
+  // ----------------------------
+  const FONTS = [
+    "400 1em Orbitron",
+    "700 1em Orbitron",
+    "400 1em Inter",
+    "600 1em Inter"
+  ];
 
-//   // ----------------------------
-//   // 3) HELPERS: smooth progress UI
-//   // ----------------------------
-//   let displayed = 0;
-//   let target = 0;
-//   let rafId = null;
+  // ----------------------------
+  // 3) HELPERS: smooth progress UI
+  // ----------------------------
+  let displayed = 0;
+  let target = 0;
+  let rafId = null;
 
-//   function setProgress(p) {
-//     target = Math.max(0, Math.min(100, p));
-//     if (!rafId) animateProgress();
-//   }
+  function setProgress(p) {
+    target = Math.max(0, Math.min(100, p));
+    if (!rafId) animateProgress();
+  }
 
-//   function animateProgress() {
-//     displayed += (target - displayed) * 0.12;
-//     if (Math.abs(target - displayed) < 0.2) displayed = target;
+  function animateProgress() {
+    displayed += (target - displayed) * 0.12;
+    if (Math.abs(target - displayed) < 0.2) displayed = target;
 
-//     ringWrap.style.setProperty("--p", displayed.toFixed(2));
-//     pctEl.textContent = `${Math.round(displayed)}%`;
+    ringWrap.style.setProperty("--p", displayed.toFixed(2));
+    pctEl.textContent = `${Math.round(displayed)}%`;
 
-//     if (displayed !== target) rafId = requestAnimationFrame(animateProgress);
-//     else rafId = null;
-//   }
+    if (displayed !== target) rafId = requestAnimationFrame(animateProgress);
+    else rafId = null;
+  }
 
-//   // ----------------------------
-//   // 4) LOADERS
-//   // ----------------------------
-//   function loadImage(url) {
-//     return new Promise((resolve, reject) => {
-//       const img = new Image();
-//       img.onload = async () => {
-//         if (img.decode) {
-//           try { await img.decode(); } catch {}
-//         }
-//         resolve();
-//       };
-//       img.onerror = () => reject(new Error("Image failed: " + url));
-//       img.src = url;
-//     });
-//   }
+  // ----------------------------
+  // 4) LOADERS
+  // ----------------------------
+  function loadImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = async () => {
+        if (img.decode) {
+          try { await img.decode(); } catch {}
+        }
+        resolve();
+      };
+      img.onerror = () => reject(new Error("Image failed: " + url));
+      img.src = url;
+    });
+  }
 
-//   function loadVideo(url) {
-//     return new Promise((resolve, reject) => {
-//       const v = document.createElement("video");
-//       v.preload = "auto";
-//       v.muted = true;
-//       v.playsInline = true;
-//       v.oncanplaythrough = () => resolve();
-//       v.onerror = () => reject(new Error("Video failed: " + url));
-//       v.src = url;
-//       v.load();
-//     });
-//   }
+  function loadVideo(url) {
+    return new Promise((resolve, reject) => {
+      const v = document.createElement("video");
+      v.preload = "auto";
+      v.muted = true;
+      v.playsInline = true;
+      v.oncanplaythrough = () => resolve();
+      v.onerror = () => reject(new Error("Video failed: " + url));
+      v.src = url;
+      v.load();
+    });
+  }
 
-//   function loadFonts() {
-//     if (!document.fonts) return Promise.resolve();
-//     FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
-//     return document.fonts.ready;
-//   }
+  function loadFonts() {
+    if (!document.fonts) return Promise.resolve();
+    FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
+    return document.fonts.ready;
+  }
 
-//   // ----------------------------
-//   // 5) MAIN LOADING FLOW
-//   // ----------------------------
-//   async function startLoading() {
-//     document.documentElement.style.overflow = "hidden";
-//     document.body.style.overflow = "hidden";
+  // ----------------------------
+  // 5) MAIN LOADING FLOW
+  // ----------------------------
+  async function startLoading() {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
-//     const tasks = [loadFonts()];
-//     for (const a of ASSETS) {
-//       if (a.type === "image") tasks.push(loadImage(a.url));
-//       if (a.type === "video") tasks.push(loadVideo(a.url));
-//     }
+    const tasks = [loadFonts()];
+    for (const a of ASSETS) {
+      if (a.type === "image") tasks.push(loadImage(a.url));
+      if (a.type === "video") tasks.push(loadVideo(a.url));
+    }
 
-//     const total = tasks.length;
-//     let done = 0;
+    const total = tasks.length;
+    let done = 0;
 
-//     setProgress(0);
+    setProgress(0);
 
-//     const wrapped = tasks.map(p =>
-//       p.then(() => {
-//         done++;
-//         setProgress((done / total) * 100);
-//       }).catch(err => {
-//         console.warn(err);
-//         done++;
-//         setProgress((done / total) * 100);
-//       })
-//     );
+    const wrapped = tasks.map(p =>
+      p.then(() => {
+        done++;
+        setProgress((done / total) * 100);
+      }).catch(err => {
+        console.warn(err);
+        done++;
+        setProgress((done / total) * 100);
+      })
+    );
 
-//     const TIMEOUT_MS = 15000;
-//     const timeout = new Promise(r => setTimeout(r, TIMEOUT_MS));
+    const TIMEOUT_MS = 15000;
+    const timeout = new Promise(r => setTimeout(r, TIMEOUT_MS));
 
-//     await Promise.race([Promise.allSettled(wrapped), timeout]);
+    await Promise.race([Promise.allSettled(wrapped), timeout]);
 
-//     setProgress(100);
-//     await new Promise(r => setTimeout(r, 350));
+    setProgress(100);
+    await new Promise(r => setTimeout(r, 350));
 
-//     loader.classList.add("ready");
+    loader.classList.add("ready");
 
-//     // Click anywhere to enter (THIS is the user gesture we use to start music)
-//     const enter = async () => {
-//       // Start music FIRST (still within the user gesture)
-//       await startBackgroundMusicFromUserGesture();
+    // Click anywhere to enter (THIS is the user gesture we use to start music)
+    const enter = async () => {
+      // Start music FIRST (still within the user gesture)
+      await startBackgroundMusicFromUserGesture();
 
-//       // Preload blackhole video (so it's ready when we scroll to About)
-//       const bh = document.getElementById("bhVideo");
-//       if (bh) {
-//         try {
-//           bh.muted = true;
-//           bh.playsInline = true;
+      // Preload blackhole video (so it's ready when we scroll to About)
+      const bh = document.getElementById("bhVideo");
+      if (bh) {
+        try {
+          bh.muted = true;
+          bh.playsInline = true;
 
-//           await bh.play();   // force decode + GPU upload
-//           bh.pause();
-//           bh.currentTime = 0;
-//         } catch (e) {
-//           // Safari / power-save may block — safe to ignore
-//         }
-//       }
+          await bh.play();   // force decode + GPU upload
+          bh.pause();
+          bh.currentTime = 0;
+        } catch (e) {
+          // Safari / power-save may block — safe to ignore
+        }
+      }
 
-//       // Hide loader
-//       loader.classList.add("hide");
+      // Phase 1: start reveal (ring fades + bg fades + clouds start moving)
+      loader.classList.add("reveal");
 
-//       setTimeout(() => {
-//         loader.style.display = "none";
-//         document.documentElement.style.overflow = "";
-//         document.body.style.overflow = "";
-//       }, 520);
-//     };
+      // Phase 2: let clouds keep moving while page is already visible
+      setTimeout(() => {
+        loader.classList.add("cloud-out"); // clouds fade out later
+      }, 600);
 
-//     window.addEventListener("pointerdown", enter, { once: true });
-//   }
+      // Phase 3: remove loader after clouds are gone
+      setTimeout(() => {
+        loader.style.display = "none";
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }, 2400);
+    };
 
-//   startLoading();
-// })();
+    window.addEventListener("pointerdown", enter, { once: true });
+  }
+
+  startLoading();
+})();
 
 // =============================================================================
 // Icons flip animation
