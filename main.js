@@ -2,290 +2,290 @@
 // Background music
 // ============================================================================
 
-// (() => {
-//   const loader = document.getElementById("loader");
-//   const ringWrap = loader.querySelector(".ring-wrap");
-//   const pctEl = document.getElementById("pct");
+(() => {
+  const loader = document.getElementById("loader");
+  const ringWrap = loader.querySelector(".ring-wrap");
+  const pctEl = document.getElementById("pct");
 
-//   const bgMusic = document.getElementById("bgMusic");
-//   const musicIcon = document.getElementById("musicIcon");
+  const bgMusic = document.getElementById("bgMusic");
+  const musicIcon = document.getElementById("musicIcon");
 
-//   // 🎵 main tracks
-//   const mainTracks = [
-//     "./music/background-music-01.mp3",
-//     "./music/background-music-02.mp3",
-//   ];
+  // 🎵 main tracks
+  const mainTracks = [
+    "./music/background-music-01.mp3",
+    "./music/background-music-02.mp3",
+  ];
 
-//   // 🎵 last track
-//   const lastTrack = "./music/contact-background-music-02.mp3";
+  // 🎵 last track
+  const lastTrack = "./music/contact-background-music-02.mp3";
 
-//   let queue = [];
-//   let isPlaying = false;
+  let queue = [];
+  let isPlaying = false;
 
-//   function loadTrack(src) {
-//     if (!bgMusic) return;
-//     bgMusic.src = src;
-//     bgMusic.load();
-//   }
+  function loadTrack(src) {
+    if (!bgMusic) return;
+    bgMusic.src = src;
+    bgMusic.load();
+  }
 
-//   // Build one full cycle:
-//   // random (01 or 02) -> the other one -> contact track
-//   function buildCycleQueue() {
-//     const first = Math.random() < 0.5 ? 0 : 1; // 50/50
-//     const second = 1 - first;
+  // Build one full cycle:
+  // random (01 or 02) -> the other one -> contact track
+  function buildCycleQueue() {
+    const first = Math.random() < 0.5 ? 0 : 1; // 50/50
+    const second = 1 - first;
 
-//     queue = [
-//       mainTracks[first],
-//       mainTracks[second],
-//       lastTrack,
-//     ];
-//   }
+    queue = [
+      mainTracks[first],
+      mainTracks[second],
+      lastTrack,
+    ];
+  }
 
-//   // play next track when current ends
-//   if (bgMusic) {
-//     bgMusic.addEventListener("ended", async () => {
-//       if (queue.length === 0) buildCycleQueue();
+  // play next track when current ends
+  if (bgMusic) {
+    bgMusic.addEventListener("ended", async () => {
+      if (queue.length === 0) buildCycleQueue();
 
-//       const nextSrc = queue.shift();
-//       loadTrack(nextSrc);
+      const nextSrc = queue.shift();
+      loadTrack(nextSrc);
 
-//       try {
-//         await bgMusic.play();
-//         isPlaying = true;
-//         if (musicIcon) musicIcon.src = "./icons/Musical.svg";
-//       } catch (e) {
-//         console.warn("Playback failed:", e);
-//       }
-//     });
-//   }
+      try {
+        await bgMusic.play();
+        isPlaying = true;
+        if (musicIcon) musicIcon.src = "./icons/Musical.svg";
+      } catch (e) {
+        console.warn("Playback failed:", e);
+      }
+    });
+  }
 
-//   // Start music on user gesture (enter)
-//   async function startBackgroundMusicFromUserGesture() {
-//     if (!bgMusic) return;
+  // Start music on user gesture (enter)
+  async function startBackgroundMusicFromUserGesture() {
+    if (!bgMusic) return;
 
-//     try {
-//       bgMusic.volume = 0.7;
+    try {
+      bgMusic.volume = 0.7;
 
-//       // start a fresh cycle
-//       buildCycleQueue();
+      // start a fresh cycle
+      buildCycleQueue();
 
-//       // play first track from the queue
-//       const firstSrc = queue.shift();
-//       loadTrack(firstSrc);
+      // play first track from the queue
+      const firstSrc = queue.shift();
+      loadTrack(firstSrc);
 
-//       await bgMusic.play();
-//       isPlaying = true;
-//       if (musicIcon) musicIcon.src = "./icons/Musical.svg";
-//     } catch (e) {
-//       console.warn("Playback failed:", e);
-//       // If blocked, keep icon in "No Music" state
-//       isPlaying = false;
-//       if (musicIcon) musicIcon.src = "./icons/No Music.svg";
-//     }
-//   }
+      await bgMusic.play();
+      isPlaying = true;
+      if (musicIcon) musicIcon.src = "./icons/Musical.svg";
+    } catch (e) {
+      console.warn("Playback failed:", e);
+      // If blocked, keep icon in "No Music" state
+      isPlaying = false;
+      if (musicIcon) musicIcon.src = "./icons/No Music.svg";
+    }
+  }
 
-//   // toggle play / pause
-//   if (musicIcon && bgMusic) {
-//     musicIcon.addEventListener("click", async (e) => {
-//       // prevent this click from also triggering "enter" if loader is still up
-//       e.stopPropagation();
+  // toggle play / pause
+  if (musicIcon && bgMusic) {
+    musicIcon.addEventListener("click", async (e) => {
+      // prevent this click from also triggering "enter" if loader is still up
+      e.stopPropagation();
 
-//       if (isPlaying) {
-//         bgMusic.pause();
-//         musicIcon.src = "./icons/No Music.svg";
-//         isPlaying = false;
-//       } else {
-//         try {
-//           await bgMusic.play();
-//           musicIcon.src = "./icons/Musical.svg";
-//           isPlaying = true;
-//         } catch (err) {
-//           console.warn("Playback failed:", err);
-//         }
-//       }
-//     });
-//   }
+      if (isPlaying) {
+        bgMusic.pause();
+        musicIcon.src = "./icons/No Music.svg";
+        isPlaying = false;
+      } else {
+        try {
+          await bgMusic.play();
+          musicIcon.src = "./icons/Musical.svg";
+          isPlaying = true;
+        } catch (err) {
+          console.warn("Playback failed:", err);
+        }
+      }
+    });
+  }
 
-//   // ----------------------------
-//   // 1) DEFINE YOUR CRITICAL ASSETS
-//   // ----------------------------
-//   const ASSETS = [
-//     // Loader assets
-//     { type: "image", url: "./images/dim-loading-screen.png" },
-//     { type: "image", url: "./images/loading-screen.png" },
-//     { type: "image", url: "./images/start-loading-text.png" },
+  // ----------------------------
+  // 1) DEFINE YOUR CRITICAL ASSETS
+  // ----------------------------
+  const ASSETS = [
+    // Loader assets
+    { type: "image", url: "./images/dim-loading-screen.png" },
+    { type: "image", url: "./images/loading-screen.png" },
+    { type: "image", url: "./images/start-loading-text.png" },
 
-//     // Home / hero assets
-//     { type: "image", url: "./icons/moon-logo.png" },
-//     { type: "image", url: "./icons/moon-logo-color-state.png" },
-//     { type: "image", url: "./images/profile.png" },
-//     { type: "image", url: "./images/id-card-profile.png" },
-//     { type: "image", url: "./images/inner-ring.png" },
-//     { type: "image", url: "./images/outer-ring.png" },
-//     { type: "image", url: "./images/solar-ring.png" },
-//     { type: "image", url: "./images/upper-cloud-1.png" },
-//     { type: "image", url: "./images/upper-cloud-2.png" },
-//     { type: "image", url: "./images/upper-cloud-3.png" },
-//     { type: "image", url: "./images/upper-cloud-4.png" },
+    // Home / hero assets
+    { type: "image", url: "./icons/moon-logo.png" },
+    { type: "image", url: "./icons/moon-logo-color-state.png" },
+    { type: "image", url: "./images/profile.png" },
+    { type: "image", url: "./images/id-card-profile.png" },
+    { type: "image", url: "./images/inner-ring.png" },
+    { type: "image", url: "./images/outer-ring.png" },
+    { type: "image", url: "./images/solar-ring.png" },
+    { type: "image", url: "./images/upper-cloud-1.png" },
+    { type: "image", url: "./images/upper-cloud-2.png" },
+    { type: "image", url: "./images/upper-cloud-3.png" },
+    { type: "image", url: "./images/upper-cloud-4.png" },
 
-//     { type: "video", url: "./videos/home-loop.mp4" },
-//     { type: "video", url: "./videos/h1.mp4" },
-//     { type: "video", url: "./videos/button.mp4" },
-//     { type: "video", url: "./videos/blackhole.mp4" },
-//     { type: "video", url: "./videos/fancy-login-page-first-project.mp4" },
-//     { type: "video", url: "./videos/Laundry-weather-forcast-project.mp4" },
-//     { type: "video", url: "./videos/Julvry-project.mp4" },
-//   ];
+    { type: "video", url: "./videos/home-loop.mp4" },
+    { type: "video", url: "./videos/h1.mp4" },
+    { type: "video", url: "./videos/button.mp4" },
+    { type: "video", url: "./videos/blackhole.mp4" },
+    { type: "video", url: "./videos/fancy-login-page-first-project.mp4" },
+    { type: "video", url: "./videos/Laundry-weather-forcast-project.mp4" },
+    { type: "video", url: "./videos/Julvry-project.mp4" },
+  ];
 
-//   // ----------------------------
-//   // 2) FONT DEFINITIONS
-//   // ----------------------------
-//   const FONTS = [
-//     "400 1em Orbitron",
-//     "700 1em Orbitron",
-//     "400 1em Inter",
-//     "600 1em Inter"
-//   ];
+  // ----------------------------
+  // 2) FONT DEFINITIONS
+  // ----------------------------
+  const FONTS = [
+    "400 1em Orbitron",
+    "700 1em Orbitron",
+    "400 1em Inter",
+    "600 1em Inter"
+  ];
 
-//   // ----------------------------
-//   // 3) HELPERS: smooth progress UI
-//   // ----------------------------
-//   let displayed = 0;
-//   let target = 0;
-//   let rafId = null;
+  // ----------------------------
+  // 3) HELPERS: smooth progress UI
+  // ----------------------------
+  let displayed = 0;
+  let target = 0;
+  let rafId = null;
 
-//   function setProgress(p) {
-//     target = Math.max(0, Math.min(100, p));
-//     if (!rafId) animateProgress();
-//   }
+  function setProgress(p) {
+    target = Math.max(0, Math.min(100, p));
+    if (!rafId) animateProgress();
+  }
 
-//   function animateProgress() {
-//     displayed += (target - displayed) * 0.12;
-//     if (Math.abs(target - displayed) < 0.2) displayed = target;
+  function animateProgress() {
+    displayed += (target - displayed) * 0.12;
+    if (Math.abs(target - displayed) < 0.2) displayed = target;
 
-//     ringWrap.style.setProperty("--p", displayed.toFixed(2));
-//     pctEl.textContent = `${Math.round(displayed)}%`;
+    ringWrap.style.setProperty("--p", displayed.toFixed(2));
+    pctEl.textContent = `${Math.round(displayed)}%`;
 
-//     if (displayed !== target) rafId = requestAnimationFrame(animateProgress);
-//     else rafId = null;
-//   }
+    if (displayed !== target) rafId = requestAnimationFrame(animateProgress);
+    else rafId = null;
+  }
 
-//   // ----------------------------
-//   // 4) LOADERS
-//   // ----------------------------
-//   function loadImage(url) {
-//     return new Promise((resolve, reject) => {
-//       const img = new Image();
-//       img.onload = async () => {
-//         if (img.decode) {
-//           try { await img.decode(); } catch {}
-//         }
-//         resolve();
-//       };
-//       img.onerror = () => reject(new Error("Image failed: " + url));
-//       img.src = url;
-//     });
-//   }
+  // ----------------------------
+  // 4) LOADERS
+  // ----------------------------
+  function loadImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = async () => {
+        if (img.decode) {
+          try { await img.decode(); } catch {}
+        }
+        resolve();
+      };
+      img.onerror = () => reject(new Error("Image failed: " + url));
+      img.src = url;
+    });
+  }
 
-//   function loadVideo(url) {
-//     return new Promise((resolve, reject) => {
-//       const v = document.createElement("video");
-//       v.preload = "auto";
-//       v.muted = true;
-//       v.playsInline = true;
-//       v.oncanplaythrough = () => resolve();
-//       v.onerror = () => reject(new Error("Video failed: " + url));
-//       v.src = url;
-//       v.load();
-//     });
-//   }
+  function loadVideo(url) {
+    return new Promise((resolve, reject) => {
+      const v = document.createElement("video");
+      v.preload = "auto";
+      v.muted = true;
+      v.playsInline = true;
+      v.oncanplaythrough = () => resolve();
+      v.onerror = () => reject(new Error("Video failed: " + url));
+      v.src = url;
+      v.load();
+    });
+  }
 
-//   function loadFonts() {
-//     if (!document.fonts) return Promise.resolve();
-//     FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
-//     return document.fonts.ready;
-//   }
+  function loadFonts() {
+    if (!document.fonts) return Promise.resolve();
+    FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
+    return document.fonts.ready;
+  }
 
-//   // ----------------------------
-//   // 5) MAIN LOADING FLOW
-//   // ----------------------------
-//   async function startLoading() {
-//     document.documentElement.style.overflow = "hidden";
-//     document.body.style.overflow = "hidden";
+  // ----------------------------
+  // 5) MAIN LOADING FLOW
+  // ----------------------------
+  async function startLoading() {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
-//     const tasks = [loadFonts()];
-//     for (const a of ASSETS) {
-//       if (a.type === "image") tasks.push(loadImage(a.url));
-//       if (a.type === "video") tasks.push(loadVideo(a.url));
-//     }
+    const tasks = [loadFonts()];
+    for (const a of ASSETS) {
+      if (a.type === "image") tasks.push(loadImage(a.url));
+      if (a.type === "video") tasks.push(loadVideo(a.url));
+    }
 
-//     const total = tasks.length;
-//     let done = 0;
+    const total = tasks.length;
+    let done = 0;
 
-//     setProgress(0);
+    setProgress(0);
 
-//     const wrapped = tasks.map(p =>
-//       p.then(() => {
-//         done++;
-//         setProgress((done / total) * 100);
-//       }).catch(err => {
-//         console.warn(err);
-//         done++;
-//         setProgress((done / total) * 100);
-//       })
-//     );
+    const wrapped = tasks.map(p =>
+      p.then(() => {
+        done++;
+        setProgress((done / total) * 100);
+      }).catch(err => {
+        console.warn(err);
+        done++;
+        setProgress((done / total) * 100);
+      })
+    );
 
-//     const TIMEOUT_MS = 15000;
-//     const timeout = new Promise(r => setTimeout(r, TIMEOUT_MS));
+    const TIMEOUT_MS = 15000;
+    const timeout = new Promise(r => setTimeout(r, TIMEOUT_MS));
 
-//     await Promise.race([Promise.allSettled(wrapped), timeout]);
+    await Promise.race([Promise.allSettled(wrapped), timeout]);
 
-//     setProgress(100);
-//     await new Promise(r => setTimeout(r, 350));
+    setProgress(100);
+    await new Promise(r => setTimeout(r, 350));
 
-//     loader.classList.add("ready");
+    loader.classList.add("ready");
 
-//     // Click anywhere to enter (THIS is the user gesture we use to start music)
-//     const enter = async () => {
-//       // Start music FIRST (still within the user gesture)
-//       await startBackgroundMusicFromUserGesture();
+    // Click anywhere to enter (THIS is the user gesture we use to start music)
+    const enter = async () => {
+      // Start music FIRST (still within the user gesture)
+      await startBackgroundMusicFromUserGesture();
 
-//       // Preload blackhole video (so it's ready when we scroll to About)
-//       const bh = document.getElementById("bhVideo");
-//       if (bh) {
-//         try {
-//           bh.muted = true;
-//           bh.playsInline = true;
+      // Preload blackhole video (so it's ready when we scroll to About)
+      const bh = document.getElementById("bhVideo");
+      if (bh) {
+        try {
+          bh.muted = true;
+          bh.playsInline = true;
 
-//           await bh.play();   // force decode + GPU upload
-//           bh.pause();
-//           bh.currentTime = 0;
-//         } catch (e) {
-//           // Safari / power-save may block — safe to ignore
-//         }
-//       }
+          await bh.play();   // force decode + GPU upload
+          bh.pause();
+          bh.currentTime = 0;
+        } catch (e) {
+          // Safari / power-save may block — safe to ignore
+        }
+      }
 
-//       // Phase 1: start reveal (ring fades + bg fades + clouds start moving)
-//       loader.classList.add("reveal");
+      // Phase 1: start reveal (ring fades + bg fades + clouds start moving)
+      loader.classList.add("reveal");
 
-//       // Phase 2: let clouds keep moving while page is already visible
-//       setTimeout(() => {
-//         loader.classList.add("cloud-out"); // clouds fade out later
-//       }, 600);
+      // Phase 2: let clouds keep moving while page is already visible
+      setTimeout(() => {
+        loader.classList.add("cloud-out"); // clouds fade out later
+      }, 600);
 
-//       // Phase 3: remove loader after clouds are gone
-//       setTimeout(() => {
-//         loader.style.display = "none";
-//         document.documentElement.style.overflow = "";
-//         document.body.style.overflow = "";
-//       }, 2400);
-//     };
+      // Phase 3: remove loader after clouds are gone
+      setTimeout(() => {
+        loader.style.display = "none";
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }, 2400);
+    };
 
-//     window.addEventListener("pointerdown", enter, { once: true });
-//   }
+    window.addEventListener("pointerdown", enter, { once: true });
+  }
 
-//   startLoading();
-// })();
+  startLoading();
+})();
 
 // =============================================================================
 // Icons flip animation
@@ -616,53 +616,14 @@ logoColorState.addEventListener("mouseleave", () => {
 
   const links = Array.from(bottomNav.querySelectorAll("a"));
 
-  // -----------------------------
-  // 0) Find the REAL scrolling element
-  // -----------------------------
-  function getScrollElement() {
-    // common candidates in snap layouts
-    const candidates = [
-      document.querySelector("#snap-root"),
-      document.querySelector(".snap-container"),
-      document.querySelector(".snap-root"),
-      document.querySelector("main"),
-      document.scrollingElement, // usually <html> or <body>
-      document.documentElement,
-      document.body,
-    ].filter(Boolean);
-
-    // Pick the first one that is actually scrollable.
-    // (scrollHeight > clientHeight AND overflow allows scroll)
-    for (const el of candidates) {
-      if (!(el instanceof Element)) continue;
-      const cs = getComputedStyle(el);
-      const overflowY = cs.overflowY;
-      const scrollable =
-        (overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") &&
-        el.scrollHeight > el.clientHeight + 2;
-
-      if (scrollable) return el;
-    }
-
-    // Fallback: the browser scrolling element
-    return document.scrollingElement || document.documentElement;
-  }
-
-  const scrollEl = getScrollElement(); // the actual scroll container
-  const useRoot = scrollEl !== document.documentElement && scrollEl !== document.body && scrollEl !== document.scrollingElement
-    ? scrollEl
-    : null; // IntersectionObserver root: null = viewport
-
-  // -----------------------------
-  // Track ONLY sections you want to highlight
-  // -----------------------------
+  // Match your HTML ids
   const mapHrefToSectionId = {
     home: "home",
     about: "about",
     skills: "skills",
     projects: "projects",
-    // contact is overlay (not scroll-tracked)
     locked: "locked",
+    // contact is overlay-ish in your setup, we’ll still allow click highlight via router
   };
 
   // -----------------------------
@@ -690,12 +651,8 @@ logoColorState.addEventListener("mouseleave", () => {
     });
   }
 
-  // expose for Contact overlay
+  // expose for Contact overlay/router
   window.setBottomNavActive = setActiveLink;
-
-  function activateSection(sectionEl) {
-    sectionEl.classList.add("in-view");
-  }
 
   // -----------------------------
   // B) Build section targets
@@ -715,16 +672,41 @@ logoColorState.addEventListener("mouseleave", () => {
   if (!sections.length) return;
 
   // -----------------------------
-  // C) Fallback scanline method (always works)
+  // C) Determine the real scroll container
+  // Because your CSS sets: body { overflow-y:auto; height:100vh; }
+  // -----------------------------
+  function pickScrollEl() {
+    const body = document.body;
+    const html = document.documentElement;
+
+    const bodyScrollable =
+      getComputedStyle(body).overflowY !== "visible" &&
+      body.scrollHeight > body.clientHeight + 2;
+
+    if (bodyScrollable) return body;
+
+    // fallback to normal document scroll
+    return document.scrollingElement || html;
+  }
+
+  const scrollEl = pickScrollEl();
+
+  function getScrollTop() {
+    return (scrollEl && typeof scrollEl.scrollTop === "number")
+      ? scrollEl.scrollTop
+      : (document.scrollingElement || document.documentElement).scrollTop || 0;
+  }
+
+  // -----------------------------
+  // D) Active section detection (viewport scanline)
+  // Works fine even when body is the scroll container
   // -----------------------------
   function updateActiveByScanline() {
-    // freeze highlight if contact overlay open
     if (typeof window.isContactOpen === "function" && window.isContactOpen()) {
       setActiveLink("contact");
       return;
     }
 
-    // scanline relative to viewport
     const scanY = window.innerHeight * 0.35;
     let current = sections[0];
 
@@ -734,11 +716,11 @@ logoColorState.addEventListener("mouseleave", () => {
     }
 
     setActiveLink(current.navKey);
-    activateSection(current.el);
+    current.el.classList.add("in-view");
   }
 
   // -----------------------------
-  // D) Scroll settle watcher (fixes snap "finishes after last input")
+  // E) Scroll settle watcher
   // -----------------------------
   let rafId = 0;
   let lastTop = null;
@@ -750,10 +732,7 @@ logoColorState.addEventListener("mouseleave", () => {
     stillFrames = 0;
 
     const loop = () => {
-      const topNow =
-        useRoot && scrollEl instanceof Element
-          ? scrollEl.scrollTop
-          : (document.scrollingElement || document.documentElement).scrollTop;
+      const topNow = getScrollTop();
 
       if (lastTop === null) {
         lastTop = topNow;
@@ -761,15 +740,11 @@ logoColorState.addEventListener("mouseleave", () => {
         return;
       }
 
-      if (Math.abs(topNow - lastTop) < 0.5) {
-        stillFrames += 1;
-      } else {
-        stillFrames = 0;
-      }
+      if (Math.abs(topNow - lastTop) < 0.5) stillFrames += 1;
+      else stillFrames = 0;
 
       lastTop = topNow;
 
-      // after ~6 frames of no movement, snap has settled
       if (stillFrames >= 6) {
         updateActiveByScanline();
         return;
@@ -788,16 +763,19 @@ logoColorState.addEventListener("mouseleave", () => {
     kickSettleWatcher();
   }
 
-  // Listen on the real scroll element
+  // ✅ KEY FIX:
+  // Listen to the element that actually scrolls (body in your CSS)
   scrollEl.addEventListener("scroll", onUserScrollLikeEvent, { passive: true });
+
+  // Optional fallback (doesn’t hurt)
+  window.addEventListener("scroll", onUserScrollLikeEvent, { passive: true });
+
   window.addEventListener("resize", updateActiveByScanline);
 
   // Start hidden
   bottomNav.classList.add("is-hidden");
 
-  // -----------------------------
-  // E) Hover keep visible
-  // -----------------------------
+  // Hover keep visible
   bottomNav.addEventListener("mouseenter", () => {
     isHoveringNav = true;
     showNav();
@@ -820,9 +798,7 @@ logoColorState.addEventListener("mouseleave", () => {
     scheduleHide();
   });
 
-  // -----------------------------
-  // F) Click behavior (immediate highlight + respects contact overlay router)
-  // -----------------------------
+  // Click behavior
   links.forEach((a) => {
     a.addEventListener("click", (e) => {
       e.preventDefault();
@@ -833,51 +809,23 @@ logoColorState.addEventListener("mouseleave", () => {
       showNav();
       clearTimeout(hideTimer);
 
-      // Delegate to overlay router if present (handles fading contact)
+      // If your contact overlay router exists, let it handle #contact cleanly
       if (typeof window.contactOverlayNavigate === "function") {
         window.contactOverlayNavigate(href);
-        setActiveLink(href.replace("#", "")); // immediate
+        setActiveLink(href.replace("#", ""));
         if (!isHoveringNav) scheduleHide();
         return;
       }
 
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.querySelector(href)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
       setActiveLink(href.replace("#", ""));
       if (!isHoveringNav) scheduleHide();
     });
   });
-
-  // -----------------------------
-  // G) IntersectionObserver (fast + snap-friendly when root is correct)
-  // -----------------------------
-  const io = new IntersectionObserver(
-    (entries) => {
-      if (typeof window.isContactOpen === "function" && window.isContactOpen()) {
-        setActiveLink("contact");
-        return;
-      }
-
-      const visible = entries
-        .filter((en) => en.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-      if (!visible[0]) return;
-
-      const el = visible[0].target;
-      const match = sections.find((s) => s.el === el);
-      if (!match) return;
-
-      setActiveLink(match.navKey);
-      activateSection(match.el);
-    },
-    {
-      root: useRoot, // ✅ correct root (null = viewport)
-      threshold: [0.25, 0.5, 0.75],
-      rootMargin: "-10% 0px -55% 0px",
-    }
-  );
-
-  sections.forEach((s) => io.observe(s.el));
 
   // initial state
   updateActiveByScanline();
@@ -1195,23 +1143,174 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
 // Contact Section --- Transition
 // =============================================================================
 
-
 (() => {
   const contactSection = document.querySelector("#contact");
   const projectsSection = document.querySelector("#projects");
   const navbar = document.querySelector("#navbar");
-  const bottomNav = document.querySelector("#bottomNav");
 
   if (!contactSection || !projectsSection) return;
 
-  // MUST match your .contact transition duration (yours is 1s in CSS)
   const CONTACT_FADE_MS = 1000;
 
   let busy = false;
   let returnHash = "#home";
 
   // ------------------------------------------------------------
-  // Helpers
+  // Main music pause/resume
+  // ------------------------------------------------------------
+  let shouldResumeMainMusic = false;
+
+  function getMainMusicController() {
+    if (window.BG_MUSIC && window.BG_MUSIC.el) return window.BG_MUSIC;
+
+    const el = document.getElementById("bgMusic");
+    if (!el) return null;
+
+    return {
+      el,
+      get playing() {
+        return !el.paused && !el.ended;
+      },
+      get intendedOn() {
+        return true;
+      },
+      async play() {
+        try {
+          await el.play();
+        } catch (_) {}
+      },
+      pause() {
+        el.pause();
+      },
+    };
+  }
+
+  function pauseMainMusicForContact() {
+    const ctl = getMainMusicController();
+    if (!ctl?.el) return;
+
+    shouldResumeMainMusic = ctl.playing && ctl.intendedOn;
+    ctl.pause();
+  }
+
+  function resumeMainMusicAfterContact() {
+    const ctl = getMainMusicController();
+    if (!ctl?.el) return;
+
+    if (shouldResumeMainMusic && ctl.intendedOn) {
+      ctl.play?.().catch?.(() => {});
+    }
+    shouldResumeMainMusic = false;
+  }
+
+  // ============================================================
+  // Contact Music Playlist (1 -> 2 -> loop)
+  // ============================================================
+  const PLAYLIST = [
+    "./music/contact-background-music-01.mp3",
+    "./music/contact-background-music-02.mp3",
+  ];
+
+  const MUSIC = { volume: 0.7, fadeInMs: 900, fadeOutMs: 600 };
+
+  let audioUnlocked = false;
+  let isPlayingContactMusic = false;
+  let currentIndex = 0;
+  let currentAudio = null;
+
+  function unlockAudioOnce() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+
+    const a = new Audio(PLAYLIST[0]);
+    a.volume = 0;
+    a.play()
+      .then(() => {
+        a.pause();
+        a.currentTime = 0;
+      })
+      .catch(() => {});
+
+    window.removeEventListener("pointerdown", unlockAudioOnce);
+    window.removeEventListener("keydown", unlockAudioOnce);
+  }
+
+  window.addEventListener("pointerdown", unlockAudioOnce, { once: true });
+  window.addEventListener("keydown", unlockAudioOnce, { once: true });
+
+  function fadeVolume(audio, from, to, durationMs) {
+    const start = performance.now();
+    const delta = to - from;
+
+    audio.volume = from;
+
+    function step(now) {
+      const t = Math.min(1, (now - start) / durationMs);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      audio.volume = from + delta * eased;
+      if (t < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function cleanupCurrentAudio() {
+    if (!currentAudio) return;
+    currentAudio.onended = null;
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
+  function playNextTrack() {
+    if (!isPlayingContactMusic) return;
+    if (!audioUnlocked) return;
+
+    cleanupCurrentAudio();
+
+    const src = PLAYLIST[currentIndex];
+    const a = new Audio(src);
+    a.preload = "auto";
+    a.volume = 0;
+
+    a.onended = () => {
+      if (!isPlayingContactMusic) return;
+      currentIndex = (currentIndex + 1) % PLAYLIST.length;
+      playNextTrack();
+    };
+
+    a.play().catch(() => {});
+    fadeVolume(a, 0, MUSIC.volume, MUSIC.fadeInMs);
+
+    currentAudio = a;
+  }
+
+  function playContactMusic() {
+    if (!audioUnlocked) return;
+    if (isPlayingContactMusic) return;
+
+    isPlayingContactMusic = true;
+    currentIndex = 0;
+    playNextTrack();
+  }
+
+  function stopContactMusic() {
+    isPlayingContactMusic = false;
+
+    if (!currentAudio) return;
+
+    const a = currentAudio;
+    const v = a.volume;
+
+    fadeVolume(a, v, 0, MUSIC.fadeOutMs);
+
+    setTimeout(() => {
+      if (currentAudio === a) cleanupCurrentAudio();
+    }, MUSIC.fadeOutMs + 30);
+  }
+
+  // ------------------------------------------------------------
+  // Helpers / API
   // ------------------------------------------------------------
   function isContactOpen() {
     return contactSection.classList.contains("is-open");
@@ -1225,93 +1324,106 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     } catch (_) {}
   }
 
-  // Are we at (or past) the bottom edge of Projects in the viewport?
-  // i.e. the bottom of #projects is at/above the bottom of the screen.
   function projectsAtViewportBottom(thresholdPx = 6) {
     const r = projectsSection.getBoundingClientRect();
-    // when bottom is <= viewport bottom (+threshold), you're at the end
     return r.bottom <= window.innerHeight + thresholdPx;
   }
 
-  // Optional: ensure Projects is actually the "current" section-ish,
-  // so we don’t trigger while user is far above Projects.
   function projectsIsOnScreen(minVisiblePx = 80) {
     const r = projectsSection.getBoundingClientRect();
-    const visible =
-      Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top);
+    const visible = Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top);
     return visible >= minVisiblePx;
   }
 
   // ------------------------------------------------------------
-  // Open / Close
+  // Close primitives
+  // ------------------------------------------------------------
+  function beginCloseContact() {
+    contactSection.classList.remove("is-open");
+    stopContactMusic();
+    resumeMainMusicAfterContact();
+  }
+
+  function closeContactToReturn() {
+    if (busy || !isContactOpen()) return;
+
+    busy = true;
+    beginCloseContact();
+
+    setTimeout(() => {
+      history.pushState(null, "", returnHash);
+      setBottomActiveSafe(returnHash.replace("#", ""));
+      document.querySelector(returnHash)?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+      busy = false;
+    }, CONTACT_FADE_MS);
+  }
+
+  function closeContactAndNavigate(href) {
+    if (busy || !isContactOpen()) return;
+
+    busy = true;
+    beginCloseContact();
+
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      history.pushState(null, "", href);
+      setBottomActiveSafe(href.replace("#", ""));
+      busy = false;
+    }, CONTACT_FADE_MS);
+  }
+
+  // ------------------------------------------------------------
+  // Open
   // ------------------------------------------------------------
   function openContact(nextReturn = "#home") {
     if (busy || isContactOpen()) return;
 
     returnHash = nextReturn;
-
     busy = true;
+
+    pauseMainMusicForContact();
+
     contactSection.classList.add("is-open");
+    playContactMusic();
+
     history.pushState(null, "", "#contact");
     setBottomActiveSafe("contact");
 
     setTimeout(() => (busy = false), CONTACT_FADE_MS);
   }
 
-  function closeContact() {
-    if (busy || !isContactOpen()) return;
-
-    busy = true;
-    contactSection.classList.remove("is-open");
-
-    setTimeout(() => {
-      history.pushState(null, "", returnHash);
-      setBottomActiveSafe(returnHash.replace("#", ""));
-      document
-        .querySelector(returnHash)
-        ?.scrollIntoView({ behavior: "auto", block: "start" });
-      busy = false;
-    }, CONTACT_FADE_MS);
-  }
-
   // ------------------------------------------------------------
-  // Global navigation handler: fade out contact then navigate
+  // Global router (nav + bottom nav uses this)
   // ------------------------------------------------------------
   window.contactOverlayNavigate = (href) => {
     if (!href || !href.startsWith("#")) return;
 
-    // Contact link opens overlay (not DOM scroll)
     if (href === "#contact") {
       openContact("#home");
       return;
     }
 
-    // If overlay not open -> normal navigation
     if (!isContactOpen()) {
-      document
-        .querySelector(href)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.querySelector(href)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       history.pushState(null, "", href);
       setBottomActiveSafe(href.replace("#", ""));
       return;
     }
 
-    // Overlay open -> fade out then navigate
     if (busy) return;
-
-    busy = true;
-    contactSection.classList.remove("is-open");
-
-    setTimeout(() => {
-      document
-        .querySelector(href)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-      history.pushState(null, "", href);
-      setBottomActiveSafe(href.replace("#", ""));
-      busy = false;
-    }, CONTACT_FADE_MS);
+    closeContactAndNavigate(href);
   };
 
+  // OPTIONAL: wire top nav only (bottom nav is handled by BottomNav block)
   function wireNav(container) {
     if (!container) return;
     container.querySelectorAll('a[href^="#"]').forEach((a) => {
@@ -1321,11 +1433,9 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
       });
     });
   }
-
   wireNav(navbar);
-  wireNav(bottomNav);
 
-  // CTA button (if outside navs)
+  // CTA button
   const cta = document.querySelector("#ctaContact");
   if (cta) {
     cta.addEventListener("click", (e) => {
@@ -1335,44 +1445,29 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   }
 
   // ------------------------------------------------------------
-  // PROJECTS -> CONTACT
-  // Only when user is at the bottom edge of Projects and keeps scrolling DOWN
-  // Desktop: wheel down
-  // Mobile: swipe up (scroll down)
+  // PROJECTS -> CONTACT (push down at bottom of Projects)
   // ------------------------------------------------------------
-
-  // how much extra scroll (pixels-ish) needed before opening
-  const OPEN_PRESSURE = 220; // tweak: 120–350
+  const OPEN_PRESSURE = 220;
   let pressure = 0;
 
   function resetPressure() {
     pressure = 0;
   }
 
-  // Desktop wheel
   window.addEventListener(
     "wheel",
     (e) => {
       if (busy || isContactOpen()) return;
-
-      // only scrolling DOWN adds pressure
       if (e.deltaY <= 0) {
         resetPressure();
         return;
       }
 
-      if (!projectsIsOnScreen()) {
+      if (!projectsIsOnScreen() || !projectsAtViewportBottom()) {
         resetPressure();
         return;
       }
 
-      // only when at bottom edge do we start accumulating
-      if (!projectsAtViewportBottom()) {
-        resetPressure();
-        return;
-      }
-
-      // we are at the bottom edge and user keeps pushing down
       e.preventDefault();
       pressure += e.deltaY;
 
@@ -1384,7 +1479,6 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     { passive: false }
   );
 
-  // Mobile swipe (touch)
   let projTouchStartY = 0;
 
   window.addEventListener(
@@ -1401,22 +1495,14 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
       if (busy || isContactOpen()) return;
 
       const y = e.touches[0].clientY;
-      const delta = projTouchStartY - y; // swipe UP => positive (scroll down)
-
-      // ignore tiny moves
+      const delta = projTouchStartY - y;
       if (delta <= 8) return;
 
-      if (!projectsIsOnScreen()) {
+      if (!projectsIsOnScreen() || !projectsAtViewportBottom()) {
         resetPressure();
         return;
       }
 
-      if (!projectsAtViewportBottom()) {
-        resetPressure();
-        return;
-      }
-
-      // at bottom edge: accumulate "pressure"
       e.preventDefault();
       pressure += delta;
 
@@ -1425,39 +1511,54 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
         openContact("#projects");
       }
 
-      // update start point so long swipe accumulates smoothly
       projTouchStartY = y;
     },
     { passive: false }
   );
+
   // ------------------------------------------------------------
-  // CONTACT -> RETURN
-  // Close when user scrolls UP
-  // Desktop: wheel up
-  // Mobile: swipe down (scroll up)
+  // CONTACT -> CLOSE (scroll up / swipe down / ESC)
+  //   ✅ UPDATED: add thresholds so tiny scrolls don’t close instantly
   // ------------------------------------------------------------
 
-  // Desktop close
+  // Desktop wheel close threshold
+  const CLOSE_WHEEL_THRESHOLD = 350; // tweak: 250–600
+  let closeWheelPressure = 0;
+
   window.addEventListener(
     "wheel",
     (e) => {
       if (!isContactOpen() || busy) return;
-      if (e.deltaY >= 0) return; // only UP
+
+      // only count scroll UP
+      if (e.deltaY >= 0) {
+        closeWheelPressure = 0; // reset if user scrolls down
+        return;
+      }
 
       e.preventDefault();
-      closeContact();
+
+      closeWheelPressure += Math.abs(e.deltaY);
+
+      if (closeWheelPressure >= CLOSE_WHEEL_THRESHOLD) {
+        closeWheelPressure = 0;
+        closeContactToReturn();
+      }
     },
     { passive: false }
   );
 
-  // Mobile close
+  // Mobile swipe-down close threshold
+  const CLOSE_SWIPE_THRESHOLD = 120; // tweak: 80–160
   let contactTouchStartY = 0;
+  let contactSwipeDistance = 0;
 
   window.addEventListener(
     "touchstart",
     (e) => {
       if (!isContactOpen()) return;
       contactTouchStartY = e.touches[0].clientY;
+      contactSwipeDistance = 0;
     },
     { passive: true }
   );
@@ -1468,19 +1569,109 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
       if (!isContactOpen() || busy) return;
 
       const y = e.touches[0].clientY;
-      const delta = contactTouchStartY - y; // swipe DOWN => negative (scroll up)
-      if (delta >= -18) return;
+
+      // swipe DOWN => positive distance
+      const dist = y - contactTouchStartY;
+
+      if (dist <= 0) {
+        // user swiped up; ignore for close
+        contactSwipeDistance = 0;
+        return;
+      }
 
       e.preventDefault();
-      closeContact();
+
+      contactSwipeDistance = Math.max(contactSwipeDistance, dist);
+
+      if (contactSwipeDistance >= CLOSE_SWIPE_THRESHOLD) {
+        contactSwipeDistance = 0;
+        closeContactToReturn();
+      }
     },
     { passive: false }
   );
 
-  // ESC close
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && isContactOpen() && !busy) {
-      closeContact();
+      closeContactToReturn();
     }
+  });
+})();
+
+// =============================================================================
+// Contact Section --- Mouse Follow
+// =============================================================================
+
+(() => {
+  const contact = document.querySelector("#contact");
+  const video = contact?.querySelector(".contact-background");
+  if (!contact || !video) return;
+
+  // ----- Controls (tweak these) -----
+  const config = {
+    scale: 1.1,        // how zoomed in the video is
+    maxMove: 30,        // px travel from center (bigger = more pan)
+    follow: 0.1,       // 0..1 (higher = follows faster / snappier)
+    returnFollow: 0.08  // speed returning to center when mouse leaves
+  };
+
+  // Respect reduced motion
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  if (reduceMotion) return;
+
+  let targetX = 0, targetY = 0;  // where we want to go
+  let currentX = 0, currentY = 0; // where we are now
+  let rafId = null;
+  let isHovering = false;
+
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  function animate() {
+    const t = isHovering ? config.follow : config.returnFollow;
+
+    currentX = lerp(currentX, targetX, t);
+    currentY = lerp(currentY, targetY, t);
+
+    video.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(${config.scale})`;
+
+    // stop the loop when basically at rest (saves CPU)
+    const still =
+      Math.abs(currentX - targetX) < 0.05 &&
+      Math.abs(currentY - targetY) < 0.05;
+
+    if (!isHovering && still) {
+      rafId = null;
+      return;
+    }
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function startLoop() {
+    if (rafId == null) rafId = requestAnimationFrame(animate);
+  }
+
+  contact.addEventListener("mousemove", (e) => {
+    // only run when panel is open (optional but smart)
+    if (!contact.classList.contains("is-open")) return;
+
+    isHovering = true;
+
+    const rect = contact.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;   // -1..1
+    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;  // -1..1
+
+    // invert so moving mouse left pans video left (feels natural)
+    targetX = clamp(nx, -1, 1) * config.maxMove;
+    targetY = clamp(ny, -1, 1) * config.maxMove;
+
+    startLoop();
+  });
+
+  contact.addEventListener("mouseleave", () => {
+    isHovering = false;
+    targetX = 0;
+    targetY = 0;
+    startLoop();
   });
 })();

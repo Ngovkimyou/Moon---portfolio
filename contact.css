@@ -4,21 +4,86 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 1s ease, visibility 1s ease;
+    will-change: opacity;
+    transition: all 1s ease;
     z-index: 10;
 }
 
 .contact.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
-.contact-background {
+.contact.is-open .contact-background {
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    will-change: transform;
+    transform: scale(1.1);
+    animation: transform 2s ease;
+}
+
+@keyframes transform {
+    0% {
+        transform: scale(1.3);
+        object-position: -5rem 5rem;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.1);
+        object-position: center center;
+        opacity: 1;
+    }
+}
+
+.cloud-transition, .cloud-transition1 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+    z-index: 9999;
+}
+
+.contact.is-open .cloud-transition {
+    left: -120rem; bottom: -110rem;
+    animation: cloud-transition 2s ease;
+}
+
+@keyframes cloud-transition {
+    0% {
+        transform: translateX(0) translateY(0) scale(4);
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(250rem) translateY(-120rem) scale(4);
+    }
+}
+
+.contact.is-open .cloud-transition1 {
+    left: -50rem; bottom: -10rem;
+    animation: cloud-transition1 2.5s ease
+}
+
+@keyframes cloud-transition1 {
+    0% {
+        opacity: 0;
+        transform: rotateZ(90deg) scale(2);
+    }
+    1% { opacity: .5; }
+    100% {
+        opacity: 0.4;
+        transform: translateX(150rem) translateY(-50rem) rotateZ(90deg);
+    }
 }
 
 .contact .section-title {
