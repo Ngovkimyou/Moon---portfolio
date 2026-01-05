@@ -75,8 +75,8 @@ html[lang="ja"] [data-i18n="about.quote"] {
 body{
     overflow-y: auto;                  
     overflow-x: hidden;               
-    scroll-snap-type: y mandatory;     /* snap between sections */
     overscroll-behavior-y: contain;    /* less “bounce” chaining */
+    scroll-behavior: smooth;
     scrollbar-width: none;             /* Firefox hide scrollbar */
     -ms-overflow-style: none;          /* old Edge */
 
@@ -126,7 +126,7 @@ header .config {
 ============================================================================ 
 */
 
-.loader{
+/* .loader{
     position: fixed;
     inset: 0;
     display: grid;
@@ -226,20 +226,18 @@ header .config {
 .loader.ready,
 .loader.ready * {
     cursor: pointer;
-}
+} */
 
 /* ------------------------- Black Clouds ------------------------------ */
 
-/* sits over everything in loader */
-.reveal-clouds{
+/* .reveal-clouds{
     position: absolute;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 10000; /* above ring-wrap */
+    z-index: 10000; 
 }
 
-/* base cloud style */
 .reveal-clouds .cloud{
   position: absolute;
   top: 50%; left: 50%;
@@ -250,7 +248,6 @@ header .config {
   opacity: 0;
 }
 
-/* start both at the center line */
 .reveal-clouds .cloud--left{
   left: 10%;
 }
@@ -258,14 +255,11 @@ header .config {
 .reveal-clouds .cloud--right{
   left: 80%;
 }
-
-/* when reveal starts, clouds animate outward */
 .loader.reveal .reveal-clouds .cloud {
   opacity: 1;
   animation: cloudSplit 3s ease-in both;
 }
 
-/* left cloud goes left, right cloud goes right */
 .loader.reveal .cloud--left  { --dir: -1; }
 .loader.reveal .cloud--right { --dir: 1; }
 
@@ -281,40 +275,23 @@ header .config {
   }
 }
 
-/* optional: fade loader after clouds start moving */
 .loader.reveal .ring-wrap{
   opacity: 0;
   transition: opacity .5s ease;
 }
 
 .loader.reveal::before{
-  opacity: 0;               /* dark bg fades quick -> page starts revealing */
+  opacity: 0;              
   transition: opacity 4s ease;
 }
 
 .loader.cloud-out .reveal-clouds .cloud{
   opacity: 0;
-  transition: opacity 5s ease; /* long fade */
+  transition: opacity 5s ease; 
 }
-
+ */
+ 
 /* 
-============================================================================
-                             Snap Scrolling
-============================================================================ 
-*/
-.snap-container{
-    height: auto;       /* let main grow with content */
-    overflow: visible;  /* no internal scroll */
-}
-
-.snap-container::-webkit-scrollbar{
-    display: none;                 /* Chrome/Safari */
-}
-
-.snap-section{
-    scroll-snap-align: start;
-    scroll-snap-stop: always;      /*  more “committed” snapping */
-}
 
 /* 
 ============================================================================
@@ -1024,27 +1001,27 @@ nav ul li:hover:not(#lockedBtn)~.star {
 }
 
 nav ul li:nth-child(1):hover~.star {
-    left: 190px;
+    left: 200px;
     top: 145px; 
 }
 
 nav ul li:nth-child(2):hover~.star {
-    left: 190px;
+    left: 200px;
     top: 215px; 
 }
 
 nav ul li:nth-child(3):hover~.star {
-    left: 190px;
+    left: 200px;
     top: 285px; 
 }
 
 nav ul li:nth-child(4):hover~.star {
-    left: 190px;
+    left: 200px;
     top: 355px; 
 }
 
 nav ul li:nth-child(5):hover~.star{
-    left: 190px;
+    left: 200px;
     top: 425px; 
 } 
 
@@ -1077,13 +1054,10 @@ main {
     position: relative;
     width: 100%;
     display: flex;
+    gap: 10rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-main .section {
-  contain: layout paint;
 }
 
 main .home-section {
@@ -1119,6 +1093,7 @@ main .intro {
     pointer-events: none;
     user-select: none;
     mix-blend-mode: hard-light;
+    will-change: transform, opacity;
     animation: floating-fog 60s linear infinite;
     z-index: 998;
 }
@@ -1145,6 +1120,7 @@ main .intro {
     pointer-events: none;
     user-select: none;
     mix-blend-mode: saturation;
+    will-change: transform, opacity;
     animation: floating-fog-1 80s linear infinite;
     z-index: 998;
 }
@@ -1175,6 +1151,7 @@ main .intro {
     width: 40%;
     height: 60%;
     mix-blend-mode: screen; 
+    will-change: transform;
     animation: profile-float 10s ease infinite alternate;
 }
 

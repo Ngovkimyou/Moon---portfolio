@@ -1,0 +1,28 @@
+.contact {
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 1s ease, visibility 1s ease;
+    z-index: 10;
+}
+
+.contact.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.contact-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.contact .section-title {
+    margin-top: 5rem;
+    text-align: center;
+}
+
