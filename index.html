@@ -444,9 +444,30 @@
             <img class="cloud-transition1" src="./images/upper-cloud-4.png" alt="cloud-transition">
             <img class="cloud-transition" src="./images/upper-cloud-3.png" alt="transition-cloud">
             <video class="contact-background" src="./videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+            <div class="contact-backdrop"></div>
             <h2 class="section-title" data-shadow="">
                 <span class="section-text" data-i18n="contact.title">CONTACT</span>
             </h2>
+
+            <form action="https://api.web3forms.com/submit" method="POST">
+
+                <input type="hidden" name="access_key" value="75a47ed0-94cc-454e-bc3f-5f61d1e065fe">
+
+                <div class="input user-name">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required placeholder="Your name">
+                </div>
+                <div class="input email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="Your email">
+                </div>
+                <textarea name="message" placeholder="Your message..."></textarea>
+
+                <!-- Honeypot Spam Protection -->
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                <button type="submit">Submit</button>
+            </form>
          </section>
     </main>
 
