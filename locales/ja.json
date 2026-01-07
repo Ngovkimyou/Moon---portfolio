@@ -1,9 +1,10 @@
 {
+    "_commentA": "------------- Home Section -------------",
     "nav.home": "ホーム",
-    "nav.about": "概要",
+    "nav.about": "私について",
     "nav.skills": "スキル",
     "nav.projects": "プロジェクト",
-    "nav.contact": "連絡先",
+    "nav.contact": "お問い合わせ",
 
     "pdf.preview": "プレビュー",
     "pdf.download": "ダウンロード",
@@ -11,7 +12,7 @@
     "hero.greeting": "こんにちは、私は",
     "hero.name": "キンユー",
     "hero.role": "ウェブ開発者",
-    "hero.description": "最先端の技術を学び、創造性とテクノロジーを融合したデジタル体験を構築することに情熱を注いでいます。",
+    "hero.description": "最先端技術を学びながら、創造性とテクノロジーを融合したデジタル体験の構築に情熱を持っています。",
     "hero.cta": "お問い合わせ",
 
     "lang.english.native": "英語",
@@ -19,25 +20,29 @@
     "lang.japanese.native": "日本語",
     "lang.japanese.en": "Japanese",
 
+    "_commentB": "------------- About Section -------------",
     "about.title": "私について",
     "about.name": "名前",
+    "about.my-name": "ゴ・キンユー",
     "about.alias": "別名",
+    "about.alias.name": "どらやき",
     "about.age": "年齢",
+    "about.my-age": "21",
     "about.nationality": "国籍",
     "about.country": "カンボジア",
-    "about.language": "言語",
-    "about.spoken-languages": "英語、中国語、日本語、クメール語",
+    "about.language": "使用言語",
+    "about.spoken-languages": "英語・中国語・日本語・クメール語",
     "about.status": "ステータス",
     "about.student": "学生",
-    "about.email": "メール",
+    "about.email": "メールアドレス",
 
-    "about.interested": "興味分野:",
-    "about.interest.web": "Web開発",
-    "about.interest.ux": "UX/UIデザイン",
-    "about.interest.art": "アートデザイン",
-    "about.interest.game": "ゲーム開発",
+    "about.interested": "興味",
     "about.interest.animation": "アニメーション",
-    "about.interest.object": "オブジェクトのカスタマイズと制作",
+    "about.interest.ux": "UX/UIデザイン",
+    "about.interest.art": "グラフィックデザイン",
+    "about.interest.web": "Web開発",
+    "about.interest.game": "ゲーム開発",
+    "about.interest.object": "アセット制作・3Dモデリング",
 
     "about.hobbies": "趣味",
     "about.hobby.music": "音楽",
@@ -45,19 +50,31 @@
     "about.hobby.gaming": "ゲーム",
     "about.hobby.self": "自己成長",
 
-    "about.quote": "知識の頂点は完全ではない。それは宇宙の彼方に散らばり、探求する勇気のある者を待っている。",
+    "about.quote": "知識の頂点は完全ではない。宇宙に散らばり、探求する勇気ある者を待っている。",
 
+    "_commentC": "------------- Skills Section -------------",
     "skills.title": "スキル",
 
+    "_commentD": "------------- Projects Section -------------",
     "projects.title": "プロジェクト",
+
+    "projects.login.title": "ログインページデザイン",
+    "projects.login.desc": "Web開発の最初の実践として、シンプルなユーザー認証ページのデザインに取り組みました。学習の第一歩となったプロジェクトです。",
+
+    "projects.laundry.title": "WashWise",
+    "projects.laundry.desc": "APIを統合したPythonベースのプロジェクトです。実践的な開発を通して、実世界のワークフローを学びました。",
+
+    "projects.julvry.title": "Julvry",
+    "projects.julvry.desc": "チームで制作したジュエリーマーケティングサイトです。協力・コミュニケーション力に加え、時間管理や自己成長の重要性を学びました。",
+
     "projects.more": "さらにプロジェクトを見る",
 
-    "project.login.title": "ログインページデザイン",
-    "project.login.desc": "Web開発の最初の実践経験として、シンプルな認証デザインから始めました。これが私の第一歩となりました。",
-
-    "project.laundry.title": "洗濯天気予報",
-    "project.laundry.desc": "APIを統合したPythonプロジェクトです。実世界での応用を学ぶ良い経験になりました。",
-
-    "project.julvry.title": "Julvry サービスWebページ",
-    "project.julvry.desc": "チームで制作したジュエリーマーケティングサイト。コミュニケーション、時間管理、自己成長を学びました。"
+    "_commentE": "------------- Contact Section -------------",
+    "contact.title": "お問い合わせ",
+    "contact.label-name": "名前",
+    "contact.placeholder-name": "お名前",
+    "contact.label-email": "メール",
+    "contact.placeholder-email": "メールアドレス",
+    "contact.placeholder-message": "メッセージ...",
+    "contact.submit": "送信"
 }

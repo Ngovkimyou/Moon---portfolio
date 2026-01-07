@@ -1,4 +1,5 @@
 {
+    "_commentA": "------------- Home Section -------------",
     "nav.home": "Home",
     "nav.about": "About",
     "nav.skills": "Skills",
@@ -19,45 +20,61 @@
     "lang.japanese.native": "日本語",
     "lang.japanese.en": "Japanese",
 
+    "_commentB": "------------- About Section -------------",
     "about.title": "ABOUT",
     "about.name": "Name",
+    "about.my-name": "Ngov Kimyoo",
     "about.alias": "Alias",
+    "about.alias.name": "Dorayaki",
     "about.age": "Age",
+    "about.my-age": "21",
     "about.nationality": "Nationality",
-    "about.country": "Cambodia",
+    "about.country": "Cambodian",
     "about.language": "Language",
     "about.spoken-languages": "English, Chinese, Japanese, Khmer",
     "about.status": "Status",
     "about.student": "Student",
     "about.email": "Email",
 
-    "about.interested": "Interested in:",
-    "about.interest.web": "Web Development",
-    "about.interest.ux": "UX/UI Design",
-    "about.interest.art": "Art Design",
-    "about.interest.game": "Game Development",
+    "about.interested": "Interested in",
     "about.interest.animation": "Animation",
-    "about.interest.object": "Object Customization and Creation",
+    "about.interest.ux": "UX/UI Design",
+    "about.interest.art": "Graphic Design",
+    "about.interest.web": "Web Development",
+    "about.interest.game": "Game Development",
+    "about.interest.object": "Asset Creation and 3D Modeling",
 
     "about.hobbies": "Hobbies",
     "about.hobby.music": "Music",
-    "about.hobby.travel": "Traveling",
+    "about.hobby.travel": "Travel",
     "about.hobby.gaming": "Gaming",
-    "about.hobby.self": "Self-improvement",
+    "about.hobby.self": "Personal Growth",
 
     "about.quote": "The pinnacle of knowledge is not whole—it is shattered throughout the cosmos, waiting to be claimed by those who dare to explore.",
 
+    "_commentC": "------------- Skills Section -------------",
     "skills.title": "SKILLS",
 
+    "_commentD": "------------- Projects Section -------------",
     "projects.title": "PROJECTS",
-    "projects.more": "Checkout For More Projects",
 
-    "project.login.title": "Fancy Login Page",
-    "project.login.desc": "My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.",
+    "projects.login.title": "Fancy Login Page",
+    "projects.login.desc": "My first hands-on experience in web development began with designing a simple user authentication page, making the first stepping stone in my learning journey.",
 
-    "project.laundry.title": "Laundry-weather-forcast",
-    "project.laundry.desc": "A python related project with integrated API. A miles deep-learning into technological environment. It was fun and helped me understand real-world application.",
+    "projects.laundry.title": "WashWise",
+    "projects.laundry.desc": "A Python-based project integrating APIs within a modern technological environment. This project provided hands-on experience with real-world applications and strengthened my knowledge over practical workflows.",
 
-    "project.julvry.title": "Julvry Service Webpage",
-    "project.julvry.desc": "The first project working in a team to build a jewelry marketing website. I learned teamwork, communication, time management, and self-improvement."
+    "projects.julvry.title": "Julvry",
+    "projects.julvry.desc": "This project was my first experience working in a team to develop a jewelry marketing website. It enhanced my collaboration and communication skills while improving my time management and commitment to self-improvement.",
+
+    "projects.more": "View More Projects",
+
+    "_commentE": "------------- Contact Section -------------",
+    "contact.title": "CONTACT",
+    "contact.label-name": "Name",
+    "contact.placeholder-name": "Your name",
+    "contact.label-email": "Email",
+    "contact.placeholder-email": "Your email",
+    "contact.placeholder-message": "Your message...",
+    "contact.submit": "Submit"
 }

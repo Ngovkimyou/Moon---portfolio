@@ -72,6 +72,15 @@ html[lang="ja"] [data-i18n="about.quote"] {
     letter-spacing: -6px;
 }
 
+html[lang="ja"] [data-i18n="contact.label-name"], html[lang="ja"] [data-i18n="contact.label-email"] {
+    font-size: 22px;
+} 
+
+html[lang="ja"] [data-i18n="contact.submit"] {
+    font-size: 22px;
+    padding: .2rem 1rem;
+}
+
 body{
     overflow-y: auto;                  
     overflow-x: hidden;               
@@ -619,12 +628,12 @@ body .logo {
 
 .logo-color-state {
     position: relative;
-    z-index: 9998;
+    z-index: 9990;
 }
 
 .logo-white-state {
     position: relative;
-    z-index: 9999;
+    z-index: 9991;
 }
 
 .logo-white-state.active {

@@ -1,5 +1,6 @@
 .contact {
     position: fixed;
+    min-height: 100svh;
     inset: 0;
     opacity: 0;
     visibility: hidden;
@@ -266,18 +267,20 @@ textarea:focus {
     mix-blend-mode: luminosity;
     will-change: transform, opacity;
     pointer-events: none;
+    opacity: 0;
     z-index: 2;
 }
 
 .contact.is-open .mail-decorator {
     animation: mail-decorator-enter 10s ease infinite;
+    animation-delay: 3s;
 }
 
 @keyframes mail-decorator-enter {
     0%, 100%{
-        opacity: .5;
+        opacity: 0;
     }
-    50% {
+    10%, 50% {
         opacity: 1;
     }
 }

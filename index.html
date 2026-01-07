@@ -20,22 +20,7 @@
 </head>
 
 <body>
-    <!-- Moon logo & navigation -->
-    <video class="background" src="./videos/home-loop.mp4" type="video/mp4" autoplay muted loop playsinline></video>
-    <img class="logo logo-white-state" src="/icons/moon-logo.png" alt="logo">
-    <img class="logo logo-color-state" src="/icons/moon-logo-color-state.png" alt="logo">
-
-    <!-- Fixed bottom-navigation -->
-    <div id="bottomNav" class="bottom-nav">
-        <a href="#home" data-emoji="🌕"><img src="./images/moon-phases/first-phase.png" alt="first-phase"></a>
-        <a href="#about" data-emoji="🌔"><img src="./images/moon-phases/second-phase.png" alt="second-phase"></a>
-        <a href="#skills" data-emoji="🌓"><img src="./images/moon-phases/third-phase.png" alt="third-phase"></a>
-        <a href="#projects" data-emoji="🌗"><img src="./images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
-        <a href="#contact" data-emoji="🌒"><img src="./images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
-        <a href="#locked" data-emoji="🌑"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
-    </div>
-
-    <!-- --------------------- Loading Screen ---------------------- -->
+    <!-- --------------------- Loading Screen --------------------- -->
     <div id="loader" class="loader">
         <div class="ring-wrap">
             <img class="ring ring--dim" src="./images/dim-loading-screen.png" alt="dim-ring" />
@@ -57,7 +42,22 @@
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- --------------------- Moon Logo --------------------- -->
+    <video class="background" src="./videos/home-loop.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+    <img class="logo logo-white-state" src="/icons/moon-logo.png" alt="logo">
+    <img class="logo logo-color-state" src="/icons/moon-logo-color-state.png" alt="logo">
+
+    <!-- --------------------- Fixed Bottom-Navigation --------------------- -->
+    <div id="bottomNav" class="bottom-nav">
+        <a href="#home" data-emoji="🌕"><img src="./images/moon-phases/first-phase.png" alt="first-phase"></a>
+        <a href="#about" data-emoji="🌔"><img src="./images/moon-phases/second-phase.png" alt="second-phase"></a>
+        <a href="#skills" data-emoji="🌓"><img src="./images/moon-phases/third-phase.png" alt="third-phase"></a>
+        <a href="#projects" data-emoji="🌗"><img src="./images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
+        <a href="#contact" data-emoji="🌒"><img src="./images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
+        <a href="#locked" data-emoji="🌑"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
+    </div>
+
+    <!-- --------------------- Side-Navigation --------------------- -->
     <nav id="navbar">
         <ul>
             <li>🌕<a href="#home" data-i18n="nav.home">Home</a></li>
@@ -76,9 +76,10 @@
 
             <!-- Header -->
             <header>
-                <!-- -------------------- OST ------------------- -->
+                <!-- --------------------- OST --------------------- -->
                 <audio id="bgMusic" src="./music/background-music-01.mp3"></audio>
 
+                <!-- --------------------- Config Icons --------------------- -->
                 <div class="config">
                     <img id="langIcon" class="icons" src="./icons/Google Earth.svg" alt="languages">
                     <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
@@ -86,7 +87,7 @@
                 </div>
             </header>
 
-            <!-- Languages Display -->
+            <!-- --------------------- Languages Display --------------------- -->
             <div class="lang-container" hidden>
                 <div class="lang-backdrop"></div>
 
@@ -98,7 +99,7 @@
                     <div class="lang en" data-lang="en">
                         <span data-i18n="lang.english.native">English</span>
                         <i data-i18n="lang.english.en">English</i>
-                    </div>
+                    </div>  
                     <div class="lang jp" data-lang="ja">
                         <span data-i18n="lang.japanese.native">日本語</span> 
                         <i data-i18n="lang.japanese.en">Japanese</i>
@@ -106,7 +107,7 @@
                 </div>
             </div>
 
-            <!-- PDF Display -->
+            <!-- --------------------- PDF Display --------------------- -->
             <div id="downloadPDF" class="pdf" hidden>
                 <div class="pdf-backdrop" data-close="true"></div>
 
@@ -115,6 +116,7 @@
                         <h1 data-i18n="pdf.preview">Preview</h1>
                         <img src="./images/start-loading-text.png" alt="title-decorator">
                     </div>
+
                     <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
 
                     <div class="pdf-container">
@@ -122,6 +124,7 @@
                             id="previewImg" class="pdf-img" title="Click to view fullscreen"
                             src="./images/resume.jpg" alt="resume"
                         />
+
                         <div class="download-container">
                             <button id="downloadPdfBtn" class="btn" type="button" data-i18n="pdf.download">Download</button>
                             <img class="download-decorator" src="./images/download-decorator.png" alt="download-decorator">
@@ -130,15 +133,18 @@
                 </div>
             </div>
 
+            <!-- --------------------- Introduction --------------------- -->
             <section class="intro">
                 <!-- Fog -->
                 <img class="fog" src="./images/fog.png" alt="fog">
                 <img class="fog1" src="./images/upper-cloud-2.png" alt="fog">
 
                 <div class="model"></div>
+
                 <a href="#about">
                     <img src="./images/profile.png" alt="profile">
                 </a>
+
                 <div class="info">
                     <h4>
                         <span data-i18n="hero.greeting">Hello, I'm</span>
@@ -153,6 +159,7 @@
                             Passionate in learning cutting-edge technology, building digital experiences that merge creativity with technology.
                         </p>
                     </div>
+
                     <button class="btn" id="ctaContact">
                         <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
                         <span data-i18n="hero.cta">Contact Me</span>
@@ -161,11 +168,13 @@
             </section>
         </section>
 
-        <!-- About Section -->
+        <!-- --------------------- About Section --------------------- -->
         <section id="about" class="about">
             <h2 class="section-title" data-shadow="">
                 <span class="section-text" data-i18n="about.title">ABOUT</span>
             </h2>
+            
+            <!-- --------------------- Upper & Middle Info --------------------- -->
             <div class="id-card">
                 <div class="card">
                     <div class="profile-wrapper">
@@ -175,12 +184,12 @@
                         <p class="info-grid">
                             <span class="field">
                                 <span class="label" data-i18n="about.name">Name</span>
-                                <span class="value">Ngov Kimyoo</span>
+                                <span class="value" data-i18n="about.my-name">Ngov Kimyoo</span>
                             </span>
 
                             <span class="field">
                                 <span class="label" data-i18n="about.alias">Alias</span>
-                                <span class="value">Dorayaki</span>
+                                <span class="value" data-i18n="about.alias.name">Dorayaki</span>
                             </span>
 
                             <span class="field">
@@ -196,7 +205,7 @@
                                 <p class="info-grid">
                                     <span class="field">
                                         <span class="label" data-i18n="about.nationality">Nationality</span>
-                                        <span class="value" data-i18n="about.country">Cambodia</span>
+                                        <span class="value" data-i18n="about.country">Cambodian</span>
                                     </span>
 
                                     <span class="field">
@@ -221,44 +230,47 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- --------------------- Lower Info --------------------- -->
                 <div class="lower-info">
-                    <span class="lower-info-title" data-i18n="about.interested">Interested in:</span>
+                    <span class="lower-info-title" data-i18n="about.interested">Interested in</span>
                     <ul>
-                        <li data-i18n="about.interest.web">Web Development</li>
-                        <li data-i18n="about.interest.ux">UX/UI Design</li>
-                        <li data-i18n="about.interest.art">Art Design</li>
-                        <li data-i18n="about.interest.game">Game Development</li>
                         <li data-i18n="about.interest.animation">Animation</li>
-                        <li data-i18n="about.interest.object">Object Customization and Creation</li>
+                        <li data-i18n="about.interest.ux">UX/UI Design</li>
+                        <li data-i18n="about.interest.art">Graphic Design</li>
+                        <li data-i18n="about.interest.web">Web Development</li>
+                        <li data-i18n="about.interest.game">Game Development</li>
+                        <li data-i18n="about.interest.object">Asset Creation and 3D Modeling</li>
                     </ul>
 
                     <span class="lower-info-title" data-i18n="about.hobbies">Hobbies</span>
 
                     <ul>
                         <li data-i18n="about.hobby.music">Music</li>
-                        <li data-i18n="about.hobby.travel">Traveling</li>
+                        <li data-i18n="about.hobby.travel">Travel</li>
                         <li data-i18n="about.hobby.gaming">Gaming</li>
-                        <li data-i18n="about.hobby.self">Self-improvement</li>
+                        <li data-i18n="about.hobby.self">Personal Growth</li>
                     </ul>
-
                 </div>
+
+                <!-- --------------------- Quote --------------------- -->
                 <blockquote data-i18n="about.quote">
                     The pinnacle of knowledge is not whole—it is shattered throughout the cosmos, waiting to be claimed by those who dare to explore.
                 </blockquote>
+
+                <!-- --------------------- Blackhole --------------------- -->
                 <video id="bhVideo" src="./videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload=auto></video>
             </div>
-            <!-- <div class="divider section-divider">
-                <img src="./images/section-moon-divider.png" alt="section-divider">
-            </div> -->
         </section>
 
-        <!-- Skills Section -->
+        <!-- --------------------- Skills Section --------------------- -->
         <section id="skills" class="skills">
             <h2 class="section-title" data-shadow="">
                 <span class="section-text" data-i18n="skills.title">SKILLS</span>
             </h2>
+
+            <!-- --------------------- Solars --------------------- -->
             <div class="solar-container">
                 <div class="inner-ring-container">
                     <img class="scale-up inner-ring" src="./images/inner-ring.png" alt="inner-ring" data-delay="0.1">
@@ -269,12 +281,17 @@
                 <div class="solar-ring-container">
                     <img class="scale-up solar-ring" src="./images/solar-ring.png" alt="solar-ring" data-delay="0.3">
                 </div>
+                
+                <!-- --------------------- Clouds --------------------- -->
                 <div class="cloud">
                     <img src="./images/upper-cloud-1.png" alt="upper-cloud-1">                    
                     <img src="./images/upper-cloud-2.png" alt="upper-cloud-2">
                     <img src="./images/upper-cloud-3.png" alt="upper-cloud-3">
                     <img src="./images/upper-cloud-4.png" alt="upper-cloud-4">
                 </div>
+
+                <!-- --------------------- Programming Logos --------------------- -->
+                <!-- -------- Inner Icons -------- -->
                 <div class="inner-icons">
                     <div id="html-anchor" class="anchor" style="--pos: 0deg;">
                         <div class="billboard">
@@ -325,6 +342,7 @@
                     </div>
                 </div>
 
+                <!-- -------- Outer Icons -------- -->
                 <div class="outer-icons">
                     <div class="outer-anchor" style="--pos: 0deg;">
                         <div class="billboard">
@@ -363,55 +381,61 @@
                     </div>
                 </div>
             </div>
+
+            <!-- --------------------- Section Divider --------------------- -->
             <div class="divider section-divider">
                 <img src="./images/section-moon-divider.png" alt="section-divider">
             </div>
         </section>
 
-        <!-- Projects Section -->
+        <!-- --------------------- Projects Section --------------------- -->
         <section id="projects" class="projects">
             <h2 class="section-title" data-shadow="">
                 <span class="section-text" data-i18n="projects.title">PROJECTS</span>
             </h2>
+
             <div class="project-demo">
+                <!-- --------------------- Demo 1 --------------------- -->
                 <figure class="demo-01">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
                         <video src="./videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
                     </div>
+
                     <figcaption>
                         <h3>
-                            <span data-i18n="project.login.title">Fancy Login Page</span>
+                            <span data-i18n="projects.login.title">Fancy Login Page</span>
                             <a href="https://ngovkimyou.github.io/Login---Fancy-design/" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="project.login.desc">My first hands-on experience with Web Development is starting with simple user authentication design. Hence, it has marked my first stepping stone.</p>
+                        <p data-i18n="projects.login.desc">My first hands-on experience in web development began with designing a simple user authentication page, making the first stepping stone in my learning journey.</p>
                     </figcaption>
                 </figure>
 
+                <!-- --------------------- Demo 2 --------------------- -->
                 <figure class="demo-02">
                     <figcaption>
                         <h3>
-                            <span data-i18n="project.laundry.title">Laundry-weather-forcast</span>
+                            <span data-i18n="projects.laundry.title">WashWise</span>
                             <a href="https://github.com/Ngovkimyou/Laundry-App" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="project.laundry.desc">A python related project with integrated API. A miles deep-learning into technological environment.
-                            It was a fun and partially learned how it applied in real-world project.
-                        </p>
+                        <p data-i18n="projects.laundry.desc">A Python-based project integrating APIs within a modern technological environment. This project provided hands-on experience with real-world applications and strengthened my knowledge over practical workflows.</p>
                     </figcaption>
+
                     <div class="video-wrapper">
                         <div class="video-background"></div>
                         <video src="./videos/Laundry-weather-forcast-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
                     </div>
                 </figure>
 
+                <!-- --------------------- Demo 3 --------------------- -->
                 <figure class="demo-03">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
@@ -420,38 +444,49 @@
 
                     <figcaption>
                         <h3>
-                            <span data-i18n="project.julvry.title">Julvry Service Webpage</span>
+                            <span data-i18n="projects.julvry.title">Julvry</span>
                             <a href="https://ngovkimyou.github.io/Web1-FinalProject---Julvry/" target="_blank">
                                 <span class="pulse">
                                     <img src="./icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="project.julvry.desc">The first project getting to work in a team to get a jewerly marketing website done. A soft-skill learned from this project is team-communication, an important aspect to achieve efficency, deliverable, time-management, and self-improvement.</p>
+                        <p data-i18n="projects.julvry.desc">This project was my first experience working in a team to develop a jewelry marketing website. It enhanced my collaboration and communication skills while improving my time management and commitment to self-improvement.</p>
                     </figcaption>
                 </figure>
             </div>
+
+            <!-- --------------------- More Projects --------------------- -->
             <div class="more-projects">
-                <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank" data-i18n="projects.more">Checkout For More Projects</a> 
+                <a href="https://github.com/Ngovkimyou?tab=repositories" target="_blank" data-i18n="projects.more">View More Projects</a> 
             </div>
+
+            <!-- --------------------- Section Divider --------------------- -->
             <div class="section-divider">
                 <img src="./images/section-moon-divider.png" alt="section-divider">
             </div>
         </section>
 
-        <!-- Contact -->
+        <!-- --------------------- Contact Sections --------------------- -->
          <section id="contact" class="contact">
+            <img class="cloud-transition" src="./images/upper-cloud-3.png" alt="cloud-transition">
             <img class="cloud-transition1" src="./images/upper-cloud-4.png" alt="cloud-transition">
-            <img class="cloud-transition" src="./images/upper-cloud-3.png" alt="transition-cloud">
-            <video class="contact-background" src="./videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+
             <div class="contact-backdrop"></div>
+
+            <video class="contact-background" src="./videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+
+            <!-- --------------------- Section Title --------------------- -->
             <h2 class="section-title" data-shadow="">
                 <span class="section-text" data-i18n="contact.title">CONTACT</span>
             </h2>
 
+            <!-- --------------------- Mail Design --------------------- -->
             <img class="top-layer-mail" src="./images/about/top-mail.png" alt="top-layer-mail">
             <img class="mail" src="./images/about/mail.png" alt="mail">
             <img class="mail-decorator" src="./images/about/mail-decorator.png" alt="mail-decorator">
+
+            <!-- --------------------- Wax Stamp --------------------- -->
             <div class="wax-stamp">
                 <div class="wax wax-1">
                     <img src="./images/about/moon-wax-stamp.png" alt="wax-stamp">
@@ -466,29 +501,33 @@
                     <a href="https://line.me/ti/p/3jnrVs2q5t" target="_blank"><img src="./images/about/line.png" alt="line-wax-stamp"></a>
                 </div>
             </div>
+
+            <!-- --------------------- Form --------------------- -->
             <form action="https://api.web3forms.com/submit" method="POST">
 
+                <!-- --------------------- Form Key --------------------- -->
                 <input type="hidden" name="access_key" value="75a47ed0-94cc-454e-bc3f-5f61d1e065fe">
 
                 <div class="input user-name">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required placeholder="Your name">
+                    <label for="name" data-i18n="contact.label-name">Name</label>
+                    <input type="text" id="name" required placeholder="Your name" data-i18n-placeholder="contact.placeholder-name">
                 </div>
                 <div class="input email">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="Your email">
+                    <label for="email" data-i18n="contact.label-email">Email</label>
+                    <input type="email" id="email" required placeholder="Your email" data-i18n-placeholder="contact.placeholder-email">
                 </div>
-                <textarea name="message" placeholder="Your message..."></textarea>
 
-                <!-- Honeypot Spam Protection -->
+                <textarea name="message" placeholder="Your message..." data-i18n-placeholder="contact.placeholder-message"></textarea>
+
+                <!-- --------------------- Honey Spams Protection --------------------- -->
                 <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
-                <button type="submit">Submit</button>
+                <button type="submit" data-i18n="contact.submit">Submit</button>
             </form>
          </section>
     </main>
 
-    <!-- jsPDF (CDN) -->
+    <!-- JSPDF (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
     <!-- Main JS -->
