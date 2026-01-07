@@ -263,8 +263,23 @@ textarea:focus {
     transform: translate(-50%, -50%) rotate(6deg);
     object-fit: contain;
     width: 6rem;
-    mix-blend-mode: saturation;
+    mix-blend-mode: luminosity;
+    will-change: transform, opacity;
+    pointer-events: none;
     z-index: 2;
+}
+
+.contact.is-open .mail-decorator {
+    animation: mail-decorator-enter 10s ease infinite;
+}
+
+@keyframes mail-decorator-enter {
+    0%, 100%{
+        opacity: .5;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 /* ----------------- Wax Stamp -------------------- */
