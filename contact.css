@@ -101,7 +101,7 @@
 /* ----------------- Input Field ----------------*/
 
 .contact.is-open form {
-    animation: open-mail 2s ease forwards;
+    animation: open-mail 1s ease forwards;
     animation-delay: 1.5s;
     opacity: 0;
 }
@@ -122,9 +122,9 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    width: 30rem;
+    width: 25rem;
     padding: 2rem;
-    gap: 1.5rem;
+    gap: 1rem;
     font-family: 'New Rocker', cursive, Tahoma, Geneva, Verdana, sans-serif;
     background: rgba(75, 46, 46, 0.24);
     border: 1px solid gray;
@@ -203,6 +203,7 @@ textarea:focus {
     width: 6rem;
     justify-self: center;
     padding: .5rem 1rem;
+    margin-bottom: 3rem;
     font-size: 20px;
     font-family: 'New Rocker', cursive, Tahoma, Geneva, Verdana, sans-serif;
     color: white;
@@ -216,4 +217,145 @@ textarea:focus {
 .contact button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px red;
+}
+
+/* ---------------------  Mail ----------------- */
+
+.mail {
+    position: absolute;
+    top: 76%; left: 50.3%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 32rem;
+    object-fit: contain;
+    pointer-events: none;
+    will-change: opacity;
+    opacity: 0;
+    z-index: 1;
+}
+
+.top-layer-mail {
+    position: absolute;
+    top: 58%; left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 28rem;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+    will-change: opacity;
+}
+
+.contact.is-open .mail, .contact.is-open .top-layer-mail {
+    animation: mail-enter 1.5s linear forwards;
+}
+
+@keyframes mail-enter {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.mail-decorator {
+    position: absolute;
+    top: 70%; left: 50%;
+    transform: translate(-50%, -50%) rotate(6deg);
+    object-fit: contain;
+    width: 6rem;
+    mix-blend-mode: saturation;
+    z-index: 2;
+}
+
+/* ----------------- Wax Stamp -------------------- */
+
+.wax-stamp {
+    position: absolute;
+    top: 85%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    z-index: 2;
+}
+
+.wax-stamp img {
+    width: 6rem;
+    object-fit: contain;
+}
+
+.wax a {
+    position: absolute;
+    top: .6rem;
+    transition: .3s linear;
+
+}
+
+.wax a:hover {
+    filter: invert();
+}
+
+.wax > img {
+    pointer-events: none;
+    opacity: 0;
+    will-change: opacity;
+}
+
+.contact.is-open .wax > img {
+    animation: mail-enter 1.5s linear forwards;
+}
+
+.wax a img {
+    width: 2.5rem;
+    object-fit: contain;
+    pointer-events: none;
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: scale(1);
+}
+
+.contact.is-open .wax-1 a img {
+    animation: stamp-contact-enter .5s ease forwards;
+    animation-delay: 1s;
+}
+
+.contact.is-open .wax-2 a img {
+    animation: stamp-contact-enter .5s ease forwards;
+    animation-delay: 1.5s;
+}
+
+.contact.is-open .wax-3 a img {
+    animation: stamp-contact-enter .5s ease forwards;
+    animation-delay: 2s;
+}
+
+@keyframes stamp-contact-enter {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.wax-1 a {
+    left: 1.65rem; 
+}
+
+.wax-1 a img {
+    background: white;
+    border-radius: 50%;
+}
+
+.wax-2 a {
+    left: 7.7rem;
+}
+
+.wax-3 a {
+    right: 1.35rem;
+    top: .15rem;
+}
+
+.wax-3 a img {
+    width: 3.4rem;
 }

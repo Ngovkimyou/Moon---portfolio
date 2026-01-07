@@ -170,16 +170,16 @@
 
 @keyframes cloud-orbit {
     0% {
-        transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
+        transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
     }
     25% { 
-        transform: translateX(-15rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
+        transform: translateX(-25rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
     }
     50% {
-        transform: translateX(-15rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);       
+        transform: translateX(-25rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);       
     }
     100% {
-        transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+        transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     }  
 }
 
