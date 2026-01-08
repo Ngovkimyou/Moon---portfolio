@@ -5,24 +5,26 @@
 */
 
 .skills {
+    width: 100%;
+    height: 100%;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    min-height: 100svh;
+    
     padding-top: 5rem;
 }
 
 .skills .solar-container {
     position: relative;
+    top: -7rem;
+    width: 55%;
+    height: 55%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 55%;
-    height: 55%;
-    top: -7rem;
+    
     perspective: 1200px;
     perspective-origin: center;
     mix-blend-mode: screen;
@@ -38,6 +40,7 @@
     position: absolute;
     width: 150%;
     height: 180%;
+
     transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
     animation: solar-orbit 100s linear infinite;
@@ -47,6 +50,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
+
     object-fit: cover;
     will-change: transform;
     transform: scale(1);
@@ -55,6 +59,7 @@
 .outer-ring-container {
     width: 100%;
     height: 100%;
+
     transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
     animation: outer-orbit 100s linear infinite;
@@ -63,8 +68,10 @@
 .solar-container .outer-ring {
     width: 100%;
     height: 100%;
+
     object-fit: contain;
     margin: auto;
+
     will-change: transform;
     transform: scale(1);
 }
@@ -73,6 +80,7 @@
     position: absolute;
     width: 50%;
     height: 50%;
+
     transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     will-change: transform;
     animation: inner-orbit 100s linear infinite;
@@ -83,6 +91,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
+
     object-fit: contain;
     border-radius: 50%;
     transform: scale(1);
@@ -105,48 +114,24 @@
 }
 
 @keyframes outer-orbit {
-    0% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    }
-    25% { 
-        transform: rotateX(60deg) rotateY(-20deg) rotateZ(90deg);
-    }
-    50% {
-        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);      
-    }
-    100% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
-    }
+    0% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
+    25% {  transform: rotateX(60deg) rotateY(-20deg) rotateZ(90deg); }
+    50% { transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
 }
 
 @keyframes inner-orbit {
-    0% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
-    }
-    25% { 
-        transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
-    }
-    50% {
-        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);           
-    }
-    100% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);      
-    }
+    0% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+    25% {  transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
+    50% { transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
 }
 
 @keyframes solar-orbit {
-    0% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
-    }
-    25% { 
-        transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
-    }
-    50% {
-        transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg);  
-    }
-    100% {
-        transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    }
+    0% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+    25% {  transform: rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
+    50% { transform: rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
 }
 
 /* 
@@ -156,32 +141,24 @@
 */
 
 .solar-container .cloud {
-    transform-style: preserve-3d;
     position: absolute;
+    left: 0;
     width: 150%;
     height: 180%;
-    left: 0rem;
+
     object-fit: cover;
     pointer-events: none;
-
+    transform-style: preserve-3d;
     will-change: transform;
     transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     animation: cloud-orbit 200s linear infinite;
 }
 
 @keyframes cloud-orbit {
-    0% {
-        transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg);
-    }
-    25% { 
-        transform: translateX(-25rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg);
-    }
-    50% {
-        transform: translateX(-25rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg);       
-    }
-    100% {
-        transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
-    }  
+    0% { transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+    25% {  transform: translateX(-25rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
+    50% { transform: translateX(-25rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }  
 }
 
 .cloud img.cloud-enter {
@@ -234,6 +211,7 @@
 .solar-container .inner-icons, .solar-container .outer-icons {
     position: absolute;
     inset: 0;
+
     transform-style: preserve-3d;
     will-change: transform;
     transform: rotateX(var(--tiltX)) rotateY(-20deg) rotateZ(var(--spin));
@@ -275,38 +253,21 @@
     transform: rotateZ(var(--pos)) translateX(100%);   
 }
 
-#html-anchor {
-    transform: rotateZ(var(--pos)) translateX(51%) translateY(6%); 
-}
+#html-anchor { transform: rotateZ(var(--pos)) translateX(51%) translateY(6%); }
 
-#css-anchor {
-    transform: rotateZ(var(--pos)) translateX(52.5%) translateY(3%); 
-}
+#css-anchor { transform: rotateZ(var(--pos)) translateX(52.5%) translateY(3%); }
 
-#js-anchor {
-    transform: rotateZ(var(--pos)) translateX(55%) translateY(-2%); 
-}
+#js-anchor { transform: rotateZ(var(--pos)) translateX(55%) translateY(-2%);  }
 
-#java-anchor {
-    transform: rotateZ(var(--pos)) translateX(52%) translateY(-3%);
-}
+#java-anchor { transform: rotateZ(var(--pos)) translateX(52%) translateY(-3%); }
 
-#python-anchor {
-    transform: rotateZ(var(--pos)) translateX(47.5%) translateY(-2%);
-}
+#python-anchor { transform: rotateZ(var(--pos)) translateX(47.5%) translateY(-2%); }
 
-#php-anchor {
-    transform: rotateZ(var(--pos)) translateX(50.5%) translateY(-2.5%);
-}
+#php-anchor { transform: rotateZ(var(--pos)) translateX(50.5%) translateY(-2.5%); }
 
-#tailwind-anchor {
-    transform: rotateZ(var(--pos)) translateX(47%) translateY(-1.5%);
-}
+#tailwind-anchor { transform: rotateZ(var(--pos)) translateX(47%) translateY(-1.5%); }
 
-#bootstrap-anchor {
-    transform: rotateZ(var(--pos)) translateX(49.5%) translateY(3.5%);
-}
-
+#bootstrap-anchor { transform: rotateZ(var(--pos)) translateX(49.5%) translateY(3.5%); }
 
 .inner-icons .billboard, .outer-icons .billboard {
     position: absolute;

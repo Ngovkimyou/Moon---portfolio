@@ -12,50 +12,50 @@
     <!-- JP Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="about.css">
-    <link rel="stylesheet" href="projects.css">
-    <link rel="stylesheet" href="skills.css">
-    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/skills.css">
+    <link rel="stylesheet" href="css/contact.css">
 </head>
 
 <body>
     <!-- --------------------- Loading Screen --------------------- -->
     <div id="loader" class="loader">
         <div class="ring-wrap">
-            <img class="ring ring--dim" src="./images/dim-loading-screen.png" alt="dim-ring" />
+            <img class="ring ring--dim" src="images/home-section/dim-loading-screen.png" alt="dim-ring" />
 
-            <img class="ring ring--full" src="./images/loading-screen.png" alt="full-ring" />
+            <img class="ring ring--full" src="images/home-section/loading-screen.png" alt="full-ring" />
 
             <div class="pct">
                 <span id="pct">0%</span>
             </div>
             <div class="loading-text">
-                <img src="./images/start-loading-text.png" alt="start-loading-text">
+                <img src="images/home-section/start-loading-text.png" alt="start-loading-text">
                 <span>Start</span>
             </div>
         </div>
 
         <div class="reveal-clouds" aria-hidden="true">
-            <img class="cloud cloud--left"  src="./images/black-cloud.png"  alt="black-cloud" />
-            <img class="cloud cloud--right" src="./images/black-cloud.png" alt="black-cloud" />
+            <img class="cloud cloud--left"  src="images/home-section/black-cloud.png"  alt="black-cloud" />
+            <img class="cloud cloud--right" src="images/home-section/black-cloud.png" alt="black-cloud" />
         </div>
     </div>
 
     <!-- --------------------- Moon Logo --------------------- -->
-    <video class="background" src="./videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline></video>
-    <img class="logo logo-white-state" src="/icons/moon-logo.png" alt="logo">
-    <img class="logo logo-color-state" src="/icons/moon-logo-color-state.png" alt="logo">
+    <video class="background" src="videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+    <img class="logo logo-white-state" src="icons/moon-logo.png" alt="logo">
+    <img class="logo logo-color-state" src="icons/moon-logo-color-state.png" alt="logo">
 
     <!-- --------------------- Fixed Bottom-Navigation --------------------- -->
     <div id="bottomNav" class="bottom-nav">
-        <a href="#home" data-emoji="🌕"><img src="./images/moon-phases/first-phase.png" alt="first-phase"></a>
-        <a href="#about" data-emoji="🌔"><img src="./images/moon-phases/second-phase.png" alt="second-phase"></a>
-        <a href="#skills" data-emoji="🌓"><img src="./images/moon-phases/third-phase.png" alt="third-phase"></a>
-        <a href="#projects" data-emoji="🌗"><img src="./images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
-        <a href="#contact" data-emoji="🌒"><img src="./images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
-        <a href="#locked" data-emoji="🌑"><img src="./images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
+        <a href="#home" data-emoji="🌕"><img src="images/moon-phases/first-phase.png" alt="first-phase"></a>
+        <a href="#about" data-emoji="🌔"><img src="images/moon-phases/second-phase.png" alt="second-phase"></a>
+        <a href="#skills" data-emoji="🌓"><img src="images/moon-phases/third-phase.png" alt="third-phase"></a>
+        <a href="#projects" data-emoji="🌗"><img src="images/moon-phases/fourth-phase.png" alt="fourth-phase"></a>
+        <a href="#contact" data-emoji="🌒"><img src="images/moon-phases/fifth-phase.png" alt="fifth-phase"></a>
+        <a href="#locked" data-emoji="🌑"><img src="images/moon-phases/sixth-phase.png" alt="sixth-phase"></a>
     </div>
 
     <!-- --------------------- Side-Navigation --------------------- -->
@@ -78,13 +78,13 @@
             <!-- Header -->
             <header>
                 <!-- --------------------- OST --------------------- -->
-                <audio id="bgMusic" src="./music/main-background-music-01.mp3"></audio>
+                <audio id="bgMusic" src="music/main-background-music-01.mp3"></audio>
 
                 <!-- --------------------- Config Icons --------------------- -->
                 <div class="config">
-                    <img id="langIcon" class="icons" src="./icons/Google Earth.svg" alt="languages">
-                    <img id="musicIcon" class="icons" src="./icons/Musical.svg" alt="music">
-                    <img id="downloadIcon" class="icons" src="./icons/Download from the Cloud.svg" alt="download">
+                    <img id="langIcon" class="icons" src="icons/Google Earth.svg" alt="languages">
+                    <img id="musicIcon" class="icons" src="icons/Musical.svg" alt="music">
+                    <img id="downloadIcon" class="icons" src="icons/Download from the Cloud.svg" alt="download">
                 </div>
             </header>
 
@@ -94,7 +94,7 @@
 
                 <div class="languages">
                     <div class="lang-top-logo">
-                        <img src="./images/small-moon-divider.png" alt="moon-divider">
+                        <img src="images/home-section/small-moon-divider.png" alt="moon-divider">
                     </div>
 
                     <div class="lang en" data-lang="en">
@@ -115,7 +115,7 @@
                 <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
                     <div class="pdf-title">
                         <h1 data-i18n="pdf.preview">Preview</h1>
-                        <img src="./images/start-loading-text.png" alt="title-decorator">
+                        <img src="images/home-section/start-loading-text.png" alt="title-decorator">
                     </div>
 
                     <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
@@ -123,12 +123,12 @@
                     <div class="pdf-container">
                         <img
                             id="previewImg" class="pdf-img" title="Click to view fullscreen"
-                            src="./images/resume.jpg" alt="resume"
+                            src="images/home-section/resume.jpg" alt="resume"
                         />
 
                         <div class="download-container">
                             <button id="downloadPdfBtn" class="btn" type="button" data-i18n="pdf.download">Download</button>
-                            <img class="download-decorator" src="./images/download-decorator.png" alt="download-decorator">
+                            <img class="download-decorator" src="images/home-section/download-decorator.png" alt="download-decorator">
                         </div>
                     </div>
                 </div>
@@ -137,13 +137,13 @@
             <!-- --------------------- Introduction --------------------- -->
             <section class="intro">
                 <!-- Fog -->
-                <img class="fog" src="./images/fog.png" alt="fog">
-                <img class="fog1" src="./images/upper-cloud-2.png" alt="fog">
+                <img class="fog" src="images/home-section/fog.png" alt="fog">
+                <img class="fog1" src="images/skills/upper-cloud-2.png" alt="fog">
 
                 <div class="model"></div>
 
                 <a href="#about">
-                    <img src="./images/profile.png" alt="profile">
+                    <img src="images/home-section/profile.png" alt="profile">
                 </a>
 
                 <div class="info">
@@ -152,7 +152,7 @@
                         <span class="name" data-i18n="hero.name">KIMYOO</span>
                     </h4>
                     <h1 class="video-h1" data-text="Web Developer" data-i18n-attr="data-text" data-i18n-key="hero.role">
-                        <video id="h1vid" src="./videos/h1.mp4" autoplay muted loop playsinline></video>
+                        <video id="h1vid" src="videos/h1.mp4" autoplay muted loop playsinline></video>
                         <canvas id="h1canvas"></canvas>
                     </h1>
                     <div class="text-container">
@@ -162,7 +162,7 @@
                     </div>
 
                     <button class="btn" id="ctaContact">
-                        <video src="./videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+                        <video src="videos/button.mp4" type="video/mp4" autoplay muted loop playsinline></video>
                         <span data-i18n="hero.cta">Contact Me</span>
                     </button>
                 </div>
@@ -179,7 +179,7 @@
             <div class="id-card">
                 <div class="card">
                     <div class="profile-wrapper">
-                        <img class="profile" src="./images/id-card-profile.png"alt="id-profile">
+                        <img class="profile" src="images/about/id-card-profile.png"alt="id-profile">
                     </div>
                     <div class="upper-info">
                         <p class="info-grid">
@@ -199,7 +199,7 @@
                             </span>
                         </p>
 
-                        <img class="moon-divider" src="./images/moon-divider.png" alt="line divider" />
+                        <img class="moon-divider" src="images/about/moon-divider.png" alt="line divider" />
 
                         <div class="middle-info">
                             <div class="left">
@@ -261,7 +261,7 @@
                 </blockquote>
 
                 <!-- --------------------- Blackhole --------------------- -->
-                <video id="bhVideo" src="./videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload=auto></video>
+                <video id="bhVideo" src= "videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload=auto></video>
             </div>
         </section>
 
@@ -274,21 +274,21 @@
             <!-- --------------------- Solars --------------------- -->
             <div class="solar-container">
                 <div class="inner-ring-container">
-                    <img class="scale-up inner-ring" src="./images/inner-ring.png" alt="inner-ring" data-delay="0.1">
+                    <img class="scale-up inner-ring" src="images/skills/inner-ring.png" alt="inner-ring" data-delay="0.1">
                 </div>
                 <div class="outer-ring-container">
-                    <img class="scale-up outer-ring" src="./images/outer-ring.png" alt="outter-ring" data-delay="0.2">
+                    <img class="scale-up outer-ring" src="images/skills/outer-ring.png" alt="outter-ring" data-delay="0.2">
                 </div>
                 <div class="solar-ring-container">
-                    <img class="scale-up solar-ring" src="./images/solar-ring.png" alt="solar-ring" data-delay="0.3">
+                    <img class="scale-up solar-ring" src="images/skills/solar-ring.png" alt="solar-ring" data-delay="0.3">
                 </div>
-                
+        
                 <!-- --------------------- Clouds --------------------- -->
                 <div class="cloud">
-                    <img src="./images/upper-cloud-1.png" alt="upper-cloud-1">                    
-                    <img src="./images/upper-cloud-2.png" alt="upper-cloud-2">
-                    <img src="./images/upper-cloud-3.png" alt="upper-cloud-3">
-                    <img src="./images/upper-cloud-4.png" alt="upper-cloud-4">
+                    <img src="images/skills/upper-cloud-1.png" alt="upper-cloud-1">                    
+                    <img src="images/skills/upper-cloud-2.png" alt="upper-cloud-2">
+                    <img src="images/skills/upper-cloud-3.png" alt="upper-cloud-3">
+                    <img src="images/skills/upper-cloud-4.png" alt="upper-cloud-4">
                 </div>
 
                 <!-- --------------------- Programming Logos --------------------- -->
@@ -296,49 +296,49 @@
                 <div class="inner-icons">
                     <div id="html-anchor" class="anchor" style="--pos: 0deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/html.png" alt="html-logo">
+                            <img src="images/programming-logo/html.png" alt="html-logo">
                         </div>
                     </div>
 
                     <div id="css-anchor" class="anchor" style="--pos: 45deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/css.png" alt="css-logo">
+                            <img src="images/programming-logo/css.png" alt="css-logo">
                         </div>
                     </div>
 
                     <div id="js-anchor" class="anchor" style="--pos: 90deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/js.png" alt="js-logo">
+                            <img src="images/programming-logo/js.png" alt="js-logo">
                         </div>
                     </div>
 
                     <div id="java-anchor" class="anchor" style="--pos: 135deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/java.png" alt="java-logo">
+                            <img src="images/programming-logo/java.png" alt="java-logo">
                         </div>
                     </div>
 
                     <div id="python-anchor" class="anchor" style="--pos: 180deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/python.png" alt="python-logo">
+                            <img src="images/programming-logo/python.png" alt="python-logo">
                         </div>
                     </div>
 
                     <div id="php-anchor" class="anchor" style="--pos: 225deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/php.png" alt="php-logo">
+                            <img src="images/programming-logo/php.png" alt="php-logo">
                         </div>
                     </div>
 
                     <div id="tailwind-anchor" class="anchor" style="--pos: 270deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/tailwind.png" alt="tailwind-logo">
+                            <img src="images/programming-logo/tailwind.png" alt="tailwind-logo">
                         </div>
                     </div>
 
                     <div id="bootstrap-anchor" class="anchor" style="--pos: 315deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/bootstrap.png" alt="bootstrap-logo">
+                            <img src="images/programming-logo/bootstrap.png" alt="bootstrap-logo">
                         </div>
                     </div>
                 </div>
@@ -347,37 +347,37 @@
                 <div class="outer-icons">
                     <div class="outer-anchor" style="--pos: 0deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/github.png" alt="github-logo">
+                            <img src="images/programming-logo/github.png" alt="github-logo">
                         </div>
                     </div>
 
                     <div class="outer-anchor" style="--pos: 60deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/photoshop.png" alt="photoshop-logo">
+                            <img src="images/programming-logo/photoshop.png" alt="photoshop-logo">
                         </div>
                     </div>
 
                     <div class="outer-anchor" style="--pos: 120deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/after-effect.png" alt="after-effect-logo">
+                            <img src="images/programming-logo/after-effect.png" alt="after-effect-logo">
                         </div>
                     </div>
 
                     <div class="outer-anchor" style="--pos: 180deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/larevel.png" alt="larevel-logo">
+                            <img src="images/programming-logo/larevel.png" alt="larevel-logo">
                         </div>
                     </div>
 
                     <div class="outer-anchor" style="--pos: 240deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/mysql.png" alt="mysql-logo">
+                            <img src="images/programming-logo/mysql.png" alt="mysql-logo">
                         </div>
                     </div>
 
                     <div class="outer-anchor" style="--pos: 300deg;">
                         <div class="billboard">
-                            <img src="./images/programming-logo/react.png" alt="react-logo">
+                            <img src="images/programming-logo/react.png" alt="react-logo">
                         </div>
                     </div>
                 </div>
@@ -385,7 +385,7 @@
 
             <!-- --------------------- Section Divider --------------------- -->
             <div class="divider section-divider">
-                <img src="./images/section-moon-divider.png" alt="section-divider">
+                <img src="images/section-moon-divider.png" alt="section-divider">
             </div>
         </section>
 
@@ -400,7 +400,7 @@
                 <figure class="demo-01">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="./videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                        <video src="videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
                     </div>
 
                     <figcaption>
@@ -408,7 +408,7 @@
                             <span data-i18n="projects.login.title">Fancy Login Page</span>
                             <a href="https://ngovkimyou.github.io/Login---Fancy-design/" target="_blank">
                                 <span class="pulse">
-                                    <img src="./icons/moon-icon.png" alt="moon-icon">
+                                    <img src="icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
@@ -423,7 +423,7 @@
                             <span data-i18n="projects.laundry.title">WashWise</span>
                             <a href="https://github.com/Ngovkimyou/Laundry-App" target="_blank">
                                 <span class="pulse">
-                                    <img src="./icons/moon-icon.png" alt="moon-icon">
+                                    <img src="icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
@@ -432,7 +432,7 @@
 
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="./videos/WashWise-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                        <video src="videos/WashWise-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
                     </div>
                 </figure>
 
@@ -440,7 +440,7 @@
                 <figure class="demo-03">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="./videos/Julvry-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
+                        <video src="videos/Julvry-project.mp4" type="video/mp4" muted loop preload="metadata" playsinline></video>
                     </div>
 
                     <figcaption>
@@ -448,7 +448,7 @@
                             <span data-i18n="projects.julvry.title">Julvry</span>
                             <a href="https://ngovkimyou.github.io/Web1-FinalProject---Julvry/" target="_blank">
                                 <span class="pulse">
-                                    <img src="./icons/moon-icon.png" alt="moon-icon">
+                                    <img src="icons/moon-icon.png" alt="moon-icon">
                                 </span>
                             </a>
                         </h3>
@@ -464,18 +464,18 @@
 
             <!-- --------------------- Section Divider --------------------- -->
             <div class="section-divider">
-                <img src="./images/section-moon-divider.png" alt="section-divider">
+                <img src="images/section-moon-divider.png" alt="section-divider">
             </div>
         </section>
 
         <!-- --------------------- Contact Sections --------------------- -->
          <section id="contact" class="contact">
-            <img class="cloud-transition" src="./images/upper-cloud-3.png" alt="cloud-transition">
-            <img class="cloud-transition1" src="./images/upper-cloud-4.png" alt="cloud-transition">
+            <img class="cloud-transition" src="images/skills/upper-cloud-3.png" alt="cloud-transition">
+            <img class="cloud-transition1" src="images/skills/upper-cloud-4.png" alt="cloud-transition">
 
             <div class="contact-backdrop"></div>
 
-            <video class="contact-background" src="./videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+            <video class="contact-background" src="videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline></video>
 
             <!-- --------------------- Section Title --------------------- -->
             <h2 class="section-title" data-shadow="">
@@ -483,23 +483,23 @@
             </h2>
 
             <!-- --------------------- Mail Design --------------------- -->
-            <img class="top-layer-mail" src="./images/about/top-mail.png" alt="top-layer-mail">
-            <img class="mail" src="./images/about/mail.png" alt="mail">
-            <img class="mail-decorator" src="./images/about/mail-decorator.png" alt="mail-decorator">
+            <img class="top-layer-mail" src="images/contact/top-mail.png" alt="top-layer-mail">
+            <img class="mail" src="images/contact/mail.png" alt="mail">
+            <img class="mail-decorator" src="images/contact/mail-decorator.png" alt="mail-decorator">
 
             <!-- --------------------- Wax Stamp --------------------- -->
             <div class="wax-stamp">
                 <div class="wax wax-1">
-                    <img src="./images/about/moon-wax-stamp.png" alt="wax-stamp">
+                    <img src="images/contact/moon-wax-stamp.png" alt="wax-stamp">
                     <a href="https://github.com/Ngovkimyou" target="_blank"><img src="./images/programming-logo/github.png" alt="github-wax-stamp"></a>
                 </div>
                 <div class="wax wax-2">
-                    <img src="./images/about/moon-wax-stamp.png" alt="wax-stamp">
-                    <a href="https://t.me/Dorayaki515" target="_blank"><img src="./images/about/telegram.png" alt="telegram-wax-stamp"></a>
+                    <img src="images/contact/moon-wax-stamp.png" alt="wax-stamp">
+                    <a href="https://t.me/Dorayaki515" target="_blank"><img src="./images/contact/telegram.png" alt="telegram-wax-stamp"></a>
                 </div>
                 <div class="wax wax-3">
-                    <img src="./images/about/moon-wax-stamp.png" alt="wax-stamp">
-                    <a href="https://line.me/ti/p/3jnrVs2q5t" target="_blank"><img src="./images/about/line.png" alt="line-wax-stamp"></a>
+                    <img src="images/contact/moon-wax-stamp.png" alt="wax-stamp">
+                    <a href="https://line.me/ti/p/3jnrVs2q5t" target="_blank"><img src="./images/contact/line.png" alt="line-wax-stamp"></a>
                 </div>
             </div>
 
@@ -532,13 +532,13 @@
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
     <!-- Main JS -->
-    <script src="./js/main.js" defer></script>
+    <script src="js/main.js" defer></script>
 
     <!-- Second JS -->
-    <script src="./js/second.js" defer></script>
+    <script src="js/second.js" defer></script>
 
     <!-- Third JS -->
-    <script src="./js/third.js" defer></script>
+    <script src="js/third.js" defer></script>
 </body>
 </html>
 

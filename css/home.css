@@ -1,6 +1,6 @@
 /* 
 ============================================================================
-                    Home Section --- Profile
+                               Home Section
 ============================================================================ 
 */
 
@@ -15,14 +15,14 @@ main {
 }
 
 main .home-section {
+    width: 100%; height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
 }
 
+/* ------------------ Exclusive ------------------ */
 main .intro, main .about, main .projects {
     width: 80%;
 }
@@ -36,17 +36,22 @@ main .intro {
     gap: 4rem;
 }
 
-/* --------------------------------- Fog ---------------------------------- */
+/* 
+============================================================================
+                                  Fog
+============================================================================ 
+*/
 
 .fog {
     position: absolute;
     top: 6rem; left: 20rem;
-    width: 50rem;
-    height: 50rem;
+    width: 50rem; height: 50rem;
+
     object-fit: contain;
+    mix-blend-mode: hard-light;
+
     pointer-events: none;
     user-select: none;
-    mix-blend-mode: hard-light;
     will-change: transform, opacity;
     animation: floating-fog 60s linear infinite;
     z-index: 998;
@@ -57,8 +62,8 @@ main .intro {
         transform: translateX(0);
         opacity: 0.1;
     }
-    5% { opacity: 1; }
-    95% { opacity: 0.5; }
+    5%   { opacity: 1; }
+    95%  { opacity: 0.5; }
     100% {
         transform: translateX(50rem);
         opacity: 0.1;
@@ -68,12 +73,13 @@ main .intro {
 .fog1 {
     position: absolute;
     left: -50rem;;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
+
     object-fit: contain;
+    mix-blend-mode: saturation;
+
     pointer-events: none;
     user-select: none;
-    mix-blend-mode: saturation;
     will-change: transform, opacity;
     animation: floating-fog-1 80s linear infinite;
     z-index: 998;
@@ -88,22 +94,34 @@ main .intro {
         opacity: 1; 
         transform: translateY(10rem);
     }
-    95% { opacity: 0.1; }
+    95%  { opacity: 0.1; }
     100% {
         transform: translateX(5rem) translateY(-10rem);
         opacity: 0.1;
     }
 }
 
+/* 
+============================================================================
+                                  Model
+============================================================================ 
+*/
+
 .intro .model {
     width: 10rem;
     border: 2px dashed white;
 }
 
+/* 
+============================================================================
+                                  Main Profile
+============================================================================ 
+*/
+
 .intro a {
+    width: 40%; height: 60%;
     display: block;
-    width: 40%;
-    height: 60%;
+
     mix-blend-mode: screen; 
     will-change: transform;
     animation: profile-float 10s ease infinite alternate;
@@ -122,18 +140,16 @@ main .intro {
 }
 
 .intro img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: contain;
     pointer-events: none;
-    /* mask-image: url(./images/shadow-splash.png);
-    -webkit-mask-image: url(./images/shadow-splash.png);
-    mask-size: cover;
-    -webkit-mask-size: cover;
-    mask-position: center; */
 }
 
-/* ----------------------------------- Info -------------------------------------*/
+/* 
+============================================================================
+                                  Main Info
+============================================================================ 
+*/
 
 .intro .info {
     align-self: center;
@@ -150,8 +166,9 @@ main .intro {
 
 .video-h1 {
     position: relative;
-    font-family: New Rocker ,cursive, Tahoma, Geneva, Verdana, sans-serif;
+
     margin-top: .5rem;
+    font-family: New Rocker ,cursive, Tahoma, Geneva, Verdana, sans-serif;
     font-size: 5rem;
     z-index: 0;
 }
@@ -160,17 +177,18 @@ main .intro {
   content: attr(data-text);
   position:absolute;
   inset:0;
+
   color: transparent;
   -webkit-text-stroke: 2px 2px 10px rgba(255, 0, 0, 0.6);
   text-shadow: 0 10px 20px rgba(0,0,0,.6);
+
   pointer-events:none;
   z-index: -1;
 }
 
 .video-h1 video {
     position: absolute;
-    width: 1px;
-    height: 1px;
+    width: 1px; height: 1px;
     opacity: 0;
     pointer-events: none;
 }
@@ -178,7 +196,11 @@ main .intro {
 .video-h1 canvas {
     display: block;
     mix-blend-mode: exclusion;
-    filter:drop-shadow(0 0 .1px rgb(255, 255, 255)) saturate(1.2) brightness(1.1) contrast(1.5);
+    filter:
+        drop-shadow(0 0 .1px rgb(255, 255, 255)) 
+        saturate(1.2) 
+        brightness(1.1) 
+        contrast(1.5);
 }
 
 .intro p {
@@ -196,10 +218,15 @@ main .intro {
     letter-spacing: -1px;
 }
 
-/* ----------------------------------- btn -------------------------------------*/
+/* 
+============================================================================
+                                  Main Button
+============================================================================ 
+*/
 
 .intro .btn {
     position: relative;
+
     padding: 1rem;
     margin-top: 2rem;
     border: none;
@@ -215,8 +242,9 @@ main .intro {
         -1px  1px 5px black,
         1px  1px 5px black,
         0 0 15px white;
-    cursor: pointer;
     filter: drop-shadow(0 1px 2px rgb(166, 0, 255)) drop-shadow(0 1px 5px white);
+
+    cursor: pointer;
     transition: 0.3s ease;
     z-index: 0;
 }
@@ -224,17 +252,16 @@ main .intro {
 .intro .btn::before {
     content: "";
     position: absolute;
-    width: calc(100% + 4px);
+    left: -2px; top: -2px;
+    width: calc(100% + 4px); 
     height: calc(100% + 4px);
-    left: -2px;
-    top: -2px;
-    border-radius: 1rem;
-    background: linear-gradient(45deg, rgba(14, 45, 149, 0.888), rgba(113, 78, 255, 0.57), rgba(195, 42, 255, 0.609), rgb(200, 7, 7));
-    z-index: -1;
-}
 
-.intro .btn:hover video {
-    opacity: 0;
+    border-radius: 1rem;
+    background: linear-gradient(45deg, 
+        rgba(14, 45, 149, 0.888), rgba(113, 78, 255, 0.57), 
+        rgba(195, 42, 255, 0.609), rgb(200, 7, 7));
+
+    z-index: -1;
 }
 
 .intro .btn:hover {
@@ -255,15 +282,18 @@ main .intro {
 }
 
 @keyframes glowing {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
+    0%, 100% { background-position: 0 0; }
+    50%  { background-position: 400% 0; }
+}
+
+.intro .btn:hover video {
+    opacity: 0;
 }
 
 .btn video {
     position: absolute;
-    width: 50%;
-    height: 50%;
+    width: 50%; height: 50%;
+    
     object-fit: cover;
     border-radius: 1rem;
     mask-image: linear-gradient(to bottom, white, white 60%, rgba(255, 255, 255, 0.802),  rgba(255, 255, 255, 0.598) ,rgba(255, 255, 255, 0.214), transparent);

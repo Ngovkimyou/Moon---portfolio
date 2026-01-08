@@ -114,30 +114,30 @@
   // ----------------------------
   const ASSETS = [
     // Loader assets
-    { type: "image", url: "./images/dim-loading-screen.png" },
-    { type: "image", url: "./images/loading-screen.png" },
+    { type: "image", url: "../images/dim-loading-screen.png" },
+    { type: "image", url: "../images/loading-screen.png" },
     { type: "image", url: "./images/start-loading-text.png" },
 
     // Home / hero assets
-    { type: "image", url: "./icons/moon-logo.png" },
-    { type: "image", url: "./icons/moon-logo-color-state.png" },
-    { type: "image", url: "./images/profile.png" },
-    { type: "image", url: "./images/id-card-profile.png" },
-    { type: "image", url: "./images/inner-ring.png" },
-    { type: "image", url: "./images/outer-ring.png" },
-    { type: "image", url: "./images/solar-ring.png" },
-    { type: "image", url: "./images/upper-cloud-1.png" },
-    { type: "image", url: "./images/upper-cloud-2.png" },
-    { type: "image", url: "./images/upper-cloud-3.png" },
-    { type: "image", url: "./images/upper-cloud-4.png" },
+    { type: "image", url: "../icons/moon-logo.png" },
+    { type: "image", url: "../icons/moon-logo-color-state.png" },
+    { type: "image", url: "../images/profile.png" },
+    { type: "image", url: "../images/id-card-profile.png" },
+    { type: "image", url: "../images/inner-ring.png" },
+    { type: "image", url: "../images/outer-ring.png" },
+    { type: "image", url: "../images/solar-ring.png" },
+    { type: "image", url: "../images/upper-cloud-1.png" },
+    { type: "image", url: "../images/upper-cloud-2.png" },
+    { type: "image", url: "../images/upper-cloud-3.png" },
+    { type: "image", url: "../images/upper-cloud-4.png" },
 
-    { type: "video", url: "./videos/home-loop.mp4" },
-    { type: "video", url: "./videos/h1.mp4" },
-    { type: "video", url: "./videos/button.mp4" },
-    { type: "video", url: "./videos/blackhole.mp4" },
-    { type: "video", url: "./videos/fancy-login-page-first-project.mp4" },
-    { type: "video", url: "./videos/Laundry-weather-forcast-project.mp4" },
-    { type: "video", url: "./videos/Julvry-project.mp4" },
+    { type: "video", url: "../videos/home-loop.mp4" },
+    { type: "video", url: "../videos/h1.mp4" },
+    { type: "video", url: "../videos/button.mp4" },
+    { type: "video", url: "../videos/blackhole.mp4" },
+    { type: "video", url: "../videos/fancy-login-page-first-project.mp4" },
+    { type: "video", url: "../videos/Laundry-weather-forcast-project.mp4" },
+    { type: "video", url: "../videos/Julvry-project.mp4" },
   ];
 
   // ----------------------------
