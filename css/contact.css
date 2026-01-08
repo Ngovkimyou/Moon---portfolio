@@ -42,7 +42,7 @@
     transform: rotateZ(-90deg);
     pointer-events: none;
     will-change: transform, opacity;
-    animation: contact-glow1 50s linear infinite;
+    animation: contact-glow1 30s linear infinite;
     z-index: 9999;
 }
 
