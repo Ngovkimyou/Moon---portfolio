@@ -636,6 +636,34 @@ body.pdf-open {
 ============================================================================ 
 */
 
+.moon-glow {
+    position: absolute;
+    right: 11rem; top: -2rem;
+    width: 15rem;
+    aspect-ratio: 1/1;
+
+    background: url(../images/home-section/moon-glow.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    transform: rotateZ(-90deg);
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: moon-glow 30s linear infinite alternate-reverse;
+    z-index: 9993;
+}
+
+@keyframes moon-glow {
+    0%, 100%{ 
+        opacity: .5;
+        transform: rotateZ(-90deg) translateX(-1rem) translateY(.5rem);
+    }
+    50% {
+        opacity: 1;
+        transform: rotateZ(-90deg) translateX(.5rem) translateY(0);
+    }
+}
+
 body .logo {
     position: fixed;
     top: 2rem; right: 12.8rem;
@@ -900,6 +928,56 @@ nav.deactive {
         opacity: 0;
         transform: translateY(-10rem);
     }
+}
+
+nav .stars {
+    position: absolute;
+    width: 100%; height: 100%;
+
+    will-change: transform, opacity;
+    pointer-events: none;
+    z-index: 991;
+}
+
+@keyframes stars-float {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    5% {
+        opacity: .3;
+    }
+    15% {
+        opacity: var(--opacity);
+        transform: translateY(-.5rem);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10rem);
+    }
+}
+
+.stars1 {
+    left: 1rem; bottom: -5rem;
+
+    background: url(../images/home-section/stars1.png);
+    animation: stars-float 15s linear infinite;
+    --opacity: .3;
+}
+
+.stars2 {
+    right: -2.5rem; bottom: -5rem;
+
+    background: url(../images/home-section/stars2.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    scale: 1.2;
+    animation: stars-float 20s linear infinite;
+    --opacity: 1
+}
+
+.stars1-second {
+    left: -10rem; bottom: -8rem;
 }
 
 nav ul {
