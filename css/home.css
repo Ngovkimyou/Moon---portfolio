@@ -72,7 +72,7 @@ main .intro {
 
 .fog1 {
     position: absolute;
-    left: -50rem;;
+    left: -10rem;;
     width: 100%; height: 100%;
 
     object-fit: contain;
@@ -119,7 +119,7 @@ main .intro {
 */
 
 .intro a {
-    width: 40%; height: 60%;
+    width: 100%; height: 60%;
     display: block;
 
     mix-blend-mode: screen; 
@@ -139,8 +139,12 @@ main .intro {
     filter: blur(1px) drop-shadow(0 1px 5px red) invert();
 }
 
+.profile-wrapper {
+    position: relative;
+}
+
 .intro img {
-    width: 100%; height: 100%;
+    width: 30rem; height: 30rem;
     object-fit: contain;
     pointer-events: none;
 }

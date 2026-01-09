@@ -1,0 +1,293 @@
+/* ------------------------------- 1720px ------------------------------- */
+
+@media (max-width: 1720px) {
+
+    /* ------------------- Home ---------------------*/
+
+    html[lang="ja"] .section-title,
+    html[lang="ja"] .section-text {
+        font-size: 50px;
+    }
+
+    header .config {
+        margin: 0 6rem;
+    }
+
+    body .logo {
+        right: 6rem;
+    }
+
+    .moon-glow {
+        right: 5rem;
+    }
+
+    body nav {
+        right: 3rem;
+    }
+
+    nav ul,
+    .stars {
+        left: 0;
+    }
+
+    /* ------------------- About ---------------------*/
+
+    html[lang="ja"] .lower-info ul li,
+    html[lang="ja"] .id-card .value,
+    html[lang="ja"] .id-card .label {
+        font-size: 15px;
+    }
+
+    .lang-container {
+        left: 1rem; top: 7rem;
+    }
+
+    .id-card .value,
+    .id-card, .label {
+        font-size: 16px;
+    }
+
+    .about .id-card {
+        max-width: none;
+        width: 100%;
+        padding: 4rem;
+    }
+
+    .id-card .card {
+        height: 13rem;
+    }
+
+    .card .profile {
+        width: 13rem; height: 13rem;
+    }
+
+    @keyframes move {
+        0%  { transform: translateX(0); }
+        25% { transform: translateX(calc(100% - 13rem)); }
+        50% { transform: translateX(0); }
+    }
+
+    .card .upper-info {
+        margin-left: 14rem;
+        margin-right: 5rem;
+    }
+
+    .upper-info .middle-info {
+        gap: 5rem
+    }
+
+    html[lang="ja"] .about .lower-info-title {
+        font-size: 22px;
+    }
+
+    .about ul {
+        line-height: 1.5rem;
+    }
+
+    .id-card video {
+        width: 40%;
+        bottom: 4rem;
+    }
+
+    .id-card blockquote {
+        width: 18rem;
+        right: 26rem; top: 20rem;
+        font-size: 17px;
+    }
+
+    html[lang="ja"] [data-i18n="about.quote"] {
+        font-size: 25px;
+    }
+
+    /* ------------------- Skills ---------------------*/
+
+    .skills .section-title {
+        margin-bottom: 5rem;
+    }
+}
+
+/* ------------------------------- 1400px ------------------------------- */
+@media (max-width: 1400px) {
+
+    /* ------------------- Home ---------------------*/
+
+    main .intro,
+    main .about {
+        width: 90%;
+    }
+
+    html[lang="ja"] .id-card .value,
+    html[lang="ja"] .id-card .label {
+        font-size: 14px;
+    }
+
+    .id-card .value,
+    .id-card, .label {
+        font-size: 15px;
+    }
+
+    .upper-info .middle-info {
+        gap: 2rem
+    }
+
+    .lower-info ul li {
+        font-size: 14px;
+        line-height: 1.7rem;
+    }
+
+    .id-card video {
+        right: -6rem
+    }
+
+    .id-card blockquote {
+        right: 20rem;
+    }
+
+    /* ------------------- Skills ---------------------*/
+
+    .solar-container .cloud {
+        min-width: 80rem; 
+        min-height: 80rem;
+    }
+
+    /* ------------------- Projects ---------------------*/
+    .project-demo .video-wrapper {
+        width: 25rem; height: 12rem;
+    }
+
+    .project-demo video {
+        width: 24.5rem; height: 11.5rem;
+    }
+}
+
+/* ------------------------------- 1200px ------------------------------- */
+@media (max-width: 1200px) {
+
+    /* ------------------- Home ---------------------*/
+
+    main {
+        gap: 5rem;
+    }
+
+    main .intro {
+        width: 95%;
+        gap: 0;
+    }
+
+    body .logo {
+        width: 150px;
+    }
+
+    .moon-glow {
+        width: 14rem;
+        right: 3rem; top: -4rem;
+    }
+
+    nav ul,
+    nav::after,
+    .stars {
+        scale: .8;
+    }
+
+    nav ul {
+        top: -9rem; left: 1rem;
+    }
+
+    nav::after {
+        top: -13rem; left: -8rem;
+    }
+
+    .intro img {
+        width: 25rem; height: 25rem;
+    }
+
+    .intro .info {
+        scale: .9;
+    }
+
+    /* ------------------- About ---------------------*/
+    main .about {
+        width: 120%;
+    }
+    .about {
+        scale: .78;
+    }
+
+    .about .id-card {
+        padding: 2.5rem;
+    }
+
+    .id-card .card {
+        height: 16rem;
+    }
+
+    .card .profile {
+        width: 16rem; height: 16rem;
+    }
+
+    @keyframes move {
+        0%  { transform: translateX(0); }
+        25% { transform: translateX(calc(100% - 16rem)); }
+        50% { transform: translateX(0); }
+    }
+
+    .card .upper-info {
+        margin-left: 17rem;
+        margin-right: 5rem;
+    }
+
+    .id-card .value,
+    .id-card, .label {
+        font-size: 18px;
+    }
+
+    .about .lower-info-title {
+        font-size: 22px;
+    }
+
+    .lower-info ul li {
+        font-size: 18px;
+        line-height: 2.2rem;
+    }
+
+    .id-card video {
+        scale: 1.2;
+    }
+
+    .id-card blockquote {
+        scale: 1.2;
+        top: 25rem;
+        right: 23rem;
+    }
+
+    /* ------------------- Skills ---------------------*/
+
+    .skills .section-title {
+        margin-bottom: 10rem;
+    }
+    .skills .solar-container {
+        scale: 1.4;
+    }
+
+    .skills .cloud {
+        scale: .9;
+    }
+
+    .solar-container .cloud {
+        min-width: 70rem; 
+        min-height: 70rem;
+    }
+
+    /* ------------------- Projects ---------------------*/
+
+    main .projects {
+        width: 95%;
+    }
+
+    /* ------------------- Contact ---------------------*/
+    
+    .contact-stars {
+        scale: .7;
+    }
+}
+

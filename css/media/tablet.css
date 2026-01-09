@@ -1,0 +1,241 @@
+/* ------------------------------- 1000px ------------------------------- */
+
+@media (max-width: 1000px) {
+
+    /* ------------------- Home ---------------------*/
+
+    .config img {
+        width: 4rem; height: 4rem;
+    }
+
+    .pdf-title h1 {
+        font-size: 1rem;
+    }
+
+    body .logo {
+        width: 120px;
+        right: 4rem;
+    }
+
+    .moon-glow {
+        width: 12rem;
+        right: 1.5rem;
+        top: -4rem;
+    }
+
+    nav ul,
+    nav::after,
+    .stars {
+        scale: .6;
+    }
+
+    nav ul {
+        top: -14rem; left: 4rem;
+    }
+
+    nav::after {
+        top: -19rem; left: -5rem;
+    }
+
+    .intro img {
+        width: 20rem; height: 20rem;
+    }
+
+    .video-h1 {
+        font-size: 4rem;
+    }
+
+    .intro p {
+        margin-top: 0;
+    }
+    .intro h4,
+    .intro p {
+        font-size: 16px;
+    }
+
+    /* ------------ About --------- */
+    .about .section-title, 
+    .skills .section-title, 
+    .projects .section-title, 
+    .contact .section-title {
+        font-size: 2.5rem;
+    }
+
+    .upper-info .middle-info {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .id-card .card {
+        height: 18rem;
+    }
+
+    .card .profile {
+        width: 18rem; height: 18rem;
+    }
+
+    @keyframes move {
+        0%  { transform: translateX(0); }
+        25% { transform: translateX(calc(100% - 18rem)); }
+        50% { transform: translateX(0); }
+    }
+
+    .card .upper-info {
+        margin-left: 20rem;
+    }
+
+    /* ------------------- Skills ---------------------*/
+
+    .skills .solar-container {
+        scale: 1.5;
+        margin-top: 5rem;
+    }
+
+    .skills .cloud {
+        scale: .8;
+    }
+
+    /* ------------------- Projects ---------------------*/
+
+    figcaption h3 {
+        font-size: 18px;
+    }
+
+    .project-demo p {
+        font-size: 14px;
+    }
+
+    .project-demo a {
+        width: 2rem;
+    }
+
+    .project-demo .video-wrapper {
+        width: 20rem; height: 10rem;
+        min-width: 20rem; 
+        min-height: 10rem;
+    }
+
+    .project-demo video {
+        width: 19.5rem; height: 9.5rem;
+        min-width: 19.5rem;
+        min-height: 9.5rem;
+    }
+
+    /* ------------------- Contact ---------------------*/
+
+    .contact form {
+        width: 20rem;
+    }
+
+    .contact .mail {
+        width: 27rem;
+    } 
+
+    .top-layer-mail {
+        width: 24rem;
+        top: 62%;
+    }
+}
+
+/* ------------------------------- 900px ------------------------------- */
+
+@media (max-width: 900px) {
+    .id-card blockquote {
+        right: 22rem;
+    }
+}
+
+
+/* ------------------------------- 800px ------------------------------- */
+
+@media (max-width: 800px) {
+
+    main {
+        gap: 0;
+    }
+
+    header .config {
+        margin: 0 5rem;
+    }
+
+    .intro img {
+        width: 18rem; height: 18rem;
+    }
+
+    .video-h1 {
+        font-size: 3rem;
+    }
+
+    .intro h4,
+    .intro p {
+        font-size: 15px;
+    }
+
+    .intro .btn {
+        padding: .5rem 1rem;
+        margin-top: 1rem;
+    }
+
+    .intro .btn span {
+        font-size: 14px;
+    }
+
+    .lang-container {
+        left: 1rem; top: 7rem;
+        width: 12rem; height: 12rem;
+    }
+
+    .lang-container * {
+        font-size: 14px;
+    } 
+
+    .pdf-card {
+        width: 30rem;
+    }
+
+    /* ------------------- About ---------------------*/
+    .id-card video {
+        scale: .7;
+        bottom: 0; right: -9rem;
+    }
+
+    .id-card blockquote {
+        right: 6rem;
+    }
+
+    /* ------------------- Skills ---------------------*/
+
+    .about .section-title, 
+    .skills .section-title, 
+    .projects .section-title, 
+    .contact .section-title {
+        font-size: 2rem;
+    }
+
+    .skills .cloud {
+        min-width: 60rem;
+        min-height: 60rem;
+    }
+
+    /* ------------------- Projects ---------------------*/
+
+    figcaption h3 {
+        font-size: 16px;
+    }
+
+    .project-demo p {
+        font-size: 12px;
+    }
+
+    .project-demo {
+        margin-bottom: 4rem;
+    }
+
+    /* ------------------- Contact ---------------------*/
+
+    .contact-stars {
+        scale: .5;
+        bottom: -10rem;
+    }
+
+}

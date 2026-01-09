@@ -144,7 +144,9 @@
     position: absolute;
     left: 0;
     width: 150%;
+    min-width: 90rem;
     height: 180%;
+    min-height: 90rem;
 
     object-fit: cover;
     pointer-events: none;
