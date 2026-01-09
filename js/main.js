@@ -198,44 +198,21 @@
   function loadVideo(url) {
     return new Promise((resolve, reject) => {
       const v = document.createElement("video");
-
-      // IMPORTANT: metadata is fast; canplaythrough is slow
-      v.preload = "metadata";
+      v.preload = "auto";
       v.muted = true;
       v.playsInline = true;
-
-      const done = () => {
-        v.removeEventListener("loadedmetadata", done);
-        v.removeEventListener("error", onError);
-        resolve();
-      };
-
-      const onError = () => {
-        v.removeEventListener("loadedmetadata", done);
-        reject(new Error("Video failed: " + url));
-      };
-
-      v.addEventListener("loadedmetadata", done, { once: true });
-      v.addEventListener("error", onError, { once: true });
-
+      v.oncanplaythrough = () => resolve();
+      v.onerror = () => reject(new Error("Video failed: " + url));
       v.src = url;
       v.load();
     });
   }
 
-
   function loadFonts() {
     if (!document.fonts) return Promise.resolve();
-
     FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
-
-    // Don’t let fonts stall loader forever
-    return Promise.race([
-      document.fonts.ready,
-      new Promise((r) => setTimeout(r, 1200)) // 1.2s max
-    ]);
+    return document.fonts.ready;
   }
-
 
   // ----------------------------
   // 5) MAIN LOADING FLOW
