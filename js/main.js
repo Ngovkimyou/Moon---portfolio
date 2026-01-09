@@ -139,7 +139,6 @@
 
     { type: "video", url: "videos/main-background-loop.mp4" },
     { type: "video", url: "videos/h1.mp4" },
-    { type: "video", url: "videos/button.mp4" },
     // { type: "video", url: "../videos/blackhole.mp4" },
     // { type: "video", url: "../videos/fancy-login-page-first-project.mp4" },
     // { type: "video", url: "../videos/Laundry-weather-forcast-project.mp4" },
@@ -199,21 +198,44 @@
   function loadVideo(url) {
     return new Promise((resolve, reject) => {
       const v = document.createElement("video");
-      v.preload = "auto";
+
+      // IMPORTANT: metadata is fast; canplaythrough is slow
+      v.preload = "metadata";
       v.muted = true;
       v.playsInline = true;
-      v.oncanplaythrough = () => resolve();
-      v.onerror = () => reject(new Error("Video failed: " + url));
+
+      const done = () => {
+        v.removeEventListener("loadedmetadata", done);
+        v.removeEventListener("error", onError);
+        resolve();
+      };
+
+      const onError = () => {
+        v.removeEventListener("loadedmetadata", done);
+        reject(new Error("Video failed: " + url));
+      };
+
+      v.addEventListener("loadedmetadata", done, { once: true });
+      v.addEventListener("error", onError, { once: true });
+
       v.src = url;
       v.load();
     });
   }
 
+
   function loadFonts() {
     if (!document.fonts) return Promise.resolve();
+
     FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
-    return document.fonts.ready;
+
+    // Don’t let fonts stall loader forever
+    return Promise.race([
+      document.fonts.ready,
+      new Promise((r) => setTimeout(r, 1200)) // 1.2s max
+    ]);
   }
+
 
   // ----------------------------
   // 5) MAIN LOADING FLOW
