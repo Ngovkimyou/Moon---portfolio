@@ -198,8 +198,8 @@
   min-width: 35rem;
 
   object-fit: cover;
-  mask-image: url(../images/about/shadow-splash.png);
-  -webkit-mask-image: url(../images/about/shadow-splash.png);
+  mask-image: url(../images/about/shadow-splash.webp);
+  -webkit-mask-image: url(../images/about/shadow-splash.webp);
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   mask-size: contain;

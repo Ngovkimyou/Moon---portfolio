@@ -1,6 +1,61 @@
 // ============================================================================
 //                              Main JS
 // ============================================================================
+
+window.addEventListener("load", () => {
+  // Background video (hero)
+  const bg = document.querySelector("video.background");
+  if (bg && !bg.src) {
+    bg.src = "videos/main-background-loop.mp4";
+    bg.play().catch(() => {});
+  }
+
+  // Button video (inside #ctaContact)
+  const btnVid = document.querySelector("#ctaContact video");
+  if (btnVid && !btnVid.src) {
+    btnVid.src = "videos/button.mp4";
+    btnVid.play().catch(() => {});
+  }
+
+  // Contact background video (load only when near viewport)
+  const contact = document.querySelector("#contact");
+  const contactVid = document.querySelector("video.contact-background");
+  if (!contact || !contactVid) return;
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        if (!contactVid.src) contactVid.src = "videos/contact-background.mp4";
+        contactVid.play().catch(() => {});
+      } else {
+        contactVid.pause();
+      }
+    },
+    { rootMargin: "300px 0px", threshold: 0.01 }
+  );
+
+  io.observe(contact);
+
+  const about = document.querySelector("#about");
+  const bh = document.getElementById("bhVideo");
+
+  if (about && bh) {
+    const ioBH = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!bh.src) bh.src = "videos/blackhole.mp4";
+          bh.play().catch(() => {});
+        } else {
+          bh.pause();
+        }
+      },
+      { root: null, rootMargin: "300px 0px", threshold: 0.01 }
+    );
+
+    ioBH.observe(about);
+  }
+});
+
 // ============================================================================
 //                       Background music & Loaders
 // ============================================================================
@@ -114,20 +169,20 @@
   // ----------------------------
   const ASSETS = [
     // Loader assets
-    { type: "image", url: "images/home-section/dim-loading-screen.png" },
-    { type: "image", url: "images/home-section/loading-screen.png" },
-    { type: "image", url: "images/home-section/start-loading-text.png" },
+    { type: "image", url: "images/home-section/dim-loading-screen.webp" },
+    { type: "image", url: "images/home-section/loading-screen.webp" },
+    { type: "image", url: "images/home-section/start-loading-text.webp" },
 
     // Home / hero assets
-    { type: "image", url: "icons/moon-logo.png" },
-    { type: "image", url: "icons/moon-logo-color-state.png" },
-    { type: "image", url: "images/home-section/profile.png" },
-    { type: "image", url: "images/home-section/nav-decorator.png" },
-    { type: "image", url: "images/home-section/stars1.png" },
-    { type: "image", url: "images/home-section/stars2.png" },
-    { type: "image", url: "images/home-section/moon-glow.png" },
-    { type: "image", url: "images/home-section/fog.png" },
-    { type: "image", url: "images/home-section/black-cloud.png" },
+    // { type: "image", url: "icons/moon-logo.png" },
+    // { type: "image", url: "icons/moon-logo-color-state.png" },
+    // { type: "image", url: "images/home-section/profile.png" },
+    // { type: "image", url: "images/home-section/nav-decorator.png" },
+    // { type: "image", url: "images/home-section/stars1.png" },
+    // { type: "image", url: "images/home-section/stars2.png" },
+    // { type: "image", url: "images/home-section/moon-glow.png" },
+    // { type: "image", url: "images/home-section/fog.png" },
+    { type: "image", url: "images/home-section/black-cloud.webp" },
     // { type: "image", url: "../images/id-card-profile.png" },
     // { type: "image", url: "../images/inner-ring.png" },
     // { type: "image", url: "../images/outer-ring.png" },
@@ -137,8 +192,6 @@
     // { type: "image", url: "../images/upper-cloud-3.png" },
     // { type: "image", url: "../images/upper-cloud-4.png" },
 
-    { type: "video", url: "videos/main-background-loop.mp4" },
-    { type: "video", url: "videos/h1.mp4" },
     // { type: "video", url: "../videos/blackhole.mp4" },
     // { type: "video", url: "../videos/fancy-login-page-first-project.mp4" },
     // { type: "video", url: "../videos/Laundry-weather-forcast-project.mp4" },
@@ -221,7 +274,8 @@
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
-    const tasks = [loadFonts()];
+    loadFonts()
+    const tasks = [];
     for (const a of ASSETS) {
       if (a.type === "image") tasks.push(loadImage(a.url));
       if (a.type === "video") tasks.push(loadVideo(a.url));
@@ -259,19 +313,19 @@
       await startBackgroundMusicFromUserGesture();
 
       // Preload blackhole video
-      const bh = document.getElementById("bhVideo");
-      if (bh) {
-        try {
-          bh.muted = true;
-          bh.playsInline = true;
+      // const bh = document.getElementById("bhVideo");
+      // if (bh) {
+      //   try {
+      //     bh.muted = true;
+      //     bh.playsInline = true;
 
-          await bh.play();   // force decode + GPU upload
-          bh.pause();
-          bh.currentTime = 0;
-        } catch (e) {
-        // Safari / power-save may block — safe to ignore
-        }
-      }
+      //     await bh.play();   // force decode + GPU upload
+      //     bh.pause();
+      //     bh.currentTime = 0;
+      //   } catch (e) {
+      //   // Safari / power-save may block — safe to ignore
+      //   }
+      // }
 
       // Phase 1: start reveal (ring fades + bg fades + clouds start moving)
       loader.classList.add("reveal");

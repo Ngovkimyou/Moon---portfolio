@@ -6,7 +6,9 @@
 
 @font-face {
   font-family: "Futehodo";
-  src: url("../fonts/Futehodo-MaruGothic.otf") format("opentype");
+  src:
+    url("../fonts/Futehodo-MaruGothic.woff2") format("woff2"),
+    url("../fonts/Futehodo-MaruGothic.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -14,7 +16,9 @@
 
 @font-face {
   font-family: "written";
-  src: url("../fonts/test.ttf") format("truetype");
+  src:
+    url("../fonts/yuzunoki-k.woff") format("woff2"),
+    url("../fonts/yuzunoki-k.woff2") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -160,6 +164,7 @@ header .config {
     place-items: center;
 
     background: transparent;
+    contain: layout paint;
     cursor: default;
     z-index: 9999;
 }
@@ -170,6 +175,7 @@ header .config {
     inset:0;
 
     background:#050508;
+    will-change: opacity;
     transition: opacity 500ms ease;
     opacity: 1;
     z-index: 0;
@@ -550,7 +556,7 @@ html[lang="en"] .lang.en i {
     inset: 0;
     transform: translateX(-.1rem) translateY(.1rem);
 
-    background: url(../images/home-section/moon-closed-decorator.png);
+    background: url(../images/home-section/moon-closed-decorator.webp);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
