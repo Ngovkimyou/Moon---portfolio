@@ -22,6 +22,7 @@
     <noscript><link rel="stylesheet" href="css/skills.css"></noscript>
     <link rel="preload" as="style" href="css/contact.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/contact.css"></noscript>
+    <link rel="preload" href="images/home-section/moon-closed-decorator.webp" as="image">
 
     <!-- Media -->
     <link rel="stylesheet" href="css/media/laptop.css">
@@ -108,7 +109,7 @@
 
                 <div class="languages">
                     <div class="lang-top-logo">
-                        <img src="images/home-section/small-moon-divider.webp" alt="moon-divider" loading="lazy" decoding="async">
+                        <img src="images/home-section/small-moon-divider.webp" alt="moon-divider" loading="eager" decoding="async">
                     </div>
 
                     <div class="lang en" data-lang="en">
@@ -129,7 +130,7 @@
                 <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
                     <div class="pdf-title">
                         <h1 data-i18n="pdf.preview">Preview</h1>
-                        <img src="images/home-section/start-loading-text.webp" alt="title-decorator" loading="lazy" decoding="async">
+                        <img src="images/home-section/start-loading-text.webp" alt="title-decorator" loading="eager" decoding="async">
                     </div>
 
                     <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
@@ -137,12 +138,12 @@
                     <div class="pdf-container">
                         <img
                             id="previewImg" class="pdf-img" title="Click to view fullscreen"
-                            src="images/home-section/resume.webp" alt="resume" loading="lazy" decoding="async"
+                            src="images/home-section/resume.webp" alt="resume" loading="eager" decoding="async"
                         />
 
                         <div class="download-container">
                             <button id="downloadPdfBtn" class="btn" type="button" data-i18n="pdf.download">Download</button>
-                            <img class="download-decorator" src="images/home-section/download-decorator.webp" alt="download-decorator" loading="lazy" decoding="async">
+                            <img class="download-decorator" src="images/home-section/download-decorator.webp" alt="download-decorator" loading="eager" decoding="async">
                         </div>
                     </div>
                 </div>

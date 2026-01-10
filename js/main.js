@@ -20,21 +20,23 @@ window.addEventListener("load", () => {
   // Contact background video (load only when near viewport)
   const contact = document.querySelector("#contact");
   const contactVid = document.querySelector("video.contact-background");
-  if (!contact || !contactVid) return;
+  if (contact && contactVid) {
+    const ioContact = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!contactVid.getAttribute("src")) {
+            contactVid.setAttribute("src", "videos/contact-background.mp4");
+          }
+          contactVid.play().catch(() => {});
+        } else {
+          contactVid.pause();
+        }
+      },
+      { rootMargin: "300px 0px", threshold: 0.01 }
+    );
 
-  const io = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        if (!contactVid.src) contactVid.src = "videos/contact-background.mp4";
-        contactVid.play().catch(() => {});
-      } else {
-        contactVid.pause();
-      }
-    },
-    { rootMargin: "300px 0px", threshold: 0.01 }
-  );
-
-  io.observe(contact);
+    ioContact.observe(contact);
+  }
 
   const about = document.querySelector("#about");
   const bh = document.getElementById("bhVideo");
@@ -62,8 +64,11 @@ window.addEventListener("load", () => {
 
 (() => {
   const loader = document.getElementById("loader");
+  if (!loader) return;
+
   const ringWrap = loader.querySelector(".ring-wrap");
   const pctEl = document.getElementById("pct");
+  if (!ringWrap || !pctEl) return;
 
   const bgMusic = document.getElementById("bgMusic");
   const musicIcon = document.getElementById("musicIcon");
@@ -239,7 +244,9 @@ window.addEventListener("load", () => {
       const img = new Image();
       img.onload = async () => {
         if (img.decode) {
-          try { await img.decode(); } catch {}
+          try {
+            await img.decode();         
+          } catch {}
         }
         resolve();
       };
@@ -248,22 +255,26 @@ window.addEventListener("load", () => {
     });
   }
 
-  function loadVideo(url) {
-    return new Promise((resolve, reject) => {
-      const v = document.createElement("video");
-      v.preload = "auto";
-      v.muted = true;
-      v.playsInline = true;
-      v.oncanplaythrough = () => resolve();
-      v.onerror = () => reject(new Error("Video failed: " + url));
-      v.src = url;
-      v.load();
-    });
-  }
+  // function loadVideo(url) {
+  //   return new Promise((resolve, reject) => {
+  //     const v = document.createElement("video");
+  //     v.preload = "auto";
+  //     v.muted = true;
+  //     v.playsInline = true;
+  //     v.oncanplaythrough = () => resolve();
+  //     v.onerror = () => reject(new Error("Video failed: " + url));
+  //     v.src = url;
+  //     v.load();
+  //   });
+  // }
 
   function loadFonts() {
     if (!document.fonts) return Promise.resolve();
-    FONTS.forEach(font => { try { document.fonts.load(font); } catch {} });
+    FONTS.forEach((font) => {
+      try {
+        document.fonts.load(font);
+      } catch {}
+    });
     return document.fonts.ready;
   }
 
@@ -278,10 +289,10 @@ window.addEventListener("load", () => {
     const tasks = [];
     for (const a of ASSETS) {
       if (a.type === "image") tasks.push(loadImage(a.url));
-      if (a.type === "video") tasks.push(loadVideo(a.url));
+      // if (a.type === "video") tasks.push(loadVideo(a.url));
     }
 
-    const total = tasks.length;
+    const total = tasks.length || 1;
     let done = 0;
 
     setProgress(0);
