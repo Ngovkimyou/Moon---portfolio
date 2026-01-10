@@ -285,8 +285,7 @@ window.addEventListener("load", () => {
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
-    loadFonts()
-    const tasks = [];
+    const tasks = [loadFonts()];
     for (const a of ASSETS) {
       if (a.type === "image") tasks.push(loadImage(a.url));
       // if (a.type === "video") tasks.push(loadVideo(a.url));
@@ -309,44 +308,46 @@ window.addEventListener("load", () => {
     );
 
     const TIMEOUT_MS = 15000;
-    const timeout = new Promise(r => setTimeout(r, TIMEOUT_MS));
+    let timedOut = false;
 
-    await Promise.race([Promise.allSettled(wrapped), timeout]);
+    await Promise.race([
+      Promise.allSettled(wrapped),
+      new Promise((r) =>
+        setTimeout(() => {
+          timedOut = true;
+          r();
+        }, TIMEOUT_MS)
+      ),
+    ]);
 
-    setProgress(100);
-    await new Promise(r => setTimeout(r, 350));
+    if (timedOut && done < total) {
+      setProgress(90);
+    } else {
+      setProgress(100);
+    }
+
+    // Let the UI paint before switching state
+    await new Promise((r) => requestAnimationFrame(() => r()));
+    await new Promise((r) => setTimeout(r, 200));
 
     loader.classList.add("ready");
 
-    // Click anywhere to enter
-    const enter = async () => {
-      // Start music FIRST
-      await startBackgroundMusicFromUserGesture();
+    let entered = false;
 
-      // Preload blackhole video
-      // const bh = document.getElementById("bhVideo");
-      // if (bh) {
-      //   try {
-      //     bh.muted = true;
-      //     bh.playsInline = true;
+    const enter = () => {
+      if (entered) return;
+      entered = true;
 
-      //     await bh.play();   // force decode + GPU upload
-      //     bh.pause();
-      //     bh.currentTime = 0;
-      //   } catch (e) {
-      //   // Safari / power-save may block — safe to ignore
-      //   }
-      // }
-
-      // Phase 1: start reveal (ring fades + bg fades + clouds start moving)
+      // Reveal FIRST (instant feedback)
       loader.classList.add("reveal");
 
-      // Phase 2: let clouds keep moving while page is already visible
-      setTimeout(() => {
-        loader.classList.add("cloud-out"); // clouds fade out later
-      }, 600);
+      // Kick off music WITHOUT blocking reveal
+      startBackgroundMusicFromUserGesture();
 
-      // Phase 3: remove loader after clouds are gone
+      // Clouds timing
+      setTimeout(() => loader.classList.add("cloud-out"), 600);
+
+      // Remove loader
       setTimeout(() => {
         loader.style.display = "none";
         document.documentElement.style.overflow = "";
@@ -354,7 +355,8 @@ window.addEventListener("load", () => {
       }, 2400);
     };
 
-    window.addEventListener("pointerdown", enter, { once: true });
+    // Put the listener on the loader itself (more reliable)
+    loader.addEventListener("pointerdown", enter, { once: true });
   }
 
   startLoading();
