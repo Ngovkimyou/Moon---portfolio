@@ -1,6 +1,9 @@
 // ============================================================================
 //                              Main JS
 // ============================================================================
+// ============================================================================
+//                Preload All Videos, Fonts, Skills Imgages
+// ============================================================================
 
 window.addEventListener("load", () => {
   // Background video (hero)
@@ -10,14 +13,14 @@ window.addEventListener("load", () => {
     bg.play().catch(() => {});
   }
 
-  // Button video (inside #ctaContact)
+  // Button video
   const btnVid = document.querySelector("#ctaContact video");
   if (btnVid && !btnVid.src) {
     btnVid.src = "videos/button.mp4";
     btnVid.play().catch(() => {});
   }
 
-  // Contact background video (load only when near viewport)
+  // Contact background video 
   const contact = document.querySelector("#contact");
   const contactVid = document.querySelector("video.contact-background");
   if (contact && contactVid) {
@@ -57,6 +60,58 @@ window.addEventListener("load", () => {
     ioBH.observe(about);
   }
 });
+
+// --------------- Skills Images --------------------
+(() => {
+  const skills = document.querySelector("#skills");
+  if (!skills) return;
+
+  const urls = [
+    "images/skills/inner-ring.webp",
+    "images/skills/outer-ring.webp",
+    "images/skills/solar-ring.webp",
+    "images/skills/upper-cloud-1.webp",
+    "images/skills/upper-cloud-2.webp",
+    "images/skills/upper-cloud-3.webp",
+    "images/skills/upper-cloud-4.webp",
+  ];
+
+  let done = false;
+
+  function preloadAll() {
+    if (done) return;
+    done = true;
+
+    urls.forEach((url) => {
+      const img = new Image();
+      img.loading = "eager";
+      img.decoding = "async";
+      img.src = url;
+
+      // Decode so it’s ready to paint instantly
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
+    });
+  }
+  // Fallback if IntersectionObserver not supported
+  if (!("IntersectionObserver" in window)) {
+    preloadAll();
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting || done) return;
+      done = true;
+      preload(urls);
+      io.disconnect();
+    },
+    { rootMargin: "1200px 0px", threshold: 0.01 } 
+  );
+
+  io.observe(skills);
+})();
 
 // ============================================================================
 //                       Background music & Loaders
