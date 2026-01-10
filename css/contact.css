@@ -298,7 +298,7 @@ textarea:focus {
 
 .top-layer-mail {
     position: absolute;
-    top: 58%; left: 50%;
+    top: 60%; left: 50%;
     transform: translate(-50%, -50%) scale(1);
     width: 28rem;
 

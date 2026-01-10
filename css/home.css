@@ -46,6 +46,7 @@ main .intro {
     position: absolute;
     top: 6rem; left: 20rem;
     width: 50rem; height: 50rem;
+    scale: 1.8;
 
     object-fit: contain;
     mix-blend-mode: hard-light;

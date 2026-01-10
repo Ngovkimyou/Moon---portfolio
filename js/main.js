@@ -326,6 +326,14 @@ window.addEventListener("load", () => {
       setProgress(100);
     }
 
+    if (typeof window.prepareH1 === "function") {
+      try {
+        await window.prepareH1();
+      } catch (e) {
+        console.warn("H1 prepare failed:", e);
+      }
+    }
+
     // Let the UI paint before switching state
     await new Promise((r) => requestAnimationFrame(() => r()));
     await new Promise((r) => setTimeout(r, 200));

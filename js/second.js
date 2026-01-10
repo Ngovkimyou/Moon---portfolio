@@ -262,37 +262,48 @@ const video = document.getElementById("h1vid");
 const canvas = document.getElementById("h1canvas");
 const ctx = canvas.getContext("2d");
 
-// 0–1 range (like object-position percentages)
-let posX = 0.5;
-let posY = 0.9;
+if (!h1 || !video || !canvas) {
+  // Safety: don't crash
+} else {
+  const ctx = canvas.getContext("2d", { alpha: true });
 
-// Keep a vertical padding so glyphs never clip at the top
-let textOffsetY = 0;
+  // 0–1 range (like object-position percentages)
+  let posX = 0.5;
+  let posY = 0.9;
 
-function resizeCanvas() {
-  const text = h1.dataset.text || "";
-  const style = getComputedStyle(h1);
+  // Keep a vertical padding so glyphs never clip at the top
+  let textOffsetY = 0;
 
-  ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-  const metrics = ctx.measureText(text);
+  let rafId = null;
+  let running = false;
 
-  const padX = 8; // a bit wider so edges don't clip
-  const padY = 8; // vertical breathing room (top + bottom)
+  function resizeCanvas() {
+    const text = h1.dataset.text || "";
+    const style = getComputedStyle(h1);
 
-  // Use real font bounding boxes when available (best + fixes top clipping)
-  const ascent = metrics.actualBoundingBoxAscent ?? parseFloat(style.fontSize) * 0.9;
-  const descent = metrics.actualBoundingBoxDescent ?? parseFloat(style.fontSize) * 0.3;
+    ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    const metrics = ctx.measureText(text);
 
-  canvas.width = Math.ceil(metrics.width + padX);
-  canvas.height = Math.ceil(ascent + descent + padY);
+    const padX = 8;
+    const padY = 8;
 
-  // Draw baseline position so text sits fully inside canvas
-  // Draw with alphabetic baseline at y = ascent (+ a tiny extra)
-  textOffsetY = Math.ceil(ascent + 2);
-}
+    const ascent =
+      metrics.actualBoundingBoxAscent ?? parseFloat(style.fontSize) * 0.9;
+    const descent =
+      metrics.actualBoundingBoxDescent ?? parseFloat(style.fontSize) * 0.3;
 
-function draw() {
-  if (video.readyState >= 2) {
+    // Avoid 0-size canvas edge cases
+    const w = Math.max(1, Math.ceil(metrics.width + padX));
+    const h = Math.max(1, Math.ceil(ascent + descent + padY));
+
+    canvas.width = w;
+    canvas.height = h;
+
+    textOffsetY = Math.ceil(ascent + 2);
+  }
+
+  function drawOnce() {
+    // If video not ready enough, still draw text (so user sees something)
     const text = h1.dataset.text || "";
     const style = getComputedStyle(h1);
 
@@ -301,52 +312,141 @@ function draw() {
     // Draw text mask
     ctx.save();
     ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    ctx.textBaseline = "alphabetic"; // avoids top clipping vs "top"
+    ctx.textBaseline = "alphabetic";
     ctx.fillStyle = "white";
     ctx.fillText(text, 0, textOffsetY);
 
-    // Clip video into text
+    // Clip content into text
     ctx.globalCompositeOperation = "source-in";
 
-    const vw = video.videoWidth;
-    const vh = video.videoHeight;
-    const cw = canvas.width;
-    const ch = canvas.height;
+    // If video has frame data, draw it. Otherwise fallback to a gradient fill.
+    if (video.readyState >= 2 && video.videoWidth && video.videoHeight) {
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      const cw = canvas.width;
+      const ch = canvas.height;
 
-    // Object-fit: cover
-    const scale = Math.max(cw / vw, ch / vh);
-    const sw = vw * scale;
-    const sh = vh * scale;
+      const scale = Math.max(cw / vw, ch / vh);
+      const sw = vw * scale;
+      const sh = vh * scale;
 
-    // Object-position: posX posY
-    const dx = (cw - sw) * posX;
-    const dy = (ch - sh) * posY;
+      const dx = (cw - sw) * posX;
+      const dy = (ch - sh) * posY;
 
-    ctx.drawImage(video, dx, dy, sw, sh);
+      ctx.drawImage(video, dx, dy, sw, sh);
+    } else {
+      // fallback so you never see "nothing"
+      const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      g.addColorStop(0, "white");
+      g.addColorStop(1, "rgba(255,255,255,0.3)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
     ctx.restore();
     ctx.globalCompositeOperation = "source-over";
   }
 
-  requestAnimationFrame(draw);
-}
-
-video.addEventListener("loadeddata", () => {
-  resizeCanvas();
-  video.play().catch(() => {});
-  draw();
-});
-
-window.addEventListener("resize", resizeCanvas);
-
-// Allow i18n system to force recalculation on language switch
-window.refreshH1Title = function () {
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(() => resizeCanvas());
-  } else {
-    resizeCanvas();
+  function loop() {
+    drawOnce();
+    rafId = requestAnimationFrame(loop);
   }
-};
+
+  function startLoop() {
+    if (running) return;
+    running = true;
+    loop();
+  }
+
+  function stopLoop() {
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  async function waitForFonts() {
+    // Your H1 uses web fonts; this makes measurement stable.
+    if (document.fonts?.ready) {
+      try {
+        await document.fonts.ready;
+      } catch {}
+    }
+  }
+
+  function waitForVideoFrame() {
+    // Resolve as soon as we have enough data to draw a frame.
+    return new Promise((resolve) => {
+      if (video.readyState >= 2 && video.videoWidth) return resolve();
+
+      const done = () => {
+        cleanup();
+        resolve();
+      };
+
+      const cleanup = () => {
+        video.removeEventListener("loadeddata", done);
+        video.removeEventListener("canplay", done);
+        video.removeEventListener("playing", done);
+      };
+
+      video.addEventListener("loadeddata", done, { once: true });
+      video.addEventListener("canplay", done, { once: true });
+      video.addEventListener("playing", done, { once: true });
+
+      // Nudge load in case browser is lazy
+      video.load();
+    });
+  }
+
+  // Call this BEFORE reveal (during loader)
+  async function prepareH1() {
+    // Make sure video is allowed to load & decode early
+    video.preload = "auto";
+
+    // Wait for fonts so canvas size is correct
+    await waitForFonts();
+    resizeCanvas();
+
+    // Try to start video decoding (muted autoplay should usually work)
+    video.play().catch(() => {});
+
+    // Wait until at least one frame is available
+    await waitForVideoFrame();
+
+    // Force one draw NOW so it appears instantly after reveal
+    drawOnce();
+
+    // Start continuous loop
+    startLoop();
+  }
+
+  // Auto prepare ASAP (but still safe)
+  // Use DOMContentLoaded instead of window load so it starts earlier
+  document.addEventListener("DOMContentLoaded", () => {
+    prepareH1();
+  });
+
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    drawOnce();
+  });
+
+  // Allow i18n system to force recalculation on language switch
+  window.refreshH1Title = function () {
+    waitForFonts().then(() => {
+      resizeCanvas();
+      drawOnce();
+    });
+  };
+
+  // OPTIONAL: if you want to pause when tab hidden (performance)
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopLoop();
+    else startLoop();
+  });
+
+  window.prepareH1 = prepareH1;
+}
 
 // =============================================================================
 //              About section - Decrease video resolution
