@@ -648,7 +648,7 @@ body.pdf-open {
     width: 15rem;
     aspect-ratio: 1/1;
 
-    background: url(../images/home-section/moon-glow.png);
+    background: url(../images/home-section/moon-glow.webp);
     background-repeat: no-repeat;
     background-size: contain;
 
@@ -745,7 +745,7 @@ body .logo {
     align-items: center;
     gap: 1rem;
 
-    background: url(../images/home-section/crescent-moon.png);
+    background: url(../images/home-section/crescent-moon.webp);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -862,7 +862,7 @@ nav::after {
     top: -10rem; left: -9.1rem;
     width: 36rem; height: 47rem;
 
-    background: url(../images/home-section/nav-decorator.png);
+    background: url(../images/home-section/nav-decorator.webp);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -966,7 +966,7 @@ nav .stars {
 .stars1 {
     left: 1rem; bottom: -5rem;
 
-    background: url(../images/home-section/stars1.png);
+    background: url(../images/home-section/stars1.webp);
     animation: stars-float 15s linear infinite;
     --opacity: .3;
 }
@@ -974,7 +974,7 @@ nav .stars {
 .stars2 {
     right: -2.5rem; bottom: -5rem;
 
-    background: url(../images/home-section/stars2.png);
+    background: url(../images/home-section/stars2.webp);
     background-size: contain;
     background-repeat: no-repeat;
     scale: 1.2;
