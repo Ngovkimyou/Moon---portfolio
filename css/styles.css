@@ -17,8 +17,8 @@
 @font-face {
   font-family: "written";
   src:
-    url("../fonts/yuzunoki-k.woff") format("woff2"),
-    url("../fonts/yuzunoki-k.woff2") format("woff");
+    url("../fonts/yuzunoki-k.woff2") format("woff2"),
+    url("../fonts/yuzunoki-k.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
