@@ -68,8 +68,8 @@
   // ============================================================
   // Contact Music Playlist (1 -> 2 -> loop)
   // ============================================================
-  const PLAYLIST = [
-    "./music/contact-background-music-01.mp3",
+  const PLAYLIST = window.CONTACT_MUSIC_PRELOADS || [
+    "./music/contact-background-music-01-web.mp3",
     "./music/contact-background-music-02.mp3",
   ];
 
@@ -79,19 +79,11 @@
   let isPlayingContactMusic = false;
   let currentIndex = 0;
   let currentAudio = null;
+  let fadeFrameId = null;
 
   function unlockAudioOnce() {
     if (audioUnlocked) return;
     audioUnlocked = true;
-
-    const a = new Audio(PLAYLIST[0]);
-    a.volume = 0;
-    a.play()
-      .then(() => {
-        a.pause();
-        a.currentTime = 0;
-      })
-      .catch(() => {});
 
     window.removeEventListener("pointerdown", unlockAudioOnce);
     window.removeEventListener("keydown", unlockAudioOnce);
@@ -101,6 +93,8 @@
   window.addEventListener("keydown", unlockAudioOnce, { once: true });
 
   function fadeVolume(audio, from, to, durationMs) {
+    if (fadeFrameId) cancelAnimationFrame(fadeFrameId);
+
     const start = performance.now();
     const delta = to - from;
 
@@ -110,14 +104,22 @@
       const t = Math.min(1, (now - start) / durationMs);
       const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
       audio.volume = from + delta * eased;
-      if (t < 1) requestAnimationFrame(step);
+      if (t < 1 && audio === currentAudio) {
+        fadeFrameId = requestAnimationFrame(step);
+      } else {
+        fadeFrameId = null;
+      }
     }
 
-    requestAnimationFrame(step);
+    fadeFrameId = requestAnimationFrame(step);
   }
 
   function cleanupCurrentAudio() {
     if (!currentAudio) return;
+    if (fadeFrameId) {
+      cancelAnimationFrame(fadeFrameId);
+      fadeFrameId = null;
+    }
     currentAudio.onended = null;
     currentAudio.pause();
     currentAudio.currentTime = 0;
@@ -148,7 +150,7 @@
   }
 
   function playContactMusic() {
-    if (!audioUnlocked) return;
+    audioUnlocked = true;
     if (isPlayingContactMusic) return;
 
     isPlayingContactMusic = true;

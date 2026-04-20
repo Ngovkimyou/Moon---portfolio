@@ -276,6 +276,8 @@ if (!h1 || !video || !canvas) {
 
   let rafId = null;
   let running = false;
+  let h1AutoplayTimer = null;
+  let h1PlayPromise = null;
 
   function resizeCanvas() {
     const text = h1.dataset.text || "";
@@ -373,42 +375,103 @@ if (!h1 || !video || !canvas) {
     }
   }
 
-  function waitForVideoFrame() {
+  function waitForVideoFrame(timeoutMs = 3000) {
     // Resolve as soon as we have enough data to draw a frame.
     return new Promise((resolve) => {
       if (video.readyState >= 2 && video.videoWidth) return resolve();
 
+      let settled = false;
       const done = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve();
+      };
+
+      const fail = () => {
+        if (settled) return;
+        settled = true;
         cleanup();
         resolve();
       };
 
       const cleanup = () => {
+        clearTimeout(timer);
         video.removeEventListener("loadeddata", done);
         video.removeEventListener("canplay", done);
         video.removeEventListener("playing", done);
+        video.removeEventListener("error", fail);
       };
 
+      const timer = setTimeout(done, timeoutMs);
       video.addEventListener("loadeddata", done, { once: true });
       video.addEventListener("canplay", done, { once: true });
       video.addEventListener("playing", done, { once: true });
+      video.addEventListener("error", fail, { once: true });
 
       // Nudge load in case browser is lazy
       video.load();
     });
   }
 
-  // Call this BEFORE reveal (during loader)
-  async function prepareH1() {
-    // Make sure video is allowed to load & decode early
-    video.preload = "auto";
+  function shouldLoadHeavyHeroVideo() {
+    return true;
+  }
 
+  function configureH1Video() {
+    if (!video.getAttribute("src")) {
+      video.src = video.dataset.src || "videos/h1-optimized.mp4";
+    }
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.setAttribute("muted", "");
+    video.setAttribute("autoplay", "");
+    video.setAttribute("playsinline", "");
+
+    if (video.readyState === 0) video.load();
+  }
+
+  function requestH1Playback() {
+    if (!shouldLoadHeavyHeroVideo()) return Promise.resolve();
+    configureH1Video();
+
+    if (!video.paused && !video.ended) return Promise.resolve();
+    if (h1PlayPromise) return h1PlayPromise;
+
+    h1PlayPromise = video.play()
+      .catch(() => {})
+      .finally(() => {
+        h1PlayPromise = null;
+      });
+
+    return h1PlayPromise;
+  }
+
+  async function drawH1Fallback() {
+    await waitForFonts();
+    resizeCanvas();
+    drawOnce();
+    startLoop();
+  }
+
+  async function prepareH1() {
     // Wait for fonts so canvas size is correct
     await waitForFonts();
     resizeCanvas();
 
-    // Try to start video decoding (muted autoplay should usually work)
-    video.play().catch(() => {});
+    if (!shouldLoadHeavyHeroVideo()) {
+      drawOnce();
+      startLoop();
+      return;
+    }
+
+    configureH1Video();
+    requestH1Playback();
 
     // Wait until at least one frame is available
     await waitForVideoFrame();
@@ -420,10 +483,49 @@ if (!h1 || !video || !canvas) {
     startLoop();
   }
 
+  function resumeH1Video() {
+    if (!shouldLoadHeavyHeroVideo()) {
+      startLoop();
+      return Promise.resolve();
+    }
+
+    const playPromise = requestH1Playback();
+
+    resizeCanvas();
+    drawOnce();
+    startLoop();
+
+    return Promise.resolve(playPromise)
+      .then(waitForVideoFrame)
+      .then(() => {
+        drawOnce();
+        startLoop();
+      });
+  }
+
+  function startH1Autoplay() {
+    if (!shouldLoadHeavyHeroVideo()) return;
+
+    requestH1Playback();
+    startLoop();
+
+    if (h1AutoplayTimer) return;
+
+    h1AutoplayTimer = window.setInterval(() => {
+      if (document.hidden) return;
+      if (video.paused || video.ended || video.readyState < 2) {
+        requestH1Playback();
+      }
+      startLoop();
+    }, 1200);
+  }
+
   // Auto prepare ASAP (but still safe)
-  // Use DOMContentLoaded instead of window load so it starts earlier
+  // Draw fallback text early; the heavy video is attached after critical loading.
   document.addEventListener("DOMContentLoaded", () => {
-    prepareH1();
+    drawH1Fallback()
+      .then(startH1Autoplay)
+      .catch(() => {});
   });
 
   window.addEventListener("resize", () => {
@@ -442,10 +544,12 @@ if (!h1 || !video || !canvas) {
   // OPTIONAL: if you want to pause when tab hidden (performance)
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stopLoop();
-    else startLoop();
+    else resumeH1Video();
   });
 
   window.prepareH1 = prepareH1;
+  window.resumeH1Video = resumeH1Video;
+  window.startH1Autoplay = startH1Autoplay;
 }
 
 // =============================================================================
@@ -457,9 +561,17 @@ if (!v) throw new Error("bhVideo not found");
 
 const io = new IntersectionObserver(([entry]) => {
   if (entry.isIntersecting) {
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const saveData = navigator.connection?.saveData;
+
+    if (reduceMotion || saveData) {
+      io.disconnect();
+      return;
+    }
+
     // load only once (use getAttribute, not v.src)
     if (!v.getAttribute("src")) {
-      v.setAttribute("src", "./videos/blackhole.mp4");
+      v.setAttribute("src", v.dataset.src || "./videos/blackhole.mp4");
       v.load();
     }
 
@@ -554,8 +666,17 @@ const observer = new IntersectionObserver(
   ([entry]) => {
     if (entry.isIntersecting) {
       if (!hasPlayed || cooldownReady) {
-        playRingEnter();
-        playCloudEnter();
+        const ready = typeof window.preloadSectionAssets === "function"
+          ? window.preloadSectionAssets(skillsSection)
+          : Promise.resolve();
+
+        Promise.race([
+          ready,
+          new Promise((resolve) => setTimeout(resolve, 1200)),
+        ]).then(() => {
+          playRingEnter();
+          playCloudEnter();
+        });
 
         hasPlayed = true;
         cooldownReady = false;
@@ -568,7 +689,7 @@ const observer = new IntersectionObserver(
       }, 5000);
     }
   },
-  { threshold: 0.35 }
+  { rootMargin: "400px 0px", threshold: 0.15 }
 );
 
 // ===== START OBSERVING =====
@@ -618,7 +739,14 @@ document.addEventListener("DOMContentLoaded", () => {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          playAnimation();
+          const ready = typeof window.preloadSectionAssets === "function"
+            ? window.preloadSectionAssets(skills)
+            : Promise.resolve();
+
+          Promise.race([
+            ready,
+            new Promise((resolve) => setTimeout(resolve, 1200)),
+          ]).then(playAnimation);
         } else {
           // Leaving: reset so next enter plays again immediately
           icons.forEach(resetAnimation);
@@ -641,10 +769,76 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelectorAll(".video-wrapper video").forEach((video) => {
   // Make sure it's always silent (required by browsers for autoplay-ish behavior)
   video.muted = true;
+  const wrapper = video.closest(".video-wrapper");
+  let framePrimed = wrapper?.classList.contains("is-video-ready") || video.readyState >= 2;
+
+  function markVideoReady() {
+    wrapper?.classList.add("is-video-ready");
+  }
+
+  function canLoadPreview() {
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const saveData = navigator.connection?.saveData;
+    return !reduceMotion && !saveData;
+  }
+
+  function waitForVideoReady(eventName, timeoutMs = 1600) {
+    return new Promise((resolve) => {
+      if (eventName === "loadeddata" && video.readyState >= 2) {
+        resolve();
+        return;
+      }
+
+      const done = () => {
+        clearTimeout(timer);
+        video.removeEventListener(eventName, done);
+        video.removeEventListener("error", done);
+        resolve();
+      };
+
+      const timer = setTimeout(done, timeoutMs);
+      video.addEventListener(eventName, done, { once: true });
+      video.addEventListener("error", done, { once: true });
+    });
+  }
+
+  async function ensureVideoLoaded({ primeFrame = false } = {}) {
+    if (!canLoadPreview()) return;
+    const src = video.dataset.src;
+    if (!src && !video.getAttribute("src")) return;
+
+    const hadSrc = Boolean(video.getAttribute("src"));
+    if (!hadSrc) video.src = src;
+
+    const desiredPreload = primeFrame ? "auto" : "metadata";
+    if (video.preload !== desiredPreload) video.preload = desiredPreload;
+
+    if (!hadSrc || video.readyState === 0 || (primeFrame && video.readyState < 2)) {
+      video.load();
+    }
+
+    if (!primeFrame || framePrimed) return;
+    framePrimed = true;
+
+    await waitForVideoReady("loadeddata");
+    markVideoReady();
+
+    try {
+      await video.play();
+      setTimeout(() => {
+        video.pause();
+        video.currentTime = 0;
+      }, 80);
+    } catch (_) {}
+  }
+
+  video.addEventListener("loadeddata", markVideoReady);
+  video.addEventListener("canplay", markVideoReady);
 
   video.addEventListener("mouseenter", async () => {
     try {
       // Rewind to start every time hover (optional — remove if want to resume)
+      await ensureVideoLoaded({ primeFrame: true });
       video.currentTime = 0;
 
       await video.play();
@@ -658,4 +852,21 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     video.pause();
     video.currentTime = 0; // reset back
   });
+
+  video.addEventListener("touchstart", () => {
+    ensureVideoLoaded({ primeFrame: true });
+  }, { passive: true });
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        ensureVideoLoaded({ primeFrame: true });
+        io.disconnect();
+      },
+      { rootMargin: "1400px 0px", threshold: 0.01 }
+    );
+
+    io.observe(video);
+  }
 });

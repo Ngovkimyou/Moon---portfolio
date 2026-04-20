@@ -199,6 +199,7 @@ figcaption h3 {
     );
 
     will-change: transform;
+    z-index: 0;
 }
 
 .demo-02 .video-wrapper .video-background {

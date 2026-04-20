@@ -6,16 +6,26 @@
 // ============================================================================
 
 window.addEventListener("load", () => {
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const saveData = navigator.connection?.saveData;
+  const isSmallScreen = window.matchMedia?.("(max-width: 768px)")?.matches;
+
   // Background video (hero)
   const bg = document.querySelector("video.background");
-  if (bg && !bg.src) {
-    bg.src = "videos/main-background-loop.mp4";
+  if (bg) {
+    if (!bg.getAttribute("src")) bg.src = "videos/main-background-loop.mp4";
+    bg.preload = "auto";
+    bg.muted = true;
+    bg.defaultMuted = true;
+    bg.autoplay = true;
+    bg.loop = true;
+    bg.playsInline = true;
     bg.play().catch(() => {});
   }
 
   // Button video
   const btnVid = document.querySelector("#ctaContact video");
-  if (btnVid && !btnVid.src) {
+  if (btnVid && !btnVid.src && !reduceMotion && !saveData && !isSmallScreen) {
     btnVid.src = "videos/button.mp4";
     btnVid.play().catch(() => {});
   }
@@ -27,10 +37,10 @@ window.addEventListener("load", () => {
     const ioContact = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!contactVid.getAttribute("src")) {
+          if (!contactVid.getAttribute("src") && !reduceMotion && !saveData && !isSmallScreen) {
             contactVid.setAttribute("src", "videos/contact-background.mp4");
           }
-          contactVid.play().catch(() => {});
+          if (contactVid.getAttribute("src")) contactVid.play().catch(() => {});
         } else {
           contactVid.pause();
         }
@@ -48,8 +58,10 @@ window.addEventListener("load", () => {
     const ioBH = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (!bh.src) bh.src = "videos/blackhole.mp4";
-          bh.play().catch(() => {});
+          if (!bh.getAttribute("src") && !reduceMotion && !saveData) {
+            bh.src = bh.dataset.src || "videos/blackhole.mp4";
+          }
+          if (bh.getAttribute("src")) bh.play().catch(() => {});
         } else {
           bh.pause();
         }
@@ -103,14 +115,118 @@ window.addEventListener("load", () => {
   const io = new IntersectionObserver(
     ([entry]) => {
       if (!entry.isIntersecting || done) return;
-      done = true;
-      preload(urls);
+      preloadAll();
       io.disconnect();
     },
     { rootMargin: "1200px 0px", threshold: 0.01 } 
   );
 
   io.observe(skills);
+})();
+
+// --------------- Section asset warmup --------------------
+(() => {
+  const saveData = navigator.connection?.saveData;
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const isSmallScreen = window.matchMedia?.("(max-width: 768px)")?.matches;
+  const warmed = new WeakMap();
+
+  function waitForLoad(el, eventName, timeoutMs = 1800) {
+    return new Promise((resolve) => {
+      if (el.complete && el.naturalWidth) {
+        resolve();
+        return;
+      }
+
+      const done = () => {
+        cleanup();
+        resolve();
+      };
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        el.removeEventListener(eventName, done);
+        el.removeEventListener("error", done);
+      };
+
+      const timer = setTimeout(done, timeoutMs);
+      el.addEventListener(eventName, done, { once: true });
+      el.addEventListener("error", done, { once: true });
+    });
+  }
+
+  function warmImage(img) {
+    img.loading = "eager";
+    img.decoding = "async";
+
+    const done = waitForLoad(img, "load");
+    if (img.decode) return done.then(() => img.decode().catch(() => {}));
+    return done;
+  }
+
+  function warmVideo(video) {
+    if (saveData || reduceMotion) return Promise.resolve();
+
+    const inProjects = Boolean(video.closest("#projects"));
+    const readyState = inProjects ? 2 : 1;
+    const src = video.dataset.src;
+    if (src && !video.getAttribute("src")) {
+      video.src = src;
+    }
+
+    video.preload = inProjects && !isSmallScreen ? "auto" : "metadata";
+    video.load();
+    if (video.readyState >= readyState) {
+      video.closest(".video-wrapper")?.classList.add("is-video-ready");
+      return Promise.resolve();
+    }
+
+    return waitForLoad(video, inProjects ? "loadeddata" : "loadedmetadata", isSmallScreen ? 800 : 1400)
+      .then(() => {
+        if (inProjects && video.readyState >= 2) {
+          video.closest(".video-wrapper")?.classList.add("is-video-ready");
+        }
+      });
+  }
+
+  window.preloadSectionAssets = function preloadSectionAssets(section) {
+    if (!section) return Promise.resolve();
+    if (warmed.has(section)) return warmed.get(section);
+
+    section.classList.add("assets-warming");
+
+    const tasks = [
+      ...Array.from(section.querySelectorAll("img")).map(warmImage),
+      ...Array.from(section.querySelectorAll("video")).map(warmVideo),
+    ];
+
+    const promise = Promise.allSettled(tasks).then(() => {
+      section.classList.add("assets-ready");
+      section.classList.remove("assets-warming");
+    });
+
+    warmed.set(section, promise);
+    return promise;
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    document.querySelectorAll("#skills, #projects").forEach(window.preloadSectionAssets);
+    return;
+  }
+
+  const rootMargin = isSmallScreen ? "900px 0px" : "1800px 0px";
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        window.preloadSectionAssets(entry.target);
+        io.unobserve(entry.target);
+      });
+    },
+    { rootMargin, threshold: 0.01 }
+  );
+
+  document.querySelectorAll("#skills, #projects").forEach((section) => io.observe(section));
 })();
 
 // ============================================================================
@@ -127,6 +243,14 @@ window.addEventListener("load", () => {
 
   const bgMusic = document.getElementById("bgMusic");
   const musicIcon = document.getElementById("musicIcon");
+  let canEnter = false;
+  let entered = false;
+  const shouldBlockForSectionPreviews =
+    !navigator.connection?.saveData &&
+    !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches &&
+    !window.matchMedia?.("(max-width: 768px)")?.matches;
+  const sectionsToBlockFor = ["skills"];
+  const sectionsToWarmAfterReady = ["projects"];
 
   // 🎵 main tracks
   const mainTracks = [
@@ -134,8 +258,17 @@ window.addEventListener("load", () => {
     "./music/main-background-music-02.mp3",
   ];
 
+  const contactTracks = [
+    "./music/contact-background-music-01-web.mp3",
+    "./music/contact-background-music-02.mp3",
+  ];
+  window.CONTACT_MUSIC_PRELOADS = contactTracks;
+
   // 🎵 last track
-  const lastTrack = "./music/contact-background-music-02.mp3";
+  const lastTrack = () => contactTracks[1];
+  let initialMainTrackIndex = Math.random() < 0.5 ? 0 : 1;
+  let useInitialMainTrack = true;
+  let backgroundWarmupStarted = false;
 
   let queue = [];
   let isPlaying = false;
@@ -149,13 +282,16 @@ window.addEventListener("load", () => {
   // Build one full cycle:
   // Random (01 or 02) -> the other one -> contact track
   function buildCycleQueue() {
-    const first = Math.random() < 0.5 ? 0 : 1; // 50/50
+    const first = useInitialMainTrack
+      ? initialMainTrackIndex
+      : (Math.random() < 0.5 ? 0 : 1);
     const second = 1 - first;
+    useInitialMainTrack = false;
 
     queue = [
       mainTracks[first],
       mainTracks[second],
-      lastTrack,
+      lastTrack(),
     ];
   }
 
@@ -262,10 +398,10 @@ window.addEventListener("load", () => {
   // 2) FONT DEFINITIONS
   // ----------------------------
   const FONTS = [
-    "400 1em Orbitron",
-    "700 1em Orbitron",
-    "400 1em Inter",
-    "600 1em Inter"
+    "400 1em 'New Rocker'",
+    "400 1em 'Syncopate'",
+    "700 1em 'Syncopate'",
+    "400 1em 'Yuji Syuku'"
   ];
 
   // ----------------------------
@@ -274,9 +410,21 @@ window.addEventListener("load", () => {
   let displayed = 0;
   let target = 0;
   let rafId = null;
+  let criticalAssetsReady = false;
+  let heroAutoplayTimer = null;
+  const HERO_BACKGROUND_SRC = "videos/main-background-loop.mp4";
+
+  function markReady() {
+    if (!criticalAssetsReady) return;
+    if (canEnter) return;
+    canEnter = true;
+    loader.classList.add("ready");
+    ringWrap.setAttribute("aria-label", "Start");
+  }
 
   function setProgress(p) {
-    target = Math.max(0, Math.min(100, p));
+    const capped = !criticalAssetsReady && p >= 100 ? 99 : p;
+    target = Math.max(0, Math.min(100, capped));
     if (!rafId) animateProgress();
   }
 
@@ -286,6 +434,10 @@ window.addEventListener("load", () => {
 
     ringWrap.style.setProperty("--p", displayed.toFixed(2));
     pctEl.textContent = `${Math.round(displayed)}%`;
+
+    if (target >= 100 && displayed >= 99.5 && criticalAssetsReady) {
+      markReady();
+    }
 
     if (displayed !== target) rafId = requestAnimationFrame(animateProgress);
     else rafId = null;
@@ -323,6 +475,168 @@ window.addEventListener("load", () => {
   //   });
   // }
 
+  function shouldLoadHeroVideo() {
+    return true;
+  }
+
+  function configureVideoForFirstPaint(video) {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.setAttribute("muted", "");
+    video.setAttribute("autoplay", "");
+    video.setAttribute("playsinline", "");
+  }
+
+  function waitForVideoFrame(video, timeoutMs = 3000) {
+    return new Promise((resolve) => {
+      if (video.readyState >= 2 && video.videoWidth) {
+        resolve();
+        return;
+      }
+
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve();
+      };
+
+      const fail = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve();
+      };
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        video.removeEventListener("loadeddata", done);
+        video.removeEventListener("canplay", done);
+        video.removeEventListener("playing", done);
+        video.removeEventListener("error", fail);
+      };
+
+      const timer = setTimeout(done, timeoutMs);
+      video.addEventListener("loadeddata", done, { once: true });
+      video.addEventListener("canplay", done, { once: true });
+      video.addEventListener("playing", done, { once: true });
+      video.addEventListener("error", fail, { once: true });
+    });
+  }
+
+  async function prepareHeroBackgroundVideo() {
+    const bg = document.querySelector("video.background");
+    if (!bg || !shouldLoadHeroVideo()) return;
+
+    configureVideoForFirstPaint(bg);
+    if (!bg.getAttribute("src")) {
+      bg.src = HERO_BACKGROUND_SRC;
+    }
+    bg.load();
+    bg.play().catch(() => {});
+
+    await waitForVideoFrame(bg);
+  }
+
+  function playHeroBackgroundVideo() {
+    const bg = document.querySelector("video.background");
+    if (!bg || !shouldLoadHeroVideo()) return;
+
+    configureVideoForFirstPaint(bg);
+    if (!bg.getAttribute("src")) {
+      bg.src = HERO_BACKGROUND_SRC;
+    }
+
+    if (bg.readyState === 0) bg.load();
+    if (!bg.paused && !bg.ended) return;
+
+    bg.play().catch(() => {});
+  }
+
+  function playHeroVisualsFromGesture() {
+    playHeroBackgroundVideo();
+
+    if (typeof window.resumeH1Video === "function") {
+      window.resumeH1Video();
+    } else if (typeof window.prepareH1 === "function") {
+      window.prepareH1().catch((err) => {
+        console.warn("H1 playback failed:", err);
+      });
+    }
+  }
+
+  function startHeroAutoplayWatch() {
+    if (!shouldLoadHeroVideo()) return;
+
+    playHeroBackgroundVideo();
+
+    if (typeof window.startH1Autoplay === "function") {
+      window.startH1Autoplay();
+    } else if (typeof window.resumeH1Video === "function") {
+      window.resumeH1Video();
+    }
+
+    if (heroAutoplayTimer) return;
+
+    heroAutoplayTimer = window.setInterval(() => {
+      const bg = document.querySelector("video.background");
+      if (bg && (bg.paused || bg.ended || bg.readyState < 2)) {
+        playHeroBackgroundVideo();
+      }
+
+      if (typeof window.startH1Autoplay === "function") {
+        window.startH1Autoplay();
+      } else if (typeof window.resumeH1Video === "function") {
+        window.resumeH1Video();
+      }
+    }, 1200);
+  }
+
+  function waitForH1Preparer(timeoutMs = 1200) {
+    return new Promise((resolve) => {
+      if (typeof window.prepareH1 === "function") {
+        resolve(window.prepareH1);
+        return;
+      }
+
+      const started = performance.now();
+      const check = () => {
+        if (typeof window.prepareH1 === "function") {
+          resolve(window.prepareH1);
+          return;
+        }
+
+        if (performance.now() - started >= timeoutMs) {
+          resolve(null);
+          return;
+        }
+
+        requestAnimationFrame(check);
+      };
+
+      requestAnimationFrame(check);
+    });
+  }
+
+  async function prepareCriticalHeroVisuals() {
+    const prepareH1 = await waitForH1Preparer();
+    const h1Ready = prepareH1 ? prepareH1() : Promise.resolve();
+
+    await Promise.allSettled([
+      prepareHeroBackgroundVideo(),
+      h1Ready,
+    ]);
+
+    // Give the background video and H1 canvas one paint before the loader can open.
+    await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+    await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  }
+
   function loadFonts() {
     if (!document.fonts) return Promise.resolve();
     FONTS.forEach((font) => {
@@ -333,17 +647,106 @@ window.addEventListener("load", () => {
     return document.fonts.ready;
   }
 
+  function preloadAudio(url, timeoutMs = 4000) {
+    return new Promise((resolve) => {
+      const audio = new Audio();
+
+      const done = () => {
+        cleanup();
+        resolve();
+      };
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        audio.removeEventListener("canplaythrough", done);
+        audio.removeEventListener("canplay", done);
+        audio.removeEventListener("loadeddata", done);
+        audio.removeEventListener("error", done);
+      };
+
+      const timer = setTimeout(done, timeoutMs);
+      audio.preload = "auto";
+      audio.addEventListener("canplaythrough", done, { once: true });
+      audio.addEventListener("canplay", done, { once: true });
+      audio.addEventListener("loadeddata", done, { once: true });
+      audio.addEventListener("error", done, { once: true });
+      audio.src = url;
+      audio.load();
+    });
+  }
+
+  async function preloadAudioBlob(url, onReady) {
+    const response = await fetch(url, { cache: "force-cache" });
+    if (!response.ok) throw new Error(`Audio failed: ${url}`);
+
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    onReady(blobUrl);
+  }
+
+  function warmRemainingAssetsInBackground() {
+    if (backgroundWarmupStarted || navigator.connection?.saveData) return;
+    backgroundWarmupStarted = true;
+
+    const warmAudio = (tracks, skipIndex = -1) => {
+      tracks.forEach((track, index) => {
+        if (index === skipIndex || track.startsWith("blob:")) return;
+
+        preloadAudioBlob(track, (blobUrl) => {
+          tracks[index] = blobUrl;
+        }).catch((err) => console.warn("Background audio warmup failed:", err));
+      });
+    };
+
+    warmAudio(mainTracks, initialMainTrackIndex);
+    warmAudio(contactTracks);
+
+    if (typeof window.preloadSectionAssets === "function") {
+      sectionsToWarmAfterReady.forEach((sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) window.preloadSectionAssets(section).catch?.(() => {});
+      });
+    }
+  }
+
   // ----------------------------
   // 5) MAIN LOADING FLOW
   // ----------------------------
   async function startLoading() {
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    startHeroAutoplayWatch();
 
     const tasks = [loadFonts()];
     for (const a of ASSETS) {
       if (a.type === "image") tasks.push(loadImage(a.url));
       // if (a.type === "video") tasks.push(loadVideo(a.url));
+    }
+
+    if (!navigator.connection?.saveData) {
+      if (shouldBlockForSectionPreviews) {
+        tasks.push(preloadAudioBlob(mainTracks[initialMainTrackIndex], (blobUrl) => {
+          mainTracks[initialMainTrackIndex] = blobUrl;
+        }));
+
+        contactTracks.forEach((track, index) => {
+          tasks.push(preloadAudioBlob(track, (blobUrl) => {
+            contactTracks[index] = blobUrl;
+          }));
+        });
+      } else {
+        tasks.push(preloadAudio(mainTracks[initialMainTrackIndex], 2500));
+        contactTracks.forEach((track) => {
+          tasks.push(preloadAudio(track, 2500));
+        });
+      }
+    }
+
+    if (shouldBlockForSectionPreviews && typeof window.preloadSectionAssets === "function") {
+      sectionsToBlockFor.forEach((sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) tasks.push(window.preloadSectionAssets(section));
+      });
     }
 
     const total = tasks.length || 1;
@@ -362,65 +765,51 @@ window.addEventListener("load", () => {
       })
     );
 
-    const TIMEOUT_MS = 15000;
-    let timedOut = false;
+    await Promise.allSettled(wrapped);
 
     await Promise.race([
-      Promise.allSettled(wrapped),
-      new Promise((r) =>
-        setTimeout(() => {
-          timedOut = true;
-          r();
-        }, TIMEOUT_MS)
-      ),
+      prepareCriticalHeroVisuals(),
+      new Promise((resolve) => setTimeout(resolve, 3500)),
     ]);
 
-    if (timedOut && done < total) {
-      setProgress(90);
-    } else {
-      setProgress(100);
-    }
-
-    if (typeof window.prepareH1 === "function") {
-      try {
-        await window.prepareH1();
-      } catch (e) {
-        console.warn("H1 prepare failed:", e);
-      }
-    }
+    criticalAssetsReady = true;
+    setProgress(100);
 
     // Let the UI paint before switching state
     await new Promise((r) => requestAnimationFrame(() => r()));
     await new Promise((r) => setTimeout(r, 200));
 
-    loader.classList.add("ready");
-
-    let entered = false;
-
-    const enter = () => {
-      if (entered) return;
-      entered = true;
-
-      // Reveal FIRST (instant feedback)
-      loader.classList.add("reveal");
-
-      // Kick off music WITHOUT blocking reveal
-      startBackgroundMusicFromUserGesture();
-
-      // Clouds timing
-      setTimeout(() => loader.classList.add("cloud-out"), 600);
-
-      // Remove loader
-      setTimeout(() => {
-        loader.style.display = "none";
-        document.documentElement.style.overflow = "";
-        document.body.style.overflow = "";
-      }, 2400);
-    };
-
-    // Put the listener on the loader itself (more reliable)
-    loader.addEventListener("pointerdown", enter, { once: true });
+    markReady();
+    warmRemainingAssetsInBackground();
   }
+
+  const enter = () => {
+    if (!canEnter || entered) return;
+    entered = true;
+
+    playHeroVisualsFromGesture();
+
+    // Reveal FIRST (instant feedback)
+    loader.classList.add("reveal");
+
+    // Kick off music WITHOUT blocking reveal
+    startBackgroundMusicFromUserGesture();
+
+    // Clouds timing
+    setTimeout(() => loader.classList.add("cloud-out"), 600);
+
+    // Remove loader
+    setTimeout(() => {
+      loader.style.display = "none";
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }, 2400);
+  };
+
+  loader.addEventListener("pointerdown", enter);
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") enter();
+  });
 
   startLoading();
 })();
@@ -615,6 +1004,28 @@ const downloadIcon = document.getElementById("downloadIcon");
 const pdfModal = document.getElementById("downloadPDF");
 const previewImg = document.getElementById("previewImg");
 const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+let jsPdfPromise = null;
+
+function loadScript(src) {
+  if (src.includes("jspdf") && jsPdfPromise) return jsPdfPromise;
+
+  return new Promise((resolve, reject) => {
+    const absoluteSrc = new URL(src, document.baseURI).href;
+    const existing = Array.from(document.scripts).find((script) => script.src === absoluteSrc);
+    if (existing) {
+      if (window.jspdf?.jsPDF) resolve();
+      else existing.addEventListener("load", resolve, { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error(`Script failed: ${src}`));
+    document.head.appendChild(script);
+  });
+}
 
 // Safety checks (so it won't crash if elements aren't on some page)
 if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
@@ -667,7 +1078,9 @@ if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
 
   // Download as PDF using jsPDF
   downloadPdfBtn.addEventListener("click", async () => {
-    // jsPDF is loaded via CDN as window.jspdf
+    jsPdfPromise = loadScript("https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js");
+    await jsPdfPromise;
+
     if (!window.jspdf?.jsPDF) {
       alert("jsPDF not loaded. Make sure the CDN script is included.");
       return;

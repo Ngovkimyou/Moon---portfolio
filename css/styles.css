@@ -185,7 +185,7 @@ header .config {
     --p: 0;               
     --start: 0deg;        
     position: relative;
-    width: min(520px, 70vw);
+    width: min(520px, 70vw, 62vh);
     aspect-ratio: 1/1;
 
     z-index: 2;
@@ -230,25 +230,29 @@ header .config {
 
 .loading-text {
     position: absolute;
-    top: 100%;
-    width: 100%;
+    left: 50%;
+    top: calc(100% + clamp(0.5rem, 2vh, 1.25rem));
+    width: min(82%, 430px);
+    transform: translateX(-50%);
 
     object-fit: contain;
     text-align: center;
 
     pointer-events: none;
-    transition: opacity 2s ease;
+    transition: opacity 400ms ease;
     opacity: 0;
+    z-index: 3;
 }
 
 .loading-text img {
-    width: 80%; height: 10%;
+    width: 100%;
+    height: auto;
     object-fit: contain;
 }
 
 .loading-text span {
     position: absolute;
-    top: 41%; left: 50%;
+    top: 48%; left: 50%;
     transform: translate(-50%, -50%);
 
     color: white;
