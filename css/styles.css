@@ -202,15 +202,20 @@ header .config {
 }
 
 .ring--full{
+    --mask-edge: calc(var(--p) * 1%);
+    --mask-soft-start: max(0%, calc(var(--mask-edge) - .25%));
+    --mask-soft-end: min(100%, calc(var(--mask-edge) + .25%));
     -webkit-mask-image: conic-gradient(
         from var(--start),
-            #000 calc(var(--p) * 1%),
-            transparent 0
+            #000 0 var(--mask-soft-start),
+            rgba(0, 0, 0, .85) var(--mask-edge),
+            transparent var(--mask-soft-end)
     );
     mask-image: conic-gradient(
         from var(--start),
-            #000 calc(var(--p) * 1%),
-            transparent 0
+            #000 0 var(--mask-soft-start),
+            rgba(0, 0, 0, .85) var(--mask-edge),
+            transparent var(--mask-soft-end)
     );
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
@@ -226,6 +231,24 @@ header .config {
     color: rgba(255,255,255,0.92);
     letter-spacing: 1.5px;
     text-shadow: 0 0 14px rgba(255,255,255,0.25);
+}
+
+.moon-fill {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.62) rotate(-10deg);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.moon-fill img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(.95);
 }
 
 .loading-text {
@@ -269,20 +292,99 @@ header .config {
     cursor: pointer;
 }
 
+.loader.reveal .ring--dim,
+.loader.reveal .ring--full,
+.loader.reveal .pct,
+.loader.reveal .loading-text {
+    animation: loaderAssetFade 4s ease-in-out forwards;
+}
+
+.loader.reveal .moon-fill {
+    animation: moonGlobeAppear 4s ease forwards;
+}
+
+.loader.reveal .moon-fill::before {
+    content: none;
+}
+
+.loader.reveal .moon-fill img {
+    animation: moonGlobeReveal 2s ease forwards;
+}
+
+@keyframes loaderAssetFade {
+    0%, 28% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes moonGlobeAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.54) rotate(-12deg);
+    }
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.15) rotate(10deg);
+    }
+}
+
+@keyframes moonGlobeReveal {
+    from {
+        transform: scale(.95);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
 /* ------------------------- Black Clouds ------------------------------ */
 
 .reveal-clouds{
     position: absolute;
     width: 100%; height: 100%;
     pointer-events: none;
+    overflow: hidden;
+    isolation: isolate;
     z-index: 10000; 
+}
+
+.reveal-clouds::before,
+.reveal-clouds::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.reveal-clouds::before,
+.reveal-clouds::after {
+  top: 50%;
+  width: 210%; height: 210%;
+  opacity: 0;
+  background: center / contain no-repeat url("../images/home-section/black-cloud.webp");
+  filter: blur(6px) brightness(.72);
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 2;
+}
+
+.reveal-clouds::before {
+  left: 8%;
+}
+
+.reveal-clouds::after {
+  left: 82%;
+  width: 230%; height: 230%;
+  filter: blur(10px) brightness(.66);
+  z-index: 1;
 }
 
 .reveal-clouds .cloud{
   position: absolute;
   top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
   width: 200%; height: 200%;
+  transform: translate(-50%, -50%);
 
   object-fit: contain;
   opacity: 0;
@@ -296,8 +398,31 @@ header .config {
   left: 80%;
 }
 
-.loader.reveal .cloud--left  { --dir: -1; }
-.loader.reveal .cloud--right { --dir: 1; }
+.loader.reveal .cloud--left  {
+  --dir: -1;
+}
+
+.loader.reveal .cloud--right {
+  --dir: 1;
+}
+
+.loader.reveal .reveal-clouds::before {
+  --dir: -1;
+  --layer-opacity: .48;
+  --layer-scale-start: .96;
+  --layer-scale-mid: 1.06;
+  --layer-scale-end: 1.15;
+  animation: cloudLayerSplit 3.35s ease-in .5s both;
+}
+
+.loader.reveal .reveal-clouds::after {
+  --dir: 1;
+  --layer-opacity: .34;
+  --layer-scale-start: 1.04;
+  --layer-scale-mid: 1.12;
+  --layer-scale-end: 1.22;
+  animation: cloudLayerSplit 3.65s ease-in .6s both;
+}
 
 .loader.reveal .reveal-clouds .cloud {
   opacity: 1;
@@ -316,9 +441,28 @@ header .config {
   }
 }
 
+@keyframes cloudLayerSplit {
+  0% {
+    opacity: var(--layer-opacity, .42);
+    transform: translate(-50%, -50%) scale(var(--layer-scale-start, 1));
+  }
+  70% {
+    opacity: var(--layer-opacity, .42);
+    transform: translate(calc(-50% + (var(--dir) * 90vw)), -50%) scale(var(--layer-scale-mid, 1.1));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + (var(--dir) * 100vw)), -50%) scale(var(--layer-scale-end, 1.2));
+  }
+}
+
 .loader.reveal .ring-wrap{
-  opacity: 0;
-  transition: opacity .5s ease;
+  animation: ringWrapExit 1.55s ease forwards;
+}
+
+@keyframes ringWrapExit {
+  0%, 72% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .loader.reveal::before{
@@ -328,7 +472,17 @@ header .config {
 
 .loader.cloud-out .reveal-clouds .cloud{
   opacity: 0;
-  transition: opacity 5s ease; 
+  transition: opacity 1.8s ease; 
+}
+
+.loader.cloud-out .reveal-clouds::after{
+  opacity: 0;
+  transition: opacity .8s ease; 
+}
+
+.loader.cloud-out .reveal-clouds::before{
+  opacity: 0;
+  transition: opacity 1.8s ease; 
 }
 
 /* 

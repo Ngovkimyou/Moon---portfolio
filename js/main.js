@@ -365,9 +365,10 @@ window.addEventListener("load", () => {
   // ----------------------------
   const ASSETS = [
     // Loader assets
-    { type: "image", url: "images/home-section/dim-loading-screen.webp" },
-    { type: "image", url: "images/home-section/loading-screen.webp" },
-    { type: "image", url: "images/home-section/start-loading-text.webp" },
+    { type: "image", url: "images/home-section/dim-loading-screen.png" },
+    { type: "image", url: "images/home-section/loading-screen.png" },
+    { type: "image", url: "images/home-section/start-loading-text.png" },
+    { type: "image", url: "images/home-section/moon-globe.png" },
 
     // Home / hero assets
     // { type: "image", url: "icons/moon-logo.png" },
@@ -796,14 +797,14 @@ window.addEventListener("load", () => {
     startBackgroundMusicFromUserGesture();
 
     // Clouds timing
-    setTimeout(() => loader.classList.add("cloud-out"), 600);
+    setTimeout(() => loader.classList.add("cloud-out"), 3400);
 
     // Remove loader
     setTimeout(() => {
       loader.style.display = "none";
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
-    }, 2400);
+    }, 5200);
   };
 
   loader.addEventListener("pointerdown", enter);

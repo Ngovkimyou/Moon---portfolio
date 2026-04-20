@@ -34,6 +34,7 @@
 .solar-ring, .inner-ring, .outer-ring {
     pointer-events: none;
     opacity: 0;
+    transition: opacity .25s ease;
 }
 
 .solar-ring-container {
@@ -163,7 +164,12 @@
     100% { transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }  
 }
 
-.cloud img.cloud-enter {
+.skills .cloud img {
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+.skills .cloud img.cloud-enter {
     animation: cloudFade 3.5s ease-in-out forwards;
 }
 
@@ -172,22 +178,22 @@
     to { opacity: 1; }
 }
 
-.cloud img:nth-child(1) {
+.skills .cloud img:nth-child(1) {
     position: absolute;
     top: 0; left: -8rem;
 }
 
-.cloud img:nth-child(2) {
+.skills .cloud img:nth-child(2) {
     position: absolute;
     top: 0; right: 0;
 }
 
-.cloud img:nth-child(3) {
+.skills .cloud img:nth-child(3) {
     position: absolute;
     right: 0; bottom: 0;
 }
 
-.cloud img:nth-child(4) {
+.skills .cloud img:nth-child(4) {
     position: absolute;
     left: -10rem; bottom: -3rem;
 }
@@ -299,6 +305,7 @@
     border-radius: 50%;
 
     opacity: 0;
+    transition: opacity .25s ease;
     backface-visibility: hidden;
     will-change: transform, opacity;
     transform: translate(-50%, -50%) translateY(-2.5rem) scale(0);
@@ -313,6 +320,15 @@
     transition: 1s ease;
     animation: iconPop 1s ease-in forwards;
     animation-delay: calc(2s + var(--delay, 0ms));
+}
+
+.skills .solar-container img.fade-out {
+    animation: skillAssetFadeOut .45s ease forwards;
+}
+
+@keyframes skillAssetFadeOut {
+    from { opacity: var(--fade-opacity, 1); }
+    to { opacity: 0; }
 }
 
 @keyframes iconPop {

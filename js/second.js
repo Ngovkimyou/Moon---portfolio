@@ -619,18 +619,28 @@ v.addEventListener("canplay", () => v.classList.add("is-ready"), { once: true })
 const skillsSection = document.querySelector("#skills");
 const rings = document.querySelectorAll("#skills .scale-up");
 const clouds = document.querySelectorAll("#skills .cloud img");
+const skillVisualAssets = document.querySelectorAll("#skills .solar-container img");
+const SKILLS_SCREEN_COVERAGE = 0.6;
+const SKILLS_OBSERVER_STEPS = Array.from({ length: 101 }, (_, i) => i / 100);
 
 // ===== STATE =====
-let hasPlayed = false;
-let cooldownReady = true;
-let cooldownTimer = null;
+let skillsAnimationRun = 0;
+let skillsAssetsActive = false;
+let skillAssetsFadeTimer = null;
+
+function skillsCoversScreen(entry) {
+  const viewportHeight = entry.rootBounds?.height || window.innerHeight || document.documentElement.clientHeight;
+  return entry.isIntersecting && entry.intersectionRect.height >= viewportHeight * SKILLS_SCREEN_COVERAGE;
+}
 
 // ===== RINGS: scale-up with delay in SECONDS =====
 function playRingEnter() {
+  clearTimeout(skillAssetsFadeTimer);
   rings.forEach(ring => {
     const delaySec = Number(ring.dataset.delay) || 0;
 
     ring.classList.remove("enter");
+    ring.classList.remove("fade-out");
     ring.style.animationDelay = `${delaySec}s`;
     void ring.offsetWidth; // force reflow
     ring.classList.add("enter");
@@ -645,10 +655,19 @@ function playRingEnter() {
   });
 }
 
+// ===== RESET RINGS (hide until Skills reaches threshold again) =====
+function resetRings() {
+  rings.forEach(ring => {
+    ring.classList.remove("enter", "fade-out");
+    ring.style.animationDelay = "0s";
+  });
+}
+
 // ===== CLOUDS: opacity fade (no scale) =====
 function playCloudEnter() {
   clouds.forEach(img => {
     img.classList.remove("cloud-enter");
+    img.classList.remove("fade-out");
     void img.offsetWidth; // force reflow
     img.classList.add("cloud-enter");
   });
@@ -657,39 +676,61 @@ function playCloudEnter() {
 // ===== RESET CLOUDS (animation can replay) =====
 function resetClouds() {
   clouds.forEach(img => {
-    img.classList.remove("cloud-enter");
+    img.classList.remove("cloud-enter", "fade-out");
   });
+}
+
+function resetSkillAssets() {
+  resetRings();
+  resetClouds();
+  skillVisualAssets.forEach(asset => {
+    asset.classList.remove("fade-out");
+    asset.style.removeProperty("--fade-opacity");
+  });
+}
+
+function fadeOutSkillAssets() {
+  clearTimeout(skillAssetsFadeTimer);
+  skillVisualAssets.forEach(asset => {
+    asset.style.setProperty("--fade-opacity", getComputedStyle(asset).opacity);
+    asset.classList.add("fade-out");
+  });
+
+  skillAssetsFadeTimer = setTimeout(resetSkillAssets, 450);
 }
 
 // ===== INTERSECTION OBSERVER =====
 const observer = new IntersectionObserver(
   ([entry]) => {
-    if (entry.isIntersecting) {
-      if (!hasPlayed || cooldownReady) {
-        const ready = typeof window.preloadSectionAssets === "function"
-          ? window.preloadSectionAssets(skillsSection)
-          : Promise.resolve();
+    const canPlay = skillsCoversScreen(entry);
 
-        Promise.race([
-          ready,
-          new Promise((resolve) => setTimeout(resolve, 1200)),
-        ]).then(() => {
-          playRingEnter();
-          playCloudEnter();
-        });
-
-        hasPlayed = true;
-        cooldownReady = false;
-      }
-    } else {
-      clearTimeout(cooldownTimer);
-      cooldownTimer = setTimeout(() => {
-        cooldownReady = true;
-        resetClouds(); // allow fade-in again
-      }, 5000);
+    if (!entry.isIntersecting) {
+      skillsAssetsActive = false;
+      skillsAnimationRun += 1;
+      fadeOutSkillAssets();
+      return;
     }
+
+    if (!canPlay || skillsAssetsActive) return;
+
+    skillsAssetsActive = true;
+    skillsAnimationRun += 1;
+    const runId = skillsAnimationRun;
+
+    const ready = typeof window.preloadSectionAssets === "function"
+      ? window.preloadSectionAssets(skillsSection)
+      : Promise.resolve();
+
+    Promise.race([
+      ready,
+      new Promise((resolve) => setTimeout(resolve, 1200)),
+    ]).then(() => {
+      if (runId !== skillsAnimationRun) return;
+      playRingEnter();
+      playCloudEnter();
+    });
   },
-  { rootMargin: "400px 0px", threshold: 0.15 }
+  { threshold: SKILLS_OBSERVER_STEPS }
 );
 
 // ===== START OBSERVING =====
@@ -704,6 +745,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!skills) return;
 
   const icons = skills.querySelectorAll(".inner-icons img, .outer-icons img");
+  let iconAnimationRun = 0;
+  let iconsActive = false;
+  let iconsFadeTimer = null;
 
   // Auto stagger
   const step = 120;         // delay between icons (ms)
@@ -719,7 +763,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const resetAnimation = (el) => {
     // Remove class
-    el.classList.remove("enter");
+    el.classList.remove("enter", "fade-out");
+    el.style.removeProperty("--fade-opacity");
 
     // Hard reset animation so it can replay instantly next time
     el.style.animation = "none";
@@ -728,6 +773,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const playAnimation = () => {
+    clearTimeout(iconsFadeTimer);
     icons.forEach((img) => {
       // Reset + add so it always replays
       resetAnimation(img);
@@ -735,27 +781,50 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  const fadeOutIcons = () => {
+    clearTimeout(iconsFadeTimer);
+    icons.forEach((img) => {
+      img.style.setProperty("--fade-opacity", getComputedStyle(img).opacity);
+      img.classList.add("fade-out");
+    });
+    iconsFadeTimer = setTimeout(() => {
+      icons.forEach(resetAnimation);
+    }, 450);
+  };
+
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const ready = typeof window.preloadSectionAssets === "function"
-            ? window.preloadSectionAssets(skills)
-            : Promise.resolve();
+        const canPlay = skillsCoversScreen(entry);
 
-          Promise.race([
-            ready,
-            new Promise((resolve) => setTimeout(resolve, 1200)),
-          ]).then(playAnimation);
-        } else {
-          // Leaving: reset so next enter plays again immediately
-          icons.forEach(resetAnimation);
+        if (!entry.isIntersecting) {
+          iconsActive = false;
+          iconAnimationRun += 1;
+          fadeOutIcons();
+          return;
         }
+
+        if (!canPlay || iconsActive) return;
+
+        iconsActive = true;
+        iconAnimationRun += 1;
+        const runId = iconAnimationRun;
+
+        const ready = typeof window.preloadSectionAssets === "function"
+          ? window.preloadSectionAssets(skills)
+          : Promise.resolve();
+
+        Promise.race([
+          ready,
+          new Promise((resolve) => setTimeout(resolve, 1200)),
+        ]).then(() => {
+          if (runId !== iconAnimationRun) return;
+          playAnimation();
+        });
       });
     },
     {
-      threshold: 0.25,
-      rootMargin: "0px 0px -10% 0px", // makes it trigger a bit earlier
+      threshold: SKILLS_OBSERVER_STEPS,
     }
   );
 
