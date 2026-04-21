@@ -140,15 +140,165 @@ body .background, .btn video {
 }
 
 header {
-    background: linear-gradient(rgb(1, 6, 31), rgba(7, 17, 55, 0.745), rgba(31, 51, 118, 0.888), rgba(113, 78, 255, 0.57), rgba(195, 42, 255, 0.609), transparent);
+    position: relative;
+    overflow: visible;
     width: 100%;
+    isolation: isolate;
+    background: transparent;
+}
+
+header::before,
+header::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+header::before {
+    inset: -1.5rem -12% -8rem;
+    background:
+        radial-gradient(ellipse at 16% 26%, rgba(70, 92, 255, .32), transparent 17%, rgba(70, 92, 255, .14) 32%, transparent 58%),
+        radial-gradient(ellipse at 55% 22%, rgba(139, 58, 255, .28), transparent 16%, rgba(222, 60, 255, .18) 35%, transparent 62%),
+        radial-gradient(ellipse at 86% 24%, rgba(241, 47, 255, .3), transparent 18%, rgba(96, 84, 255, .14) 38%, transparent 64%),
+        linear-gradient(
+            to bottom,
+            rgba(4, 5, 22, .68) 0%,
+            rgba(12, 15, 70, .52) 12%,
+            rgba(33, 36, 132, .34) 24%,
+            transparent 35%,
+            rgba(106, 76, 255, .24) 45%,
+            transparent 55%,
+            rgba(209, 43, 255, .32) 64%,
+            rgba(115, 72, 230, .16) 77%,
+            transparent 100%
+        );
+    background-size: 150% 100%, 170% 100%, 145% 100%, 100% 100%;
+    filter: blur(14px) saturate(1.4) brightness(1.08);
+    opacity: .98;
+    transform-origin: center top;
+    animation: header-aurora-horizon 9s ease-in-out infinite alternate;
+}
+
+header::after {
+    inset: -.5rem -36% -10rem;
+    background:
+        radial-gradient(ellipse at 18% 24%, transparent 0%, rgba(76, 105, 255, .2) 13%, transparent 26%, rgba(197, 49, 255, .22) 42%, transparent 68%),
+        radial-gradient(ellipse at 42% 30%, transparent 0%, rgba(146, 62, 255, .18) 14%, transparent 28%, rgba(255, 83, 238, .2) 45%, transparent 70%),
+        radial-gradient(ellipse at 74% 22%, transparent 0%, rgba(255, 62, 238, .22) 13%, transparent 27%, rgba(98, 91, 255, .18) 43%, transparent 72%),
+        linear-gradient(
+            196deg,
+            transparent 0%,
+            rgba(89, 111, 255, .1) 8%,
+            transparent 12%,
+            rgba(180, 65, 255, .12) 19%,
+            transparent 23%,
+            rgba(255, 82, 240, .1) 31%,
+            transparent 36%,
+            rgba(97, 91, 255, .09) 44%,
+            transparent 49%,
+            rgba(214, 44, 255, .12) 58%,
+            transparent 63%,
+            rgba(255, 76, 238, .08) 72%,
+            transparent 78%,
+            rgba(94, 112, 255, .1) 88%,
+            transparent 94%
+        ),
+        linear-gradient(
+            100deg,
+            transparent 0%,
+            rgba(64, 94, 255, .12) 10%,
+            transparent 15%,
+            rgba(64, 94, 255, .04) 18%,
+            transparent 21%,
+            rgba(132, 55, 255, .18) 26%,
+            transparent 31%,
+            rgba(132, 55, 255, .05) 34%,
+            transparent 37%,
+            rgba(209, 42, 255, .25) 44%,
+            transparent 49%,
+            rgba(209, 42, 255, .06) 53%,
+            transparent 56%,
+            rgba(255, 76, 238, .18) 62%,
+            transparent 68%,
+            rgba(255, 76, 238, .05) 72%,
+            transparent 75%,
+            rgba(92, 92, 255, .12) 82%,
+            transparent 89%,
+            rgba(162, 64, 255, .08) 93%,
+            transparent 100%
+        );
+    background-size: 170% 100%, 190% 100%, 160% 100%, 320% 100%, 260% 100%;
+    filter: blur(20px) saturate(2);
+    mix-blend-mode: screen;
+    opacity: .96;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .72) 10%, black 24%, rgba(0, 0, 0, .76) 46%, rgba(0, 0, 0, .36) 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .72) 10%, black 24%, rgba(0, 0, 0, .76) 46%, rgba(0, 0, 0, .36) 70%, transparent 100%);
+    transform: translateX(-8%) translateY(-8%) skewY(-1deg) scaleY(1.12);
+    animation: header-aurora-curtain 8.5s ease-in-out infinite alternate;
 }
 
 header .config {
+    position: relative;
     display: flex;
     gap: 2rem;
     padding: 1.5rem 0;
     margin: 0 10rem;
+    z-index: 2;
+}
+
+@keyframes header-aurora-horizon {
+    0% {
+        background-position: 500% 48%, 125% 50%, 100% 152%, 10% 50%;
+        background-size: 150% 100%, 170% 100%, 145% 100%, 100% 100%;
+        transform: translateY(-4%) skewY(-3deg) scaleY(.98);
+        opacity: .82;
+    }
+    30% {
+        opacity: .6;
+    }
+    50% {
+        background-position: 42% 96%, 168% 42%, 34% 58%, 150% 50%;
+        background-size: 165% 106%, 158% 96%, 172% 108%, 100% 100%;
+        transform: translateY(3%) skewY(1.2deg) scaleY(1.15);
+        opacity: 1;
+    }
+    80% {
+        opacity: .5;
+    }
+    100% {
+        background-position: 100% 150%, 15% 6%, 0% 48%, 50% 350%;
+        background-size: 145% 98%, 180% 108%, 150% 96%, 100% 100%;
+        transform: translateY(-1%) skewY(-.6deg) scaleY(1.04);
+        opacity: .9;
+    }
+}
+
+@keyframes header-aurora-curtain {
+    0% {
+        background-position: 0% 42%, 35% 50%, 100% 45%, 20% 50%, 0% 50%;
+        background-size: 170% 100%, 190% 100%, 160% 100%, 320% 100%, 260% -30%;
+        transform: translateX(-8%) translateY(-9%) skewY(-1.8deg) scaleY(1.04);
+        opacity: .42;
+    }
+    25% {
+        opacity: .3;
+    }
+    50% {
+        background-position: 44% 58%, 62% 38%, 30% 60%, 78% 50%, 64% 10%;
+        background-size: 184% 112%, 172% 92%, 178% 116%, 340% 106%, 260% 100%;
+        transform: translateX(1%) translateY(-3%) skewY(1.6deg) scaleY(1.22);
+        opacity: .9;
+    }
+    75% {
+        opacity: .5;
+    }
+    100% {
+        background-position: 20% 48%, 10% 52%, 0% 50%, 100% 50%, 100% 30%;
+        background-size: 162% 96%, 196% 112%, 154% 98%, 300% 96%, 260% -10%;
+        transform: translateX(7%) translateY(-6%) skewY(1deg) scaleY(1.12);
+        opacity: .2;
+    }
 }
 
 /* 
@@ -356,10 +506,6 @@ header .config {
   content: "";
   position: absolute;
   pointer-events: none;
-}
-
-.reveal-clouds::before,
-.reveal-clouds::after {
   top: 50%;
   width: 210%; height: 210%;
   opacity: 0;
@@ -666,6 +812,7 @@ html[lang="en"] .lang.en i {
     background: rgba(20, 20, 30, 0.65);
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 
+    max-height: 90vh;
     overflow: hidden;
 }
 
@@ -725,6 +872,34 @@ html[lang="en"] .lang.en i {
     flex-direction: column;
     justify-content: center;
     align-items: center;  
+    gap: 1rem;
+}
+
+.pdf-pages {
+    width: min(100%, 30rem);
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    padding-right: .5rem;
+}
+
+.pdf-pages::-webkit-scrollbar {
+    width: .75rem;
+}
+
+.pdf-pages::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.pdf-pages::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(20, 20, 30, 0.85);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.78);
 }
 
 .download-container {
@@ -780,7 +955,8 @@ html[lang="en"] .lang.en i {
 }
 
 .pdf-img {
-    max-height: 60vh;
+    width: 100%;
+    max-height: calc(60vh - 1rem);
 
     object-fit: contain;
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -788,6 +964,16 @@ html[lang="en"] .lang.en i {
 
     cursor: zoom-in;
     user-select: none;
+}
+
+.pdf-img:fullscreen {
+    width: auto;
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+    border: none;
+    border-radius: 0;
+    background: black;
 }
 
 body.pdf-open {

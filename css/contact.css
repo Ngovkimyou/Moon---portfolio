@@ -41,8 +41,12 @@
     transform: rotateZ(-90deg);
     pointer-events: none;
     will-change: transform, opacity;
-    animation: contact-glow1 30s linear infinite;
+    opacity: 0;
     z-index: 9999;
+}
+
+.contact.is-open .contact-stars {
+    animation: contact-glow1 30s linear infinite;
 }
 
 .contact-first-stars {

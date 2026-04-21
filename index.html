@@ -149,11 +149,19 @@
 
                     <button class="pdf-close" type="button" aria-label="Close" data-close="true">✕</button>
 
-                    <div class="pdf-container">
-                        <img
-                            id="previewImg" class="pdf-img" title="Click to view fullscreen"
-                            src="images/home-section/resume.webp" alt="resume" loading="eager" decoding="async"
-                        />
+                    <div class="pdf-container" id="resumePreview" data-resume-lang="en">
+                        <div class="pdf-pages" aria-label="Resume preview pages">
+                            <img
+                                class="pdf-img" title="Click to view fullscreen"
+                                src="images/home-section/Resume-EN-1.png" alt="English resume page 1" loading="eager" decoding="async"
+                                data-resume-page="1"
+                            />
+                            <img
+                                class="pdf-img" title="Click to view fullscreen"
+                                src="images/home-section/Resume-EN-2.png" alt="English resume page 2" loading="eager" decoding="async"
+                                data-resume-page="2"
+                            />
+                        </div>
 
                         <div class="download-container">
                             <button id="downloadPdfBtn" class="btn" type="button" data-i18n="pdf.download">Download</button>

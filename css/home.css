@@ -214,13 +214,69 @@ main .intro {
 }
 
 .info .name {
+    position: relative;
     font-family: Syncopate ,cursive, Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(45deg, black,white, gray, black, white);
+    display: inline-block;
+    background: linear-gradient(
+        110deg,
+        rgb(14, 14, 18) 0%,
+        rgb(255, 255, 255) 16%,
+        rgb(126, 220, 255) 29%,
+        rgb(210, 132, 255) 43%,
+        rgb(255, 91, 149) 56%,
+        rgb(255, 255, 255) 69%,
+        rgb(99, 255, 214) 83%,
+        rgb(14, 14, 18) 100%
+    );
+    background-size: 320% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(-1px 1px 1px white) drop-shadow(1px -1px 1px black);
+    filter:
+        drop-shadow(-1px 1px 1px rgba(255, 255, 255, 0.8))
+        drop-shadow(1px -1px 1px black)
+        drop-shadow(0 0 10px rgba(126, 220, 255, 0.45));
     letter-spacing: -1px;
+    animation:
+        name-aurora-flow 7s ease-in-out infinite,
+        name-aurora-glow 4s ease-in-out infinite alternate;
+}
+
+.info .name::after {
+    content: attr(data-aurora-text);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.16);
+    filter: blur(7px);
+    opacity: .75;
+    pointer-events: none;
+    transform: translateY(.03em);
+    z-index: -1;
+}
+
+@keyframes name-aurora-flow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes name-aurora-glow {
+    0% {
+        filter:
+            drop-shadow(-1px 1px 1px rgba(255, 255, 255, 0.8))
+            drop-shadow(1px -1px 1px black)
+            drop-shadow(0 0 8px rgba(126, 220, 255, 0.35));
+    }
+    100% {
+        filter:
+            drop-shadow(-1px 1px 1px white)
+            drop-shadow(1px -1px 1px black)
+            drop-shadow(0 0 18px rgba(255, 91, 149, 0.55));
+    }
 }
 
 /* 

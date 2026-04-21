@@ -844,10 +844,21 @@ icons.forEach((icon) => {
 const langIcon = document.getElementById("langIcon");
 const langContainer = document.querySelector(".lang-container");
 const langItems = document.querySelectorAll(".languages .lang");
+const resumePreview = document.getElementById("resumePreview");
 
 // --- Config ---
 const SUPPORTED = ["en", "ja"]; // add "km" later
 const DEFAULT_LANG = "en";
+const RESUME_IMAGES = {
+  en: [
+    { src: "images/home-section/Resume-EN-1.png", alt: "English resume page 1" },
+    { src: "images/home-section/Resume-EN-2.png", alt: "English resume page 2" },
+  ],
+  ja: [
+    { src: "images/home-section/Resume-JP-1.png", alt: "Japanese resume page 1" },
+    { src: "images/home-section/Resume-JP-2.png", alt: "Japanese resume page 2" },
+  ],
+};
 
 // --- i18n state ---
 let dict = {};
@@ -872,6 +883,21 @@ function setActiveLangUI(lang) {
   });
 }
 
+function updateResumePreview(lang) {
+  if (!resumePreview) return;
+
+  const resumeImages = RESUME_IMAGES[safeLang(lang)] || RESUME_IMAGES[DEFAULT_LANG];
+  resumePreview.dataset.resumeLang = safeLang(lang);
+
+  resumePreview.querySelectorAll(".pdf-img").forEach((img, index) => {
+    const image = resumeImages[index];
+    if (!image) return;
+
+    img.src = image.src;
+    img.alt = image.alt;
+  });
+}
+
 // ---------- Load + Apply Translations ----------
 async function fetchDict(lang) {
   // Works even if index.html is nested in folders
@@ -890,6 +916,12 @@ function syncSectionTitleShadows() {
     if (textEl) {
       titleEl.setAttribute("data-shadow", textEl.textContent.trim());
     }
+  });
+}
+
+function syncAuroraText() {
+  document.querySelectorAll(".info .name").forEach((nameEl) => {
+    nameEl.setAttribute("data-aurora-text", nameEl.textContent.trim());
   });
 }
 
@@ -929,6 +961,8 @@ function applyDict(lang) {
 
   // Sync animated section title shadow text after translations applied
   syncSectionTitleShadows();
+  syncAuroraText();
+  updateResumePreview(lang);
 
   document.documentElement.lang = lang;
 }
@@ -945,6 +979,8 @@ async function setLang(lang) {
 
     // Even with fallback, still sync section title shadows from current HTML
     syncSectionTitleShadows();
+    syncAuroraText();
+    updateResumePreview(l);
   }
 
   localStorage.setItem("lang", l);
@@ -991,6 +1027,7 @@ langItems.forEach((el) => {
 
   // Sync section title shadows immediately from fallback HTML
   syncSectionTitleShadows();
+  syncAuroraText();
 
   // Then try to load translations
   await setLang(initial);
@@ -1003,7 +1040,6 @@ langItems.forEach((el) => {
 // -------- Download PDF Modal Logic --------
 const downloadIcon = document.getElementById("downloadIcon");
 const pdfModal = document.getElementById("downloadPDF");
-const previewImg = document.getElementById("previewImg");
 const downloadPdfBtn = document.getElementById("downloadPdfBtn");
 let jsPdfPromise = null;
 
@@ -1028,9 +1064,52 @@ function loadScript(src) {
   });
 }
 
+function getResumeImages() {
+  return Array.from(resumePreview?.querySelectorAll(".pdf-img") || []);
+}
+
+function loadImage(img) {
+  return new Promise((resolve, reject) => {
+    if (img.complete && img.naturalWidth) return resolve();
+    img.onload = resolve;
+    img.onerror = reject;
+  });
+}
+
+function imageToDataUrl(img) {
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  const isPng = (img.src || "").toLowerCase().includes(".png");
+  return {
+    dataUrl: canvas.toDataURL(isPng ? "image/png" : "image/jpeg", 1.0),
+    format: isPng ? "PNG" : "JPEG",
+  };
+}
+
+function fitImageToPage(pdf, img) {
+  const pageW = pdf.internal.pageSize.getWidth();
+  const pageH = pdf.internal.pageSize.getHeight();
+  const scale = Math.min(pageW / img.naturalWidth, pageH / img.naturalHeight);
+  const w = img.naturalWidth * scale;
+  const h = img.naturalHeight * scale;
+
+  return {
+    w,
+    h,
+    x: (pageW - w) / 2,
+    y: (pageH - h) / 2,
+  };
+}
+
 // Safety checks (so it won't crash if elements aren't on some page)
-if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
+if (downloadIcon && pdfModal && resumePreview && downloadPdfBtn) {
   function openPDFModal() {
+    updateResumePreview(document.documentElement.lang);
     pdfModal.hidden = false;
     document.body.classList.add("pdf-open");
   }
@@ -1058,14 +1137,17 @@ if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
   });
 
   // Click image -> fullscreen toggle
-  previewImg.addEventListener("click", async () => {
+  resumePreview.addEventListener("click", async (e) => {
+    const img = e.target.closest(".pdf-img");
+    if (!img) return;
+
     try {
       if (!document.fullscreenElement) {
-        await previewImg.requestFullscreen();
-        previewImg.style.cursor = "zoom-out";
+        await img.requestFullscreen();
+        img.style.cursor = "zoom-out";
       } else {
         await document.exitFullscreen();
-        previewImg.style.cursor = "zoom-in";
+        img.style.cursor = "zoom-in";
       }
     } catch (_) {}
   });
@@ -1073,7 +1155,7 @@ if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
   // Click anywhere (outside image) to exit fullscreen (but keep modal open)
   document.addEventListener("click", (e) => {
     if (!document.fullscreenElement) return;
-    if (e.target === previewImg) return;
+    if (e.target.classList?.contains("pdf-img")) return;
     document.exitFullscreen().catch(() => {});
   });
 
@@ -1088,43 +1170,32 @@ if (downloadIcon && pdfModal && previewImg && downloadPdfBtn) {
     }
 
     const { jsPDF } = window.jspdf;
+    const resumeImages = getResumeImages();
+    const firstImage = resumeImages[0];
 
-    // Ensure image is loaded
-    await new Promise((resolve, reject) => {
-      if (previewImg.complete && previewImg.naturalWidth) return resolve();
-      previewImg.onload = resolve;
-      previewImg.onerror = reject;
-    });
+    if (!firstImage) return;
 
-    const imgW = previewImg.naturalWidth;
-    const imgH = previewImg.naturalHeight;
+    // Ensure images are loaded
+    await Promise.all(resumeImages.map(loadImage));
 
     const pdf = new jsPDF({
-      orientation: imgW > imgH ? "landscape" : "portrait",
+      orientation: firstImage.naturalWidth > firstImage.naturalHeight ? "landscape" : "portrait",
       unit: "pt",
       format: "a4",
     });
 
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
+    resumeImages.forEach((img, index) => {
+      if (index > 0) {
+        const orientation = img.naturalWidth > img.naturalHeight ? "landscape" : "portrait";
+        pdf.addPage("a4", orientation);
+      }
 
-    const scale = Math.min(pageW / imgW, pageH / imgH);
-    const w = imgW * scale;
-    const h = imgH * scale;
-    const x = (pageW - w) / 2;
-    const y = (pageH - h) / 2;
+      const { dataUrl, format } = imageToDataUrl(img);
+      const { x, y, w, h } = fitImageToPage(pdf, img);
+      pdf.addImage(dataUrl, format, x, y, w, h);
+    });
 
-    // Canvas -> dataURL (works reliably)
-    const canvas = document.createElement("canvas");
-    canvas.width = imgW;
-    canvas.height = imgH;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(previewImg, 0, 0);
-
-    const isPng = (previewImg.src || "").toLowerCase().includes(".png");
-    const dataUrl = canvas.toDataURL(isPng ? "image/png" : "image/jpeg", 1.0);
-
-    pdf.addImage(dataUrl, isPng ? "PNG" : "JPEG", x, y, w, h);
-    pdf.save("resume.pdf");
+    const lang = safeLang(document.documentElement.lang);
+    pdf.save(`resume-${lang}.pdf`);
   });
 }
