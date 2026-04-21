@@ -151,12 +151,9 @@
     }
 
     /* ------------------- Projects ---------------------*/
-    .project-demo .video-wrapper {
-        width: 25rem; height: 12rem;
-    }
-
-    .project-demo video {
-        width: 24.5rem; height: 11.5rem;
+    .project-demo {
+        --project-video-width: clamp(26rem, 33vw, 30.5rem);
+        --project-video-height: clamp(12.5rem, 15.7vw, 14.5rem);
     }
 }
 

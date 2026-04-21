@@ -109,16 +109,9 @@
         width: 2rem;
     }
 
-    .project-demo .video-wrapper {
-        width: 20rem; height: 10rem;
-        min-width: 20rem; 
-        min-height: 10rem;
-    }
-
-    .project-demo video {
-        width: 19.5rem; height: 9.5rem;
-        min-width: 19.5rem;
-        min-height: 9.5rem;
+    .project-demo {
+        --project-video-width: clamp(20rem, 68vw, 26rem);
+        --project-video-height: clamp(10rem, 34vw, 12.5rem);
     }
 
     /* ------------------- Contact ---------------------*/
