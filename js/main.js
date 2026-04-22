@@ -259,7 +259,7 @@ window.addEventListener("load", () => {
   ];
 
   const contactTracks = [
-    "./music/contact-background-music-01-web.mp3",
+    "./music/contact-background-music-01.mp3",
     "./music/contact-background-music-02.mp3",
   ];
   window.CONTACT_MUSIC_PRELOADS = contactTracks;

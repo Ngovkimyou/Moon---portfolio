@@ -69,7 +69,7 @@
   // Contact Music Playlist (1 -> 2 -> loop)
   // ============================================================
   const PLAYLIST = window.CONTACT_MUSIC_PRELOADS || [
-    "./music/contact-background-music-01-web.mp3",
+    "./music/contact-background-music-01.mp3",
     "./music/contact-background-music-02.mp3",
   ];
 
