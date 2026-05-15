@@ -10,6 +10,15 @@ window.addEventListener("load", () => {
   const saveData = navigator.connection?.saveData;
   const isSmallScreen = window.matchMedia?.("(max-width: 768px)")?.matches;
 
+  document.querySelectorAll("video").forEach((video) => {
+    video.controls = false;
+    video.removeAttribute("controls");
+    video.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+    video.disablePictureInPicture = true;
+    video.disableRemotePlayback = true;
+    video.addEventListener("contextmenu", (event) => event.preventDefault());
+  });
+
   // Background video (hero)
   const bg = document.querySelector("video.background");
   if (bg) {
@@ -363,12 +372,14 @@ window.addEventListener("load", () => {
   // ----------------------------
   // 1) DEFINE CRITICAL ASSETS
   // ----------------------------
+  const LOADER_ASSETS = [
+    "images/home-section/dim-loading-screen.png",
+    "images/home-section/loading-screen.png",
+    "images/home-section/start-loading-text.png",
+    "images/home-section/moon-globe.png",
+  ];
+
   const ASSETS = [
-    // Loader assets
-    { type: "image", url: "images/home-section/dim-loading-screen.png" },
-    { type: "image", url: "images/home-section/loading-screen.png" },
-    { type: "image", url: "images/home-section/start-loading-text.png" },
-    { type: "image", url: "images/home-section/moon-globe.png" },
 
     // Home / hero assets
     // { type: "image", url: "icons/moon-logo.png" },
@@ -399,10 +410,12 @@ window.addEventListener("load", () => {
   // 2) FONT DEFINITIONS
   // ----------------------------
   const FONTS = [
-    "400 1em 'New Rocker'",
-    "400 1em 'Syncopate'",
-    "700 1em 'Syncopate'",
-    "400 1em 'Yuji Syuku'"
+    { face: "400 1em 'New Rocker'", sample: "Contact Me" },
+    { face: "400 1em 'Syncopate'", sample: "PROJECTS" },
+    { face: "700 1em 'Syncopate'", sample: "KIMYOO" },
+    { face: "400 1em 'Yuji Syuku'", sample: "日本語" },
+    { face: "400 1em 'Futehodo'", sample: "プロジェクト" },
+    { face: "400 1em 'written'", sample: "よろしくお願いします" }
   ];
 
   // ----------------------------
@@ -640,9 +653,9 @@ window.addEventListener("load", () => {
 
   function loadFonts() {
     if (!document.fonts) return Promise.resolve();
-    FONTS.forEach((font) => {
+    FONTS.forEach(({ face, sample }) => {
       try {
-        document.fonts.load(font);
+        document.fonts.load(face, sample);
       } catch {}
     });
     return document.fonts.ready;
@@ -718,6 +731,10 @@ window.addEventListener("load", () => {
     document.body.style.overflow = "hidden";
     startHeroAutoplayWatch();
 
+    await Promise.allSettled(LOADER_ASSETS.map(loadImage));
+    loader.classList.add("loader-assets-ready");
+    await new Promise((r) => requestAnimationFrame(() => r()));
+
     const tasks = [loadFonts()];
     for (const a of ASSETS) {
       if (a.type === "image") tasks.push(loadImage(a.url));
@@ -792,6 +809,8 @@ window.addEventListener("load", () => {
 
     // Reveal FIRST (instant feedback)
     loader.classList.add("reveal");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
 
     // Kick off music WITHOUT blocking reveal
     startBackgroundMusicFromUserGesture();
@@ -802,8 +821,6 @@ window.addEventListener("load", () => {
     // Remove loader
     setTimeout(() => {
       loader.style.display = "none";
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
     }, 5200);
   };
 
@@ -862,6 +879,20 @@ const RESUME_IMAGES = {
 
 // --- i18n state ---
 let dict = {};
+let langSwitchToken = 0;
+const languageFontPromises = new Map();
+const LANGUAGE_FONTS = {
+  en: [
+    { face: "400 1em 'New Rocker'", sample: "Contact Me" },
+    { face: "400 1em 'Syncopate'", sample: "PROJECTS" },
+    { face: "700 1em 'Syncopate'", sample: "KIMYOO" },
+  ],
+  ja: [
+    { face: "400 1em 'Yuji Syuku'", sample: "日本語 プロフィール" },
+    { face: "400 1em 'Futehodo'", sample: "プロジェクト スキル" },
+    { face: "400 1em 'written'", sample: "興味のあること" },
+  ],
+};
 
 // ---------- Helpers ----------
 function safeLang(lang) {
@@ -880,6 +911,41 @@ function getBrowserLang() {
 function setActiveLangUI(lang) {
   langItems.forEach((el) => {
     el.classList.toggle("active", el.dataset.lang === lang);
+  });
+}
+
+function waitWithTimeout(promise, timeoutMs = 2500) {
+  return Promise.race([
+    promise,
+    new Promise((resolve) => setTimeout(resolve, timeoutMs)),
+  ]);
+}
+
+function loadLanguageFonts(lang) {
+  if (!document.fonts) return Promise.resolve();
+
+  const l = safeLang(lang);
+  if (languageFontPromises.has(l)) return languageFontPromises.get(l);
+
+  const fonts = LANGUAGE_FONTS[l] || LANGUAGE_FONTS[DEFAULT_LANG];
+  const promise = Promise.allSettled(
+    fonts.map(({ face, sample }) => {
+      try {
+        return document.fonts.load(face, sample);
+      } catch {
+        return Promise.resolve();
+      }
+    })
+  ).then(() => document.fonts.ready).catch(() => {});
+
+  languageFontPromises.set(l, promise);
+  return promise;
+}
+
+function setLanguageSwitching(isSwitching) {
+  document.documentElement.classList.toggle("lang-switching", isSwitching);
+  langItems.forEach((el) => {
+    el.setAttribute("aria-disabled", isSwitching ? "true" : "false");
   });
 }
 
@@ -969,12 +1035,25 @@ function applyDict(lang) {
 
 async function setLang(lang) {
   const l = safeLang(lang);
+  const token = ++langSwitchToken;
+
+  setLanguageSwitching(true);
 
   try {
-    dict = await fetchDict(l);
+    const [nextDict] = await Promise.all([
+      fetchDict(l),
+      waitWithTimeout(loadLanguageFonts(l)),
+    ]);
+
+    if (token !== langSwitchToken) return document.documentElement.lang;
+
+    dict = nextDict;
     applyDict(l);
   } catch (err) {
+    if (token !== langSwitchToken) return document.documentElement.lang;
+
     console.warn(`Locale "${l}" not loaded yet (using HTML fallback):`, err);
+    await waitWithTimeout(loadLanguageFonts(l), 1200);
     document.documentElement.lang = l;
 
     // Even with fallback, still sync section title shadows from current HTML
@@ -985,6 +1064,7 @@ async function setLang(lang) {
 
   localStorage.setItem("lang", l);
   setActiveLangUI(l);
+  setLanguageSwitching(false);
   return l;
 }
 
@@ -1111,10 +1191,16 @@ if (downloadIcon && pdfModal && resumePreview && downloadPdfBtn) {
   function openPDFModal() {
     updateResumePreview(document.documentElement.lang);
     pdfModal.hidden = false;
+    if (typeof pdfModal.showModal === "function" && !pdfModal.open) {
+      pdfModal.showModal();
+    }
     document.body.classList.add("pdf-open");
   }
 
   function closePDFModal() {
+    if (typeof pdfModal.close === "function" && pdfModal.open) {
+      pdfModal.close();
+    }
     pdfModal.hidden = true;
     document.body.classList.remove("pdf-open");
 
@@ -1128,7 +1214,7 @@ if (downloadIcon && pdfModal && resumePreview && downloadPdfBtn) {
 
   // Close when clicking backdrop or close button
   pdfModal.addEventListener("click", (e) => {
-    if (e.target?.dataset?.close === "true") closePDFModal();
+    if (e.target === pdfModal || e.target?.dataset?.close === "true") closePDFModal();
   });
 
   // ESC closes

@@ -128,7 +128,7 @@ figcaption h3 {
 ============================================================================ 
 */
 
-.demo-01, .demo-02, .demo-03 {
+.demo-01, .demo-02, .demo-03, .demo-04, .demo-05, .demo-06 {
     position: relative;
     width: 100%;
     height: 100%;
@@ -136,7 +136,7 @@ figcaption h3 {
     align-items: center;
 }
 
-.demo-02 {
+.demo-02, .demo-04, .demo-06 {
     justify-content: flex-end;
 }
 
@@ -159,14 +159,14 @@ figcaption h3 {
     transform: scale(1.05);
 }
 
-.demo-01 .video-wrapper, .demo-03 .video-wrapper {
+.demo-01 .video-wrapper, .demo-03 .video-wrapper, .demo-05 .video-wrapper {
     animation:
         slide-in linear forwards,
         fade-out linear forwards;
         animation-timeline: view();
 }
 
-.demo-02 .video-wrapper {
+.demo-02 .video-wrapper, .demo-04 .video-wrapper, .demo-06 .video-wrapper {
     animation:
         slide-in-video2 linear forwards,
         fade-out linear forwards;
@@ -205,7 +205,7 @@ figcaption h3 {
     z-index: 0;
 }
 
-.demo-02 .video-wrapper .video-background {
+.demo-02 .video-wrapper .video-background, .demo-04 .video-wrapper .video-background, .demo-06 .video-wrapper .video-background {
     background: repeating-conic-gradient(
         from 0deg,
         white 0 15deg,
@@ -229,16 +229,16 @@ figcaption h3 {
     }
 }
 
-.demo-01 .video-wrapper, .demo-03 .video-wrapper {
+.demo-01 .video-wrapper, .demo-03 .video-wrapper, .demo-05 .video-wrapper {
     float: left;
     margin-right: 3rem;
 }
 
-.demo-02 .video-wrapper {
+.demo-02 .video-wrapper, .demo-04 .video-wrapper, .demo-06 .video-wrapper {
     margin-left: 3rem;
 }
 
-.demo-01 figcaption, .demo-02 figcaption, .demo-03 figcaption {
+.demo-01 figcaption, .demo-02 figcaption, .demo-03 figcaption, .demo-04 figcaption, .demo-05 figcaption, .demo-06 figcaption {
     width: 100%;
     height: 100%;
     max-width: 50%;

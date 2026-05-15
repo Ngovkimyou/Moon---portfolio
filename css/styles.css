@@ -28,6 +28,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+*::selection {
+    background: transparent;
+    color: inherit;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 html, body {
@@ -137,6 +157,19 @@ body .background, .btn video {
     transform: translate(-50%, -50%);
     transition: 1s opacity;
     z-index: -1;
+}
+
+video:not([controls]) {
+    user-select: none;
+}
+
+body .background,
+.btn video,
+.video-h1 video,
+.id-card video,
+.contact-background,
+.project-demo video {
+    pointer-events: none;
 }
 
 header {
@@ -338,7 +371,13 @@ header .config {
     width: min(520px, 70vw, 62vh);
     aspect-ratio: 1/1;
 
+    opacity: 0;
+    transition: opacity 180ms ease;
     z-index: 2;
+}
+
+.loader.loader-assets-ready .ring-wrap {
+    opacity: 1;
 }
 
 .ring{
@@ -447,6 +486,10 @@ header .config {
 .loader.reveal .pct,
 .loader.reveal .loading-text {
     animation: loaderAssetFade 4s ease-in-out forwards;
+}
+
+.loader.reveal {
+    pointer-events: none;
 }
 
 .loader.reveal .moon-fill {
@@ -760,6 +803,15 @@ html[lang="en"] .lang.en i {
     cursor: pointer;
 }
 
+html.lang-switching .lang,
+html.lang-switching .lang * {
+    cursor: wait;
+}
+
+html.lang-switching .lang {
+    pointer-events: none;
+}
+
 .lang.active, .lang:not(.active):hover {
     border-radius: 1rem;
     background: linear-gradient(
@@ -780,26 +832,23 @@ html[lang="en"] .lang.en i {
     position: fixed;
     inset: 0;
     display: flex;
-    justify-self: center;
-    align-self: center;
+    justify-content: center;
+    align-items: center;
 
+    width: 100%;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
     z-index: 9999;
 }
 
 .pdf[hidden] {
     display: none;
-}
-
-.pdf-backdrop {
-    position: absolute;
-    inset: 0;
-
-    border-radius: 1.5rem;
-    background: radial-gradient(circle,
-        rgb(255, 3, 3) 15%, 
-        rgba(48, 48, 255, 0.596), 
-        rgba(155, 3, 155, 0.603));
-    backdrop-filter: blur(5px);
 }
 
 .pdf-card {
@@ -814,6 +863,7 @@ html[lang="en"] .lang.en i {
 
     max-height: 90vh;
     overflow: hidden;
+    z-index: 1;
 }
 
 .pdf-title {

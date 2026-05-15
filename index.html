@@ -8,10 +8,10 @@
     <!-- EN Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet"> <!-- NOSONAR: Google Fonts CSS is dynamic, so a fixed SRI hash is not stable. -->
       
     <!-- JP Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet"> <!-- NOSONAR: Google Fonts CSS is dynamic, so a fixed SRI hash is not stable. -->
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
@@ -25,8 +25,16 @@
     <link rel="preload" as="style" href="css/contact.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/contact.css"></noscript>
 
+    <!-- Preload Fonts -->
+    <link rel="preload" as="font" href="fonts/Futehodo-MaruGothic.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="fonts/yuzunoki-k.woff2" type="font/woff2" crossorigin>
+
     <!-- Preload Images -->
     <link rel="preload" as="image" href="images/home-section/moon-closed-decorator.webp">
+    <link rel="preload" as="image" href="images/home-section/dim-loading-screen.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/home-section/loading-screen.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/home-section/start-loading-text.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/home-section/moon-globe.png" fetchpriority="high">
     <link rel="preload" as="image" href="images/home-section/stars1.webp">
     <link rel="preload" as="image" href="images/home-section/stars2.webp">
     <link rel="preload" as="image" href="images/home-section/nav-decorator.webp">
@@ -44,9 +52,9 @@
     <!-- --------------------- Loading Screen --------------------- -->
     <div id="loader" class="loader">
         <div class="ring-wrap">
-            <img class="ring ring--dim" src="images/home-section/dim-loading-screen.png" alt="dim-ring" loading="eager" fetchpriority="low">
+            <img class="ring ring--dim" src="images/home-section/dim-loading-screen.png" alt="dim-ring" loading="eager" decoding="async" fetchpriority="high">
 
-            <img class="ring ring--full" src="images/home-section/loading-screen.png" alt="full-ring" loading="eager" fetchpriority="low">
+            <img class="ring ring--full" src="images/home-section/loading-screen.png" alt="full-ring" loading="eager" decoding="async" fetchpriority="high">
 
             <div class="pct">
                 <span id="pct">0%</span>
@@ -55,7 +63,7 @@
                 <img src="images/home-section/moon-globe.png" alt="">
             </div>
             <div class="loading-text">
-                <img src="images/home-section/start-loading-text.png" alt="start-loading-text" loading="eager" fetchpriority="low">
+                <img src="images/home-section/start-loading-text.png" alt="start-loading-text" loading="eager" decoding="async" fetchpriority="high">
                 <span>Start</span>
             </div>
         </div>
@@ -67,7 +75,10 @@
     </div>
 
     <!-- --------------------- Moon Logo --------------------- -->
-    <video class="background" src="videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline preload="auto" poster="images/home-section/bg-poster.webp"></video>
+    <video class="background" src="videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline preload="auto" poster="images/home-section/bg-poster.webp">
+        <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+        <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+    </video>
     <div class="logo-wrapper">
         <img class="logo logo-white-state" src="icons/moon-logo.webp" alt="logo"  loading="lazy" decoding="async">
         <img class="logo logo-color-state" src="icons/moon-logo-color-state.webp" alt="logo"  loading="lazy" decoding="async">
@@ -138,10 +149,8 @@
             </div>
 
             <!-- --------------------- PDF Display --------------------- -->
-            <div id="downloadPDF" class="pdf" hidden>
-                <div class="pdf-backdrop" data-close="true"></div>
-
-                <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
+            <dialog id="downloadPDF" class="pdf" aria-label="Download preview" hidden>
+                <div class="pdf-card">
                     <div class="pdf-title">
                         <h1 data-i18n="pdf.preview">Preview</h1>
                         <img src="images/home-section/start-loading-text.png" alt="title-decorator" loading="eager" decoding="async">
@@ -169,7 +178,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </dialog>
 
             <!-- --------------------- Introduction --------------------- -->
             <section class="intro">
@@ -189,7 +198,11 @@
                         <span class="name" data-i18n="hero.name">KIMYOO</span>
                     </h4>
                     <h1 class="video-h1" data-text="Web Developer" data-i18n-attr="data-text" data-i18n-key="hero.role">
-                        <video id="h1vid" src="videos/h1-optimized.mp4" data-src="videos/h1-optimized.mp4" autoplay muted loop playsinline preload="auto"></video>
+                        <span class="sr-only" data-i18n="hero.role">Web Developer</span>
+                        <video id="h1vid" src="videos/h1-optimized.mp4" data-src="videos/h1-optimized.mp4" autoplay muted loop playsinline preload="auto">
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
                         <canvas id="h1canvas"></canvas>
                     </h1>
                     <div class="text-container">
@@ -199,7 +212,10 @@
                     </div>
 
                     <button class="btn" id="ctaContact">
-                        <video type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/home-section/bg-button.webp"></video>
+                        <video type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/home-section/bg-button.webp">
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
                         <span data-i18n="hero.cta">Contact Me</span>
                     </button>
                 </div>
@@ -298,7 +314,10 @@
                 </blockquote>
 
                 <!-- --------------------- Blackhole --------------------- -->
-                <video id="bhVideo" data-src="videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload="none" poster="images/about/blackhole-poster.webp"></video>
+                <video id="bhVideo" data-src="videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload="none" poster="images/about/blackhole-poster.webp">
+                    <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                    <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                </video>
             </div>
         </section>
 
@@ -390,7 +409,7 @@
 
                     <div class="outer-anchor" style="--pos: 45deg;">
                         <div class="billboard">
-                            <img src="images/programming-logo/photoshop.png" alt="photoshop-logo" loading="lazy" decoding="async">
+                            <img src="images/programming-logo/photoshop.png" alt="Adobe Ps logo" loading="lazy" decoding="async">
                         </div>
                     </div>
 
@@ -449,7 +468,10 @@
                 <figure class="demo-01">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video data-src="videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
+                        <video data-src="videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
                     </div>
 
                     <figcaption>
@@ -481,7 +503,10 @@
 
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video data-src="videos/WashWise-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
+                        <video data-src="videos/WashWise-project.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
                     </div>
                 </figure>
 
@@ -489,7 +514,10 @@
                 <figure class="demo-03">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video data-src="videos/Julvry-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
+                        <video data-src="videos/Julvry-project.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
                     </div>
 
                     <figcaption>
@@ -503,6 +531,75 @@
                         </h3>
                         <p data-i18n="projects.julvry.desc">This project was my first experience working in a team to develop a jewelry marketing website. It enhanced my collaboration and communication skills while improving my time management and commitment to self-improvement.</p>
                     </figcaption>
+                </figure>
+
+                <!-- --------------------- Demo 4 --------------------- -->
+                <figure class="demo-04">
+                    <figcaption>
+                        <h3>
+                            <span data-i18n="projects.quiz-game.title">Quiz Game</span>
+                            <a href="https://quiz-game-group2.netlify.app/" target="_blank">
+                                <span class="pulse">
+                                    <img src="icons/moon-icon.png" alt="moon-icon" loading="lazy" decoding="async">
+                                </span>
+                            </a>
+                        </h3>
+                        <p data-i18n="projects.quiz-game.desc">An English–Japanese sentence quiz game where players must answer as many questions correctly as possible within a limited time to achieve a high score. Scores will be displayed on a leaderboard ranked by player performance.</p>
+                    </figcaption>
+
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video data-src="videos/Quiz-Game.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
+                    </div>
+                </figure>
+
+                <!-- --------------------- Demo 5 --------------------- -->
+                <figure class="demo-05">
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video data-src="videos/sns.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
+                    </div>
+
+                    <figcaption>
+                        <h3>
+                            <span data-i18n="projects.sns.title">Space and Time</span>
+                            <a href="https://space-and-time-social-media.vercel.app/" target="_blank">
+                                <span class="pulse">
+                                    <img src="icons/moon-icon.png" alt="moon-icon" loading="lazy" decoding="async">
+                                </span>
+                            </a>
+                        </h3>
+                        <p data-i18n="projects.sns.desc">A social media platform for space and time enthusiasts to connect and share their experiences.</p>
+                    </figcaption>
+                </figure>
+
+                <!-- --------------------- Demo 6 --------------------- -->
+                <figure class="demo-06">
+                    <figcaption>
+                        <h3>
+                            <span data-i18n="projects.nlp.title">Smart Translator</span>
+                            <a href="https://nlp-smart-translator.vercel.app/" target="_blank">
+                                <span class="pulse">
+                                    <img src="icons/moon-icon.png" alt="moon-icon" loading="lazy" decoding="async">
+                                </span>
+                            </a>
+                        </h3>
+                        <p data-i18n="projects.nlp.desc">A smart translation tool leveraging natural language processing for accurate and efficient translations.</p>
+                    </figcaption>
+
+                    <div class="video-wrapper">
+                        <div class="video-background"></div>
+                        <video data-src="videos/nlp.mp4" type="video/mp4" muted loop preload="none" playsinline>
+                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+                        </video>
+                    </div>
                 </figure>
             </div>
 
@@ -526,7 +623,10 @@
             <div class="contact-stars contact-first-stars"></div>
             <div class="contact-stars contact-second-stars"></div>
 
-            <video class="contact-background" type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/contact/bg-contact.webp"></video>
+            <video class="contact-background" type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/contact/bg-contact.webp">
+                <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
+                <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
+            </video>
 
             <!-- --------------------- Section Title --------------------- -->
             <h2 class="section-title" data-shadow="">

@@ -67,6 +67,15 @@
     "projects.julvry.title": "Julvry",
     "projects.julvry.desc": "This project was my first experience working in a team to develop a jewelry marketing website. It enhanced my collaboration and communication skills while improving my time management and commitment to self-improvement.",
 
+    "projects.quiz-game.title": "Quiz Game",
+    "projects.quiz-game.desc": "An English-Japanese sentence quiz game where players must answer as many questions correctly as possible within a limited time to achieve a high score. Scores will be displayed on a leaderboard ranked by player performance.",
+
+    "projects.sns.title": "Space and Time",
+    "projects.sns.desc": "A next-generation social media platform designed with a modern interface and equipped with a wide range of features for user convenience. The developers of this project were given the freedom to explore ideas and express their creativity while maintaining performance optimization across different devices.",
+
+    "projects.nlp.title": "Smart Translator",
+    "projects.nlp.desc": "A smart translation application that allows users to choose different translation styles, such as casual, polite, and business expressions. This project focuses not only on translation accuracy, but also on delivering local nuances, modern vocabulary, and cultural context to help bridge communication gaps.",
+
     "projects.more": "View More Projects",
 
     "_commentE": "------------- Contact Section -------------",

@@ -839,6 +839,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   // Make sure it's always silent (required by browsers for autoplay-ish behavior)
   video.muted = true;
   const wrapper = video.closest(".video-wrapper");
+  const hoverTarget = wrapper || video;
   let framePrimed = wrapper?.classList.contains("is-video-ready") || video.readyState >= 2;
 
   function markVideoReady() {
@@ -877,7 +878,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     if (!src && !video.getAttribute("src")) return;
 
     const hadSrc = Boolean(video.getAttribute("src"));
-    if (!hadSrc) video.src = src;
+    if (!hadSrc) video.setAttribute("src", src);
 
     const desiredPreload = primeFrame ? "auto" : "metadata";
     if (video.preload !== desiredPreload) video.preload = desiredPreload;
@@ -904,7 +905,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   video.addEventListener("loadeddata", markVideoReady);
   video.addEventListener("canplay", markVideoReady);
 
-  video.addEventListener("mouseenter", async () => {
+  hoverTarget.addEventListener("mouseenter", async () => {
     try {
       // Rewind to start every time hover (optional — remove if want to resume)
       await ensureVideoLoaded({ primeFrame: true });
@@ -917,12 +918,12 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     }
   });
 
-  video.addEventListener("mouseleave", () => {
+  hoverTarget.addEventListener("mouseleave", () => {
     video.pause();
     video.currentTime = 0; // reset back
   });
 
-  video.addEventListener("touchstart", () => {
+  hoverTarget.addEventListener("touchstart", () => {
     ensureVideoLoaded({ primeFrame: true });
   }, { passive: true });
 
@@ -936,6 +937,8 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
       { rootMargin: "1400px 0px", threshold: 0.01 }
     );
 
-    io.observe(video);
+    io.observe(hoverTarget);
+  } else {
+    ensureVideoLoaded({ primeFrame: true });
   }
 });
