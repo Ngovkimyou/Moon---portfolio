@@ -5,6 +5,7 @@
 */
 
 .skills {
+    position: relative;
     width: 100%;
     height: 100%;
     min-height: 100svh;
@@ -14,9 +15,18 @@
     align-items: center;
     
     padding-top: 5rem;
+    overflow: visible;
+    z-index: 1;
 }
 
 .skills .solar-container {
+    --skill-icon-size: 4rem;
+    --skill-icon-lift: -2.5rem;
+    --skill-cloud-size: 90rem;
+    --skill-cloud-offset: -25rem;
+    --skill-cloud-left-a: -8rem;
+    --skill-cloud-left-b: -10rem;
+    --skill-cloud-bottom-b: -3rem;
     position: relative;
     top: -7rem;
     width: 55%;
@@ -29,6 +39,8 @@
     perspective-origin: center;
     mix-blend-mode: screen;
     filter: contrast(1.1);
+    overflow: visible;
+    z-index: 2;
 }
 
 .solar-ring, .inner-ring, .outer-ring {
@@ -66,12 +78,198 @@
     animation: outer-orbit 100s linear infinite;
 }
 
+.outer-star-orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 116%;
+    height: 116%;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+    z-index: 4;
+}
+
+.outer-star-orbit {
+    animation: none;
+}
+
+.outer-star-orbit.enter {
+    visibility: visible;
+    animation: outer-star-orbit 88s linear infinite;
+}
+
+.outer-star {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 22%;
+    height: 22%;
+    object-fit: contain;
+    opacity: .9;
+    mix-blend-mode: screen;
+    filter: brightness(2.35) contrast(1.35) saturate(1.25) drop-shadow(0 0 14px rgba(255, 255, 255, .75));
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotateZ(var(--star-rotate, 0deg));
+    pointer-events: none;
+}
+
+.outer-star-orbit.enter .outer-star {
+    animation: starFlyIn 5s cubic-bezier(.18,.9,.25,1.15) both;
+    animation-delay: var(--star-delay, 0ms);
+}
+
+.outer-star-one {
+    --star-rotate: -12deg;
+    --star-from-x: 82rem;
+    --star-from-y: -20rem;
+    --star-delay: 180ms;
+    left: 94%;
+    top: 44%;
+}
+
+.outer-star-two {
+    --star-rotate: -192deg;
+    --star-from-x: -82rem;
+    --star-from-y: 20rem;
+    --star-delay: 240ms;
+    left: 6%;
+    top: 56%;
+}
+
+.outer-star-three {
+    --star-rotate: -90deg;
+    --star-from-x: 0;
+    --star-from-y: -66rem;
+    --star-delay: 300ms;
+    width: 20%;
+    height: 20%;
+    opacity: .82;
+    left: 50%;
+    top: 0%;
+}
+
+.outer-star-four {
+    --star-rotate: -270deg;
+    --star-from-x: 0;
+    --star-from-y: 66rem;
+    --star-delay: 360ms;
+    width: 20%;
+    height: 20%;
+    opacity: .82;
+    left: 50%;
+    top: 100%;
+}
+
+.outer-star-five {
+    --star-rotate: -44deg;
+    --star-from-x: 66rem;
+    --star-from-y: -54rem;
+    --star-delay: 420ms;
+    width: 18%;
+    height: 18%;
+    opacity: .78;
+    left: 82%;
+    top: 14%;
+}
+
+.outer-star-six {
+    --star-rotate: -224deg;
+    --star-from-x: -66rem;
+    --star-from-y: 54rem;
+    --star-delay: 480ms;
+    width: 18%;
+    height: 18%;
+    opacity: .78;
+    left: 18%;
+    top: 86%;
+}
+
+.outer-star-seven {
+    --star-rotate: -136deg;
+    --star-from-x: -64rem;
+    --star-from-y: -52rem;
+    --star-delay: 540ms;
+    width: 19%;
+    height: 19%;
+    opacity: .86;
+    left: 18%;
+    top: 14%;
+}
+
+.outer-star-eight {
+    --star-rotate: -316deg;
+    --star-from-x: 64rem;
+    --star-from-y: 52rem;
+    --star-delay: 600ms;
+    width: 19%;
+    height: 19%;
+    opacity: .86;
+    left: 82%;
+    top: 86%;
+}
+
+.outer-star-nine {
+    --star-rotate: -68deg;
+    --star-from-x: 46rem;
+    --star-from-y: -72rem;
+    --star-delay: 660ms;
+    width: 16%;
+    height: 16%;
+    opacity: .74;
+    left: 64%;
+    top: 4%;
+}
+
+.outer-star-ten {
+    --star-rotate: -248deg;
+    --star-from-x: -46rem;
+    --star-from-y: 72rem;
+    --star-delay: 720ms;
+    width: 16%;
+    height: 16%;
+    opacity: .74;
+    left: 36%;
+    top: 96%;
+}
+
+.outer-star-eleven {
+    --star-rotate: -158deg;
+    --star-from-x: -76rem;
+    --star-from-y: -10rem;
+    --star-delay: 780ms;
+    width: 17%;
+    height: 17%;
+    opacity: .8;
+    left: 2%;
+    top: 40%;
+}
+
+.outer-star-twelve {
+    --star-rotate: -338deg;
+    --star-from-x: 76rem;
+    --star-from-y: 10rem;
+    --star-delay: 840ms;
+    width: 17%;
+    height: 17%;
+    opacity: .8;
+    left: 98%;
+    top: 60%;
+}
+
 .solar-container .outer-ring {
     width: 100%;
     height: 100%;
 
     object-fit: contain;
     margin: auto;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    -webkit-mask-image: radial-gradient(ellipse 70% 67% at center, #000 0 52%, rgba(0, 0, 0, .65) 64%, transparent 70%);
+    mask-image: radial-gradient(ellipse 70% 67% at center, #000 0 52%, rgba(0, 0, 0, .65) 64%, transparent 70%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
 
     will-change: transform;
     transform: scale(1);
@@ -96,11 +294,233 @@
     object-fit: contain;
     border-radius: 50%;
     transform: scale(1);
-    will-change: transform;
+    will-change: transform, filter;
+    animation: innerRingHueShift 12s linear infinite;
+}
+
+@keyframes innerRingHueShift {
+    from {
+        filter: hue-rotate(0deg);
+    }
+    to {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.inner-star-orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 62%;
+    height: 62%;
+    transform-style: preserve-3d;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
+    z-index: 3;
+}
+
+.inner-star-orbit {
+    animation: none;
+}
+
+.inner-star-orbit.enter {
+    visibility: visible;
+    animation: inner-star-orbit 72s linear infinite;
+}
+
+.inner-star {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 42%;
+    height: 42%;
+    object-fit: contain;
+    opacity: .95;
+    mix-blend-mode: screen;
+    filter: brightness(2.45) contrast(1.4) saturate(1.25) drop-shadow(0 0 14px rgba(255, 255, 255, .8));
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotateZ(var(--star-rotate, 0deg));
+    pointer-events: none;
+}
+
+.inner-star-orbit.enter .inner-star {
+    animation: starFlyIn 2s cubic-bezier(.18,.9,.25,1.15) both;
+    animation-delay: var(--star-delay, 0ms);
+}
+
+.inner-star-one {
+    --star-rotate: -18deg;
+    --star-from-x: 70rem;
+    --star-from-y: -28rem;
+    --star-delay: 120ms;
+    left: 82%;
+    top: 38%;
+}
+
+.inner-star-two {
+    --star-rotate: -198deg;
+    --star-from-x: -70rem;
+    --star-from-y: 28rem;
+    --star-delay: 180ms;
+    left: 18%;
+    top: 62%;
+}
+
+.inner-star-three {
+    --star-rotate: -92deg;
+    --star-from-x: 0;
+    --star-from-y: -58rem;
+    --star-delay: 240ms;
+    width: 34%;
+    height: 34%;
+    opacity: .82;
+    left: 50%;
+    top: 12%;
+}
+
+.inner-star-four {
+    --star-rotate: -286deg;
+    --star-from-x: 48rem;
+    --star-from-y: 54rem;
+    --star-delay: 300ms;
+    width: 30%;
+    height: 30%;
+    opacity: .74;
+    left: 68%;
+    top: 78%;
+}
+
+.inner-star-five {
+    --star-rotate: -330deg;
+    --star-from-x: 58rem;
+    --star-from-y: -50rem;
+    --star-delay: 360ms;
+    width: 24%;
+    height: 24%;
+    opacity: .88;
+    left: 74%;
+    top: 20%;
+}
+
+.inner-star-six {
+    --star-rotate: -272deg;
+    --star-from-x: 0;
+    --star-from-y: 58rem;
+    --star-delay: 420ms;
+    width: 34%;
+    height: 34%;
+    opacity: .8;
+    left: 50%;
+    top: 88%;
+}
+
+.inner-star-seven {
+    --star-rotate: -106deg;
+    --star-from-x: -54rem;
+    --star-from-y: -48rem;
+    --star-delay: 480ms;
+    width: 30%;
+    height: 30%;
+    opacity: .76;
+    left: 32%;
+    top: 22%;
+}
+
+.inner-star-eight {
+    --star-rotate: -150deg;
+    --star-from-x: -58rem;
+    --star-from-y: 50rem;
+    --star-delay: 540ms;
+    width: 24%;
+    height: 24%;
+    opacity: .84;
+    left: 26%;
+    top: 80%;
+}
+
+.inner-star-nine {
+    --star-rotate: -42deg;
+    --star-from-x: 78rem;
+    --star-from-y: 12rem;
+    --star-delay: 600ms;
+    width: 28%;
+    height: 28%;
+    opacity: .8;
+    left: 88%;
+    top: 58%;
+}
+
+.inner-star-ten {
+    --star-rotate: -222deg;
+    --star-from-x: -78rem;
+    --star-from-y: -12rem;
+    --star-delay: 660ms;
+    width: 22%;
+    height: 22%;
+    opacity: .72;
+    left: 12%;
+    top: 42%;
+}
+
+.inner-star-eleven {
+    --star-rotate: -70deg;
+    --star-from-x: 24rem;
+    --star-from-y: -64rem;
+    --star-delay: 720ms;
+    width: 26%;
+    height: 26%;
+    opacity: .86;
+    left: 60%;
+    top: 4%;
+}
+
+.inner-star-twelve {
+    --star-rotate: -250deg;
+    --star-from-x: -24rem;
+    --star-from-y: 64rem;
+    --star-delay: 780ms;
+    width: 26%;
+    height: 26%;
+    opacity: .78;
+    left: 40%;
+    top: 96%;
+}
+
+@keyframes starFlyIn {
+    0% {
+        transform: translate(-50%, -50%) translate(var(--star-from-x), var(--star-from-y)) scale(.35) rotateZ(var(--star-rotate, 0deg));
+    }
+    70% {
+        transform: translate(-50%, -50%) translate(0, 0) scale(1.08) rotateZ(var(--star-rotate, 0deg));
+    }
+    100% {
+        transform: translate(-50%, -50%) translate(0, 0) scale(1) rotateZ(var(--star-rotate, 0deg));
+    }
+}
+
+@keyframes inner-star-orbit {
+    0% { transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
+    25% { transform: translate(-50%, -50%) rotateX(60deg) rotateY(-20deg) rotateZ(90deg); }
+    50% { transform: translate(-50%, -50%) rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+}
+
+@keyframes outer-star-orbit {
+    0% { transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+    25% { transform: translate(-50%, -50%) rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
+    50% { transform: translate(-50%, -50%) rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: translate(-50%, -50%) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
 }
 
 .scale-up.enter {
     animation: ringEnter 5s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.solar-container .inner-ring.enter {
+    animation:
+        ringEnter 5s cubic-bezier(.2,.8,.2,1) forwards,
+        innerRingHueShift 12s linear infinite;
 }
 
 @keyframes ringEnter {
@@ -145,9 +565,9 @@
     position: absolute;
     left: 0;
     width: 150%;
-    min-width: 90rem;
+    min-width: var(--skill-cloud-size);
     height: 180%;
-    min-height: 90rem;
+    min-height: var(--skill-cloud-size);
 
     object-fit: cover;
     pointer-events: none;
@@ -155,13 +575,14 @@
     will-change: transform;
     transform: translateX(-15rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg);
     animation: cloud-orbit 200s linear infinite;
+    z-index: 9;
 }
 
 @keyframes cloud-orbit {
-    0% { transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
-    25% {  transform: translateX(-25rem) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
-    50% { transform: translateX(-25rem) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
-    100% { transform: translateX(-25rem) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }  
+    0% { transform: translateX(var(--skill-cloud-offset)) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(360deg); }
+    25% {  transform: translateX(var(--skill-cloud-offset)) translateZ(-5rem) rotateX(60deg) rotateY(-20deg) rotateZ(270deg); }
+    50% { transform: translateX(var(--skill-cloud-offset)) translateZ(-5rem) rotateX(65deg) rotateY(-20deg) rotateZ(180deg); }
+    100% { transform: translateX(var(--skill-cloud-offset)) translateZ(-5rem) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }  
 }
 
 .skills .cloud img {
@@ -170,32 +591,53 @@
 }
 
 .skills .cloud img.cloud-enter {
-    animation: cloudFade 3.5s ease-in-out forwards;
+    opacity: 1;
+    animation: cloudFlyIn 8s cubic-bezier(.16,.82,.22,1) both;
+    animation-delay: var(--cloud-delay, 0ms);
 }
 
-@keyframes cloudFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes cloudFlyIn {
+    0% {
+        transform: translate(var(--cloud-from-x, 0), var(--cloud-from-y, 0)) scale(.65);
+    }
+    70% {
+        transform: translate(0, 0) scale(1.04);
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
 }
 
 .skills .cloud img:nth-child(1) {
+    --cloud-from-x: -80rem;
+    --cloud-from-y: -35rem;
+    --cloud-delay: 240ms;
     position: absolute;
-    top: 0; left: -8rem;
+    top: 0; left: var(--skill-cloud-left-a);
 }
 
 .skills .cloud img:nth-child(2) {
+    --cloud-from-x: 80rem;
+    --cloud-from-y: -35rem;
+    --cloud-delay: 420ms;
     position: absolute;
     top: 0; right: 0;
 }
 
 .skills .cloud img:nth-child(3) {
+    --cloud-from-x: 80rem;
+    --cloud-from-y: 45rem;
+    --cloud-delay: 600ms;
     position: absolute;
     right: 0; bottom: 0;
 }
 
 .skills .cloud img:nth-child(4) {
+    --cloud-from-x: -80rem;
+    --cloud-from-y: 45rem;
+    --cloud-delay: 780ms;
     position: absolute;
-    left: -10rem; bottom: -3rem;
+    left: var(--skill-cloud-left-b); bottom: var(--skill-cloud-bottom-b);
 }
 
 /* 
@@ -296,8 +738,8 @@
 .inner-icons img, 
 .outer-icons img {
     position: absolute;
-    width: 4rem;
-    height: 4rem;
+    width: var(--skill-icon-size);
+    height: var(--skill-icon-size);
     object-fit: contain;
 
     background: radial-gradient(circle, white, rgba(255, 255, 255, 0.514), transparent 70%);
@@ -308,7 +750,7 @@
     transition: opacity .25s ease;
     backface-visibility: hidden;
     will-change: transform, opacity;
-    transform: translate(-50%, -50%) translateY(-2.5rem) scale(0);
+    transform: translate(-50%, -50%) translateY(var(--skill-icon-lift)) scale(0);
 
     pointer-events: auto;
     animation: logoIcons-FadeIn 4s ease-in-out forwards;
@@ -332,9 +774,9 @@
 }
 
 @keyframes iconPop {
-    0%   { opacity: 0; transform: translate(-50%, -50%) translateY(-2.5rem) scale(0); }
-    70%  { opacity: 1; transform: translate(-50%, -50%) translateY(-2.5rem) scale(1.2); }
-    100% { opacity: 1; transform: translate(-50%, -50%) translateY(-2.5rem) scale(1); }
+    0%   { opacity: 0; transform: translate(-50%, -50%) translateY(var(--skill-icon-lift)) scale(0); }
+    70%  { opacity: 1; transform: translate(-50%, -50%) translateY(var(--skill-icon-lift)) scale(1.2); }
+    100% { opacity: 1; transform: translate(-50%, -50%) translateY(var(--skill-icon-lift)) scale(1); }
 }
 
 /* ----------------------------------- logo-hovered-frame -------------------------------------*/

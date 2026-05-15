@@ -1,3 +1,18 @@
+/* ------------------------------- 1199px ------------------------------- */
+
+@media (max-width: 1199px) {
+    .skills .solar-container {
+        --skill-icon-size: 3.25rem;
+        --skill-icon-lift: -2rem;
+    }
+
+    .projects .more-projects {
+        width: min(25rem, 78vw);
+        height: clamp(4rem, 15.6vw, 5rem);
+    }
+
+}
+
 /* ------------------------------- 1000px ------------------------------- */
 
 @media (max-width: 1000px) {
@@ -87,12 +102,16 @@
     /* ------------------- Skills ---------------------*/
 
     .skills .solar-container {
-        scale: 1.5;
+        --skill-icon-size: 2.75rem;
+        --skill-icon-lift: -1.7rem;
+        width: clamp(28rem, 72vw, 35rem);
+        height: clamp(28rem, 72vw, 35rem);
+        scale: 1;
         margin-top: 5rem;
     }
 
     .skills .cloud {
-        scale: .8;
+        scale: 1;
     }
 
     /* ------------------- Projects ---------------------*/
@@ -205,9 +224,13 @@
         font-size: 2rem;
     }
 
-    .skills .cloud {
-        min-width: 60rem;
-        min-height: 60rem;
+    .skills .solar-container {
+        --skill-icon-size: 2.35rem;
+        --skill-icon-lift: -1.45rem;
+        width: clamp(21rem, 76vw, 29rem);
+        height: clamp(21rem, 76vw, 29rem);
+        top: -4rem;
+        margin-top: 3rem;
     }
 
     /* ------------------- Projects ---------------------*/
@@ -222,6 +245,11 @@
 
     .project-demo {
         margin-bottom: 4rem;
+    }
+
+    .projects .more-projects {
+        width: min(25rem, 76vw);
+        height: clamp(3.5rem, 15.2vw, 5rem);
     }
 
     /* ------------------- Contact ---------------------*/

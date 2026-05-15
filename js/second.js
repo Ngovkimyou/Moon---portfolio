@@ -620,6 +620,8 @@ const skillsSection = document.querySelector("#skills");
 const rings = document.querySelectorAll("#skills .scale-up");
 const clouds = document.querySelectorAll("#skills .cloud img");
 const skillVisualAssets = document.querySelectorAll("#skills .solar-container img");
+const innerStarOrbit = document.querySelector("#skills .inner-star-orbit");
+const outerStarOrbit = document.querySelector("#skills .outer-star-orbit");
 const SKILLS_SCREEN_COVERAGE = 0.6;
 const SKILLS_OBSERVER_STEPS = Array.from({ length: 101 }, (_, i) => i / 100);
 
@@ -636,6 +638,17 @@ function skillsCoversScreen(entry) {
 // ===== RINGS: scale-up with delay in SECONDS =====
 function playRingEnter() {
   clearTimeout(skillAssetsFadeTimer);
+  if (innerStarOrbit) {
+    innerStarOrbit.classList.remove("enter");
+    void innerStarOrbit.offsetWidth;
+    innerStarOrbit.classList.add("enter");
+  }
+  if (outerStarOrbit) {
+    outerStarOrbit.classList.remove("enter");
+    void outerStarOrbit.offsetWidth;
+    outerStarOrbit.classList.add("enter");
+  }
+
   rings.forEach(ring => {
     const delaySec = Number(ring.dataset.delay) || 0;
 
@@ -657,6 +670,13 @@ function playRingEnter() {
 
 // ===== RESET RINGS (hide until Skills reaches threshold again) =====
 function resetRings() {
+  if (innerStarOrbit) {
+    innerStarOrbit.classList.remove("enter");
+  }
+  if (outerStarOrbit) {
+    outerStarOrbit.classList.remove("enter");
+  }
+
   rings.forEach(ring => {
     ring.classList.remove("enter", "fade-out");
     ring.style.animationDelay = "0s";

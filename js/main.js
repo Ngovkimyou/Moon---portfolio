@@ -91,6 +91,8 @@ window.addEventListener("load", () => {
     "images/skills/inner-ring.webp",
     "images/skills/outer-ring.webp",
     "images/skills/solar-ring.webp",
+    "images/home-section/stars1.webp",
+    "images/home-section/stars2.webp",
     "images/skills/upper-cloud-1.webp",
     "images/skills/upper-cloud-2.webp",
     "images/skills/upper-cloud-3.webp",
