@@ -122,6 +122,11 @@
     animation-delay: var(--star-delay, 0ms);
 }
 
+.outer-star, .inner-star {
+    filter:brightness(10) contrast(10);
+    scale: 1.8;
+}
+
 .outer-star-one {
     --star-rotate: -12deg;
     --star-from-x: 82rem;
