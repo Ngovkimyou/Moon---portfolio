@@ -428,7 +428,7 @@ header .config {
     top: 50%;
     width: 100%;
     opacity: 0;
-    transform: translate(-50%, -50%) scale(.95) rotate(-10deg);
+    transform: translate(-50%, -50%) scale(1);
     pointer-events: none;
     z-index: 2;
 }
@@ -437,7 +437,8 @@ header .config {
     display: block;
     width: 100%;
     height: auto;
-    transform: scale(.95);
+    opacity: 0;
+    transform: scale(1);
 }
 
 .loading-text {
@@ -481,11 +482,16 @@ header .config {
     cursor: pointer;
 }
 
-.loader.reveal .ring--dim,
-.loader.reveal .ring--full,
 .loader.reveal .pct,
 .loader.reveal .loading-text {
-    animation: loaderAssetFade 4s ease-in-out forwards;
+    animation: loaderAssetFade 2s ease-in-out forwards;
+}
+
+.loader.reveal .ring--dim,
+.loader.reveal .ring--full {
+    animation:
+        loaderAssetFade 2s ease-in-out forwards,
+        loadingRingRevealSpin 6s ease-in-out forwards;
 }
 
 .loader.reveal {
@@ -493,7 +499,7 @@ header .config {
 }
 
 .loader.reveal .moon-fill {
-    animation: moonGlobeAppear 4s ease forwards;
+    animation: moonGlobeFade 2s ease forwards;
 }
 
 .loader.reveal .moon-fill::before {
@@ -501,34 +507,40 @@ header .config {
 }
 
 .loader.reveal .moon-fill img {
-    animation: moonGlobeReveal 2s ease forwards;
+    animation: moonGlobeImageFade 1.4s ease forwards;
 }
 
 @keyframes loaderAssetFade {
-    0%, 28% { opacity: 1; }
+    0%, 45% { opacity: 1; }
     100% { opacity: 0; }
 }
 
-@keyframes moonGlobeAppear {
+@keyframes moonGlobeFade {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(.54) rotate(-12deg);
+        transform: translate(-50%, -50%) scale(1);
     }
     30% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
+        transform: translate(-50%, -50%) scale(1);
+    }
+    85% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(1.15) rotate(10deg);
+        transform: translate(-50%, -50%) scale(1);
     }
 }
 
-@keyframes moonGlobeReveal {
+@keyframes moonGlobeImageFade {
     from {
-        transform: scale(.95);
+        opacity: 0;
+        transform: scale(1.4);
     }
     to {
+        opacity: 1;
         transform: scale(1.4);
     }
 }
@@ -541,7 +553,7 @@ header .config {
     pointer-events: none;
     overflow: hidden;
     isolation: isolate;
-    z-index: 10000; 
+    z-index: 1; 
 }
 
 .reveal-clouds::before,
@@ -553,7 +565,7 @@ header .config {
   width: 210%; height: 210%;
   opacity: 0;
   background: center / contain no-repeat url("../images/home-section/black-cloud.webp");
-  filter: blur(6px) brightness(.72);
+  filter: blur(50px) brightness(.72);
   transform: translate(-50%, -50%) scale(1);
   z-index: 2;
 }
@@ -565,7 +577,7 @@ header .config {
 .reveal-clouds::after {
   left: 82%;
   width: 230%; height: 230%;
-  filter: blur(10px) brightness(.66);
+  filter: blur(50px) brightness(.66);
   z-index: 1;
 }
 
@@ -646,12 +658,22 @@ header .config {
 }
 
 .loader.reveal .ring-wrap{
-  animation: ringWrapExit 1.55s ease forwards;
+  z-index: 10001;
 }
 
-@keyframes ringWrapExit {
-  0%, 72% { opacity: 1; }
-  100% { opacity: 0; }
+@keyframes loadingRingRevealSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(180deg);
+  }
+  85% {
+    transform: rotate(330deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loader.reveal::before{

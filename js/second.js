@@ -858,9 +858,18 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelectorAll(".video-wrapper video").forEach((video) => {
   // Make sure it's always silent (required by browsers for autoplay-ish behavior)
   video.muted = true;
+  video.defaultMuted = true;
+  video.loop = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("loop", "");
+  video.setAttribute("playsinline", "");
+  video.controls = false;
+  video.removeAttribute("controls");
+  video.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+  video.disablePictureInPicture = true;
+  video.disableRemotePlayback = true;
   const wrapper = video.closest(".video-wrapper");
   const hoverTarget = wrapper || video;
-  let framePrimed = wrapper?.classList.contains("is-video-ready") || video.readyState >= 2;
 
   function markVideoReady() {
     wrapper?.classList.add("is-video-ready");
@@ -872,27 +881,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     return !reduceMotion && !saveData;
   }
 
-  function waitForVideoReady(eventName, timeoutMs = 1600) {
-    return new Promise((resolve) => {
-      if (eventName === "loadeddata" && video.readyState >= 2) {
-        resolve();
-        return;
-      }
-
-      const done = () => {
-        clearTimeout(timer);
-        video.removeEventListener(eventName, done);
-        video.removeEventListener("error", done);
-        resolve();
-      };
-
-      const timer = setTimeout(done, timeoutMs);
-      video.addEventListener(eventName, done, { once: true });
-      video.addEventListener("error", done, { once: true });
-    });
-  }
-
-  async function ensureVideoLoaded({ primeFrame = false } = {}) {
+  function ensureVideoLoaded({ eager = false } = {}) {
     if (!canLoadPreview()) return;
     const src = video.dataset.src;
     if (!src && !video.getAttribute("src")) return;
@@ -900,35 +889,21 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     const hadSrc = Boolean(video.getAttribute("src"));
     if (!hadSrc) video.setAttribute("src", src);
 
-    const desiredPreload = primeFrame ? "auto" : "metadata";
+    const desiredPreload = eager ? "auto" : "metadata";
     if (video.preload !== desiredPreload) video.preload = desiredPreload;
 
-    if (!hadSrc || video.readyState === 0 || (primeFrame && video.readyState < 2)) {
+    if (!hadSrc || video.readyState === 0) {
       video.load();
     }
-
-    if (!primeFrame || framePrimed) return;
-    framePrimed = true;
-
-    await waitForVideoReady("loadeddata");
-    markVideoReady();
-
-    try {
-      await video.play();
-      setTimeout(() => {
-        video.pause();
-        video.currentTime = 0;
-      }, 80);
-    } catch (_) {}
   }
 
   video.addEventListener("loadeddata", markVideoReady);
   video.addEventListener("canplay", markVideoReady);
 
-  hoverTarget.addEventListener("mouseenter", async () => {
+  hoverTarget.addEventListener("pointerenter", async () => {
     try {
       // Rewind to start every time hover (optional — remove if want to resume)
-      await ensureVideoLoaded({ primeFrame: true });
+      ensureVideoLoaded({ eager: true });
       video.currentTime = 0;
 
       await video.play();
@@ -938,20 +913,20 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     }
   });
 
-  hoverTarget.addEventListener("mouseleave", () => {
+  hoverTarget.addEventListener("pointerleave", () => {
     video.pause();
     video.currentTime = 0; // reset back
   });
 
   hoverTarget.addEventListener("touchstart", () => {
-    ensureVideoLoaded({ primeFrame: true });
+    ensureVideoLoaded({ eager: true });
   }, { passive: true });
 
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        ensureVideoLoaded({ primeFrame: true });
+        ensureVideoLoaded({ eager: false });
         io.disconnect();
       },
       { rootMargin: "1400px 0px", threshold: 0.01 }
@@ -959,6 +934,6 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
 
     io.observe(hoverTarget);
   } else {
-    ensureVideoLoaded({ primeFrame: true });
+    ensureVideoLoaded({ eager: false });
   }
 });

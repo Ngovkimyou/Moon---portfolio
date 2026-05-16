@@ -34,8 +34,8 @@ window.addEventListener("load", () => {
 
   // Button video
   const btnVid = document.querySelector("#ctaContact video");
-  if (btnVid && !btnVid.src && !reduceMotion && !saveData && !isSmallScreen) {
-    btnVid.src = "videos/button.mp4";
+  if (btnVid && !reduceMotion && !saveData && !isSmallScreen) {
+    if (!btnVid.getAttribute("src")) btnVid.src = "videos/button.mp4";
     btnVid.play().catch(() => {});
   }
 

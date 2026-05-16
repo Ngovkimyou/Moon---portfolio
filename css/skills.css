@@ -109,10 +109,12 @@
     object-fit: contain;
     opacity: .9;
     mix-blend-mode: screen;
-    filter: brightness(2.35) contrast(1.35) saturate(1.25) drop-shadow(0 0 14px rgba(255, 255, 255, .75));
+    filter: brightness(2) contrast(1.2) saturate(1.15);
     transform-origin: center;
     transform: translate(-50%, -50%) rotateZ(var(--star-rotate, 0deg));
     pointer-events: none;
+    backface-visibility: hidden;
+    contain: layout paint;
 }
 
 .outer-star-orbit.enter .outer-star {
@@ -338,14 +340,16 @@
     object-fit: contain;
     opacity: .95;
     mix-blend-mode: screen;
-    filter: brightness(2.45) contrast(1.4) saturate(1.25) drop-shadow(0 0 14px rgba(255, 255, 255, .8));
+    filter: brightness(2.05) contrast(1.2) saturate(1.15);
     transform-origin: center;
     transform: translate(-50%, -50%) rotateZ(var(--star-rotate, 0deg));
     pointer-events: none;
+    backface-visibility: hidden;
+    contain: layout paint;
 }
 
 .inner-star-orbit.enter .inner-star {
-    animation: starFlyIn 2s cubic-bezier(.18,.9,.25,1.15) both;
+    animation: starFlyIn 5s cubic-bezier(.18,.9,.25,1.15) both;
     animation-delay: var(--star-delay, 0ms);
 }
 
@@ -555,6 +559,28 @@
     100% { transform: rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
 }
 
+@media (max-width: 768px) {
+    .inner-star-orbit.enter,
+    .outer-star-orbit.enter {
+        animation: none;
+    }
+
+    .inner-star-orbit.enter .inner-star,
+    .outer-star-orbit.enter .outer-star {
+        animation-duration: .8s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inner-star-orbit.enter,
+    .outer-star-orbit.enter,
+    .inner-star-orbit.enter .inner-star,
+    .outer-star-orbit.enter .outer-star,
+    .skills .cloud img.cloud-enter {
+        animation: none;
+    }
+}
+
 /* 
 ============================================================================
                              Cloud
@@ -592,8 +618,12 @@
 
 .skills .cloud img.cloud-enter {
     opacity: 1;
-    animation: cloudFlyIn 8s cubic-bezier(.16,.82,.22,1) both;
-    animation-delay: var(--cloud-delay, 0ms);
+    animation:
+        cloudFlyIn 8s cubic-bezier(.16,.82,.22,1) both,
+        cloudFadeIn 8s ease both;
+    animation-delay:
+        var(--cloud-delay, 0ms),
+        var(--cloud-delay, 0ms);
 }
 
 @keyframes cloudFlyIn {
@@ -606,6 +636,11 @@
     100% {
         transform: translate(0, 0) scale(1);
     }
+}
+
+@keyframes cloudFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .skills .cloud img:nth-child(1) {

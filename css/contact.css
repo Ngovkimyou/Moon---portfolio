@@ -108,47 +108,81 @@
 
 .cloud-transition, .cloud-transition1 {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 120vw;
+    height: 120vh;
 
     object-fit: contain;
     pointer-events: none;
 
     opacity: 0;
+    filter: blur(10px);
     will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translate3d(-40vw, 35vh, 0) scale(4);
     z-index: 9999;
 }
 
-.contact.is-open .cloud-transition {
-    left: -120rem; bottom: -110rem;
-    animation: cloud-transition 2s ease;
+.cloud-transition {
+    left: -55vw;
+    bottom: -58vh;
 }
 
-@keyframes cloud-transition {
+.cloud-transition1 {
+    left: -35vw;
+    bottom: -20vh;
+}
+
+.contact.is-open .cloud-transition {
+    animation: contactCloudWipe 2.8s linear forwards;
+}
+
+@keyframes contactCloudWipe {
     0% {
-        transform: translateX(0) translateY(0) scale(4);
+        opacity: 0;
+        transform: translate3d(-35vw, 28vh, 0) scale(4.45);
+    }
+    10% {
         opacity: 1;
+        transform: translate3d(-10vw, 15vh, 0) scale(4.4);
+    }
+    42% {
+        opacity: 1;
+        transform: translate3d(70vw, -25vh, 0) scale(4.25);
+    }
+    70% {
+        opacity: .78;
+        transform: translate3d(135vw, -58vh, 0) scale(4.45);
     }
     100% {
-        opacity: 1;
-        transform: translateX(250rem) translateY(-120rem) scale(4);
+        opacity: 0;
+        transform: translate3d(210vw, -95vh, 0) scale(4.7);
     }
 }
 
 .contact.is-open .cloud-transition1 {
-    left: -50rem; bottom: -10rem;
-    animation: cloud-transition1 2.5s ease
+    animation: contactCloudDrift 2s linear .18s forwards;
 }
 
-@keyframes cloud-transition1 {
+@keyframes contactCloudDrift {
     0% {
         opacity: 0;
-        transform: rotateZ(90deg) scale(2);
+        transform: translate3d(-28vw, 18vh, 0) scale(2.35);
     }
-    1% { opacity: .5; }
+    12% {
+        opacity: .75;
+        transform: translate3d(-2vw, 8vh, 0) scale(2.3);
+    }
+    46% {
+        opacity: .5;
+        transform: translate3d(78vw, -24vh, 0) scale(2.18);
+    }
+    74% {
+        opacity: .28;
+        transform: translate3d(140vw, -50vh, 0) scale(2.35);
+    }
     100% {
-        opacity: 0.4;
-        transform: translateX(150rem) translateY(-50rem) rotateZ(90deg);
+        opacity: 0;
+        transform: translate3d(205vw, -76vh, 0) scale(2.65);
     }
 }
 
