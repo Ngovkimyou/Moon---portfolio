@@ -5,6 +5,22 @@
 //                Preload All Videos, Fonts, Skills Imgages
 // ============================================================================
 
+(() => {
+  const ageEl = document.getElementById("profileAge");
+  if (!ageEl) return;
+
+  const birthMonth = Number(ageEl.dataset.birthMonth);
+  const birthDay = Number(ageEl.dataset.birthDay);
+  const baseAge = 21;
+  const baseYear = 2025;
+  const now = new Date();
+  const birthdayThisYear = new Date(now.getFullYear(), birthMonth - 1, birthDay);
+  const hasHadBirthday = now >= birthdayThisYear;
+  const age = baseAge + (now.getFullYear() - baseYear) - (hasHadBirthday ? 0 : 1);
+
+  ageEl.textContent = String(age);
+})();
+
 window.addEventListener("load", () => {
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const saveData = navigator.connection?.saveData;
