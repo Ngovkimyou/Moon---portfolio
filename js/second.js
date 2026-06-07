@@ -375,7 +375,7 @@ if (!h1 || !video || !canvas) {
     }
   }
 
-  function waitForVideoFrame(timeoutMs = 3000) {
+  function waitForVideoFrame(timeoutMs = 6000) {
     // Resolve as soon as we have enough data to draw a frame.
     return new Promise((resolve) => {
       if (video.readyState >= 2 && video.videoWidth) return resolve();
@@ -397,20 +397,29 @@ if (!h1 || !video || !canvas) {
 
       const cleanup = () => {
         clearTimeout(timer);
+        if (videoFrameId && video.cancelVideoFrameCallback) {
+          video.cancelVideoFrameCallback(videoFrameId);
+        }
         video.removeEventListener("loadeddata", done);
         video.removeEventListener("canplay", done);
         video.removeEventListener("playing", done);
+        video.removeEventListener("timeupdate", done);
         video.removeEventListener("error", fail);
       };
 
+      let videoFrameId = null;
       const timer = setTimeout(done, timeoutMs);
+      if (video.requestVideoFrameCallback) {
+        videoFrameId = video.requestVideoFrameCallback(done);
+      }
       video.addEventListener("loadeddata", done, { once: true });
       video.addEventListener("canplay", done, { once: true });
       video.addEventListener("playing", done, { once: true });
+      video.addEventListener("timeupdate", done, { once: true });
       video.addEventListener("error", fail, { once: true });
 
       // Nudge load in case browser is lazy
-      video.load();
+      if (video.readyState === 0) video.load();
     });
   }
 
@@ -477,7 +486,7 @@ if (!h1 || !video || !canvas) {
     }
 
     configureH1Video();
-    requestH1Playback();
+    await requestH1Playback();
 
     // Wait until at least one frame is available
     await waitForVideoFrame();

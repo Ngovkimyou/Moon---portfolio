@@ -507,7 +507,7 @@ window.addEventListener("load", () => {
     video.setAttribute("playsinline", "");
   }
 
-  function waitForVideoFrame(video, timeoutMs = 3000) {
+  function waitForVideoFrame(video, timeoutMs = 6000) {
     return new Promise((resolve) => {
       if (video.readyState >= 2 && video.videoWidth) {
         resolve();
@@ -531,16 +531,25 @@ window.addEventListener("load", () => {
 
       const cleanup = () => {
         clearTimeout(timer);
+        if (videoFrameId && video.cancelVideoFrameCallback) {
+          video.cancelVideoFrameCallback(videoFrameId);
+        }
         video.removeEventListener("loadeddata", done);
         video.removeEventListener("canplay", done);
         video.removeEventListener("playing", done);
+        video.removeEventListener("timeupdate", done);
         video.removeEventListener("error", fail);
       };
 
+      let videoFrameId = null;
       const timer = setTimeout(done, timeoutMs);
+      if (video.requestVideoFrameCallback) {
+        videoFrameId = video.requestVideoFrameCallback(done);
+      }
       video.addEventListener("loadeddata", done, { once: true });
       video.addEventListener("canplay", done, { once: true });
       video.addEventListener("playing", done, { once: true });
+      video.addEventListener("timeupdate", done, { once: true });
       video.addEventListener("error", fail, { once: true });
     });
   }
@@ -554,7 +563,7 @@ window.addEventListener("load", () => {
       bg.src = HERO_BACKGROUND_SRC;
     }
     bg.load();
-    bg.play().catch(() => {});
+    await bg.play().catch(() => {});
 
     await waitForVideoFrame(bg);
   }
@@ -789,7 +798,7 @@ window.addEventListener("load", () => {
 
     await Promise.race([
       prepareCriticalHeroVisuals(),
-      new Promise((resolve) => setTimeout(resolve, 6000)),
+      new Promise((resolve) => setTimeout(resolve, 6500)),
     ]);
 
     criticalAssetsReady = true;
