@@ -4,6 +4,9 @@
     .skills .solar-container {
         --skill-icon-size: 3.25rem;
         --skill-icon-lift: -2rem;
+        width: clamp(34rem, 68vw, 42rem);
+        height: clamp(34rem, 68vw, 42rem);
+        scale: 1;
     }
 
     .projects .more-projects {

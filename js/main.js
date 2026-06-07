@@ -789,7 +789,7 @@ window.addEventListener("load", () => {
 
     await Promise.race([
       prepareCriticalHeroVisuals(),
-      new Promise((resolve) => setTimeout(resolve, 3500)),
+      new Promise((resolve) => setTimeout(resolve, 6000)),
     ]);
 
     criticalAssetsReady = true;
