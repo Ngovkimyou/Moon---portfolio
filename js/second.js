@@ -459,6 +459,12 @@ if (!h1 || !video || !canvas) {
     startLoop();
   }
 
+  function drawH1WhenVideoUpdates() {
+    if (video.readyState < 2 || !video.videoWidth) return;
+    drawOnce();
+    startLoop();
+  }
+
   async function prepareH1() {
     // Wait for fonts so canvas size is correct
     await waitForFonts();
@@ -520,13 +526,23 @@ if (!h1 || !video || !canvas) {
     }, 1200);
   }
 
-  // Auto prepare ASAP (but still safe)
-  // Draw fallback text early; the heavy video is attached after critical loading.
-  document.addEventListener("DOMContentLoaded", () => {
+  ["loadeddata", "canplay", "playing", "timeupdate"].forEach((eventName) => {
+    video.addEventListener(eventName, drawH1WhenVideoUpdates);
+  });
+
+  function bootH1Canvas() {
     drawH1Fallback()
       .then(startH1Autoplay)
       .catch(() => {});
-  });
+  }
+
+  // Auto prepare ASAP (but still safe)
+  // Draw fallback text early; the heavy video is attached after critical loading.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootH1Canvas, { once: true });
+  } else {
+    bootH1Canvas();
+  }
 
   window.addEventListener("resize", () => {
     resizeCanvas();
