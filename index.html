@@ -8,10 +8,10 @@
     <!-- EN Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet"> <!-- NOSONAR: Google Fonts CSS is dynamic, so a fixed SRI hash is not stable. -->
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
       
     <!-- JP Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet"> <!-- NOSONAR: Google Fonts CSS is dynamic, so a fixed SRI hash is not stable. -->
+    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
@@ -75,10 +75,7 @@
     </div>
 
     <!-- --------------------- Moon Logo --------------------- -->
-    <video class="background" src="videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline preload="auto" poster="images/home-section/bg-poster.webp">
-        <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-        <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-    </video>
+    <video class="background" src="videos/main-background-loop.mp4" type="video/mp4" autoplay muted loop playsinline preload="auto" poster="images/home-section/bg-poster.webp"></video>
     <div class="logo-wrapper">
         <img class="logo logo-white-state" src="icons/moon-logo.webp" alt="logo"  loading="lazy" decoding="async">
         <img class="logo logo-color-state" src="icons/moon-logo-color-state.webp" alt="logo"  loading="lazy" decoding="async">
@@ -149,8 +146,10 @@
             </div>
 
             <!-- --------------------- PDF Display --------------------- -->
-            <dialog id="downloadPDF" class="pdf" aria-label="Download preview" hidden>
-                <div class="pdf-card">
+            <div id="downloadPDF" class="pdf" hidden>
+                <div class="pdf-backdrop" data-close="true"></div>
+
+                <div class="pdf-card" role="dialog" aria-modal="true" aria-label="Download preview">
                     <div class="pdf-title">
                         <h1 data-i18n="pdf.preview">Preview</h1>
                         <img src="images/home-section/start-loading-text.png" alt="title-decorator" loading="eager" decoding="async">
@@ -178,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-            </dialog>
+            </div>
 
             <!-- --------------------- Introduction --------------------- -->
             <section class="intro">
@@ -198,11 +197,7 @@
                         <span class="name" data-i18n="hero.name">KIMYOO</span>
                     </h4>
                     <h1 class="video-h1" data-text="Web Developer" data-i18n-attr="data-text" data-i18n-key="hero.role">
-                        <span class="sr-only" data-i18n="hero.role">Web Developer</span>
-                        <video id="h1vid" src="videos/h1-optimized.mp4" data-src="videos/h1-optimized.mp4" autoplay muted loop playsinline preload="auto">
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video id="h1vid" src="videos/h1-optimized.mp4" data-src="videos/h1-optimized.mp4" autoplay muted loop playsinline preload="auto"></video>
                         <canvas id="h1canvas"></canvas>
                     </h1>
                     <div class="text-container">
@@ -212,10 +207,7 @@
                     </div>
 
                     <button class="btn" id="ctaContact">
-                        <video src="videos/button.mp4" type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/home-section/bg-button.webp" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/home-section/bg-button.webp"></video>
                         <span data-i18n="hero.cta">Contact Me</span>
                     </button>
                 </div>
@@ -314,10 +306,7 @@
                 </blockquote>
 
                 <!-- --------------------- Blackhole --------------------- -->
-                <video id="bhVideo" src="videos/blackhole.mp4" data-src="videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload="none" poster="images/about/blackhole-poster.webp" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                    <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                    <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                </video>
+                <video id="bhVideo" data-src="videos/blackhole.mp4" type="video/mp4" loop muted playsinline preload="none" poster="images/about/blackhole-poster.webp"></video>
             </div>
         </section>
 
@@ -332,21 +321,21 @@
                 <div class="inner-ring-container">
                     <img class="scale-up inner-ring" src="images/skills/inner-ring.webp" alt="inner-ring" loading="lazy" decoding="async" data-delay="0.1">
                 </div>
-                <div class="inner-star-orbit" aria-hidden="true">
+                <!-- <div class="inner-star-orbit" aria-hidden="true">
                     <img class="inner-star inner-star-one" src="images/home-section/stars1.webp" alt="" loading="lazy" decoding="async">
                     <img class="inner-star inner-star-two" src="images/home-section/stars2.webp" alt="" loading="lazy" decoding="async">
                     <img class="inner-star inner-star-three" src="images/home-section/stars1.webp" alt="" loading="lazy" decoding="async">
                     <img class="inner-star inner-star-four" src="images/home-section/stars2.webp" alt="" loading="lazy" decoding="async">
-                </div>
+                </div> -->
                 <div class="outer-ring-container">
                     <img class="scale-up outer-ring" src="images/skills/outer-ring.webp" alt="outter-ring" loading="lazy" decoding="async" data-delay="0.2">
                 </div>
-                <div class="outer-star-orbit" aria-hidden="true">
+                <!-- <div class="outer-star-orbit" aria-hidden="true">
                     <img class="outer-star outer-star-one" src="images/home-section/stars1.webp" alt="" loading="lazy" decoding="async">
                     <img class="outer-star outer-star-two" src="images/home-section/stars2.webp" alt="" loading="lazy" decoding="async">
                     <img class="outer-star outer-star-three" src="images/home-section/stars1.webp" alt="" loading="lazy" decoding="async">
                     <img class="outer-star outer-star-four" src="images/home-section/stars2.webp" alt="" loading="lazy" decoding="async">
-                </div>
+                </div> -->
                 <div class="solar-ring-container">
                     <img class="scale-up solar-ring" src="images/skills/solar-ring.webp" alt="solar-ring" loading="lazy" decoding="async" data-delay="0.3">
                 </div>
@@ -480,10 +469,7 @@
                 <figure class="demo-01">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/fancy-login-page-first-project.mp4" data-src="videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/fancy-login-page-first-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
 
                     <figcaption>
@@ -515,10 +501,7 @@
 
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/WashWise-project.mp4" data-src="videos/WashWise-project.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/WashWise-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
                 </figure>
 
@@ -526,10 +509,7 @@
                 <figure class="demo-03">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/Julvry-project.mp4" data-src="videos/Julvry-project.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/Julvry-project.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
 
                     <figcaption>
@@ -556,15 +536,12 @@
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="projects.quiz-game.desc">An English–Japanese sentence quiz game where players must answer as many questions correctly as possible within a limited time to achieve a high score. Scores will be displayed on a leaderboard ranked by player performance.</p>
+                        <p data-i18n="projects.quiz-game.desc">An English-Japanese sentence quiz game where players must answer as many questions correctly as possible within a limited time to achieve a high score. Scores will be displayed on a leaderboard ranked by player performance.</p>
                     </figcaption>
 
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/Quiz-Game.mp4" data-src="videos/Quiz-Game.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/Quiz-Game.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
                 </figure>
 
@@ -572,10 +549,7 @@
                 <figure class="demo-05">
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/sns.mp4" data-src="videos/sns.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/sns.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
 
                     <figcaption>
@@ -587,7 +561,7 @@
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="projects.sns.desc">A social media platform for space and time enthusiasts to connect and share their experiences.</p>
+                        <p data-i18n="projects.sns.desc">A next-generation social media platform designed with a modern interface and equipped with a wide range of features for user convenience. The developers of this project were given the freedom to explore ideas and express their creativity while maintaining performance optimization across different devices.</p>
                     </figcaption>
                 </figure>
 
@@ -602,15 +576,12 @@
                                 </span>
                             </a>
                         </h3>
-                        <p data-i18n="projects.nlp.desc">A smart translation tool leveraging natural language processing for accurate and efficient translations.</p>
+                        <p data-i18n="projects.nlp.desc">A smart translation application that allows users to choose different translation styles, such as casual, polite, and business expressions. This project focuses not only on translation accuracy, but also on delivering local nuances, modern vocabulary, and cultural context to help bridge communication gaps.</p>
                     </figcaption>
 
                     <div class="video-wrapper">
                         <div class="video-background"></div>
-                        <video src="videos/nlp.mp4" data-src="videos/nlp.mp4" type="video/mp4" muted loop preload="none" playsinline controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                            <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                            <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-                        </video>
+                        <video data-src="videos/nlp.mp4" type="video/mp4" muted loop preload="none" playsinline></video>
                     </div>
                 </figure>
             </div>
@@ -635,10 +606,7 @@
             <div class="contact-stars contact-first-stars"></div>
             <div class="contact-stars contact-second-stars"></div>
 
-            <video class="contact-background" src="videos/contact-background.mp4" type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/contact/bg-contact.webp" controlslist="nodownload noplaybackrate noremoteplayback" disablepictureinpicture>
-                <track kind="captions" src="videos/decorative-captions.vtt" srclang="en" label="English">
-                <track kind="descriptions" src="videos/decorative-descriptions.vtt" srclang="en" label="English descriptions">
-            </video>
+            <video class="contact-background" type="video/mp4" autoplay muted loop playsinline preload="none" poster="images/contact/bg-contact.webp"></video>
 
             <!-- --------------------- Section Title --------------------- -->
             <h2 class="section-title" data-shadow="">
