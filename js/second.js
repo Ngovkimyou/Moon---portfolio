@@ -874,8 +874,19 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   let isHovering = false;
 
   function markVideoReady() {
+    wrapper?.style.setProperty("--video-load-progress", "100%");
     wrapper?.classList.add("is-video-ready");
     wrapper?.classList.remove("is-video-loading");
+  }
+
+  function updateLoadProgress() {
+    if (!wrapper || !Number.isFinite(video.duration) || video.duration <= 0 || video.buffered.length === 0) {
+      return;
+    }
+
+    const end = video.buffered.end(video.buffered.length - 1);
+    const progress = Math.min(100, Math.max(18, (end / video.duration) * 100));
+    wrapper.style.setProperty("--video-load-progress", `${progress}%`);
   }
 
   function canLoadPreview() {
@@ -905,6 +916,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
 
     wrapper?.classList.add("is-video-loading");
     wrapper?.classList.remove("is-video-ready");
+    wrapper?.style.setProperty("--video-load-progress", "18%");
 
     return new Promise((resolve) => {
       let settled = false;
@@ -933,6 +945,8 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
 
   video.addEventListener("loadeddata", markVideoReady);
   video.addEventListener("canplay", markVideoReady);
+  video.addEventListener("progress", updateLoadProgress);
+  video.addEventListener("timeupdate", updateLoadProgress);
 
   hoverTarget.addEventListener("pointerenter", async () => {
     isHovering = true;
