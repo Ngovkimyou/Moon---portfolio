@@ -871,9 +871,11 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   const wrapper = video.closest(".video-wrapper");
   const hoverTarget = wrapper || video;
   let pauseTimer;
+  let isHovering = false;
 
   function markVideoReady() {
     wrapper?.classList.add("is-video-ready");
+    wrapper?.classList.remove("is-video-loading");
   }
 
   function canLoadPreview() {
@@ -898,14 +900,50 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     }
   }
 
+  function waitForPreviewReady(timeoutMs = 1800) {
+    if (video.readyState >= 2) return Promise.resolve();
+
+    wrapper?.classList.add("is-video-loading");
+    wrapper?.classList.remove("is-video-ready");
+
+    return new Promise((resolve) => {
+      let settled = false;
+
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        if (video.readyState >= 2) markVideoReady();
+        resolve();
+      };
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        video.removeEventListener("loadeddata", done);
+        video.removeEventListener("canplay", done);
+        video.removeEventListener("error", done);
+      };
+
+      const timer = setTimeout(done, timeoutMs);
+      video.addEventListener("loadeddata", done, { once: true });
+      video.addEventListener("canplay", done, { once: true });
+      video.addEventListener("error", done, { once: true });
+    });
+  }
+
   video.addEventListener("loadeddata", markVideoReady);
   video.addEventListener("canplay", markVideoReady);
 
   hoverTarget.addEventListener("pointerenter", async () => {
+    isHovering = true;
     clearTimeout(pauseTimer);
+
+    if (!canLoadPreview()) return;
 
     try {
       ensureVideoLoaded({ eager: true });
+      await waitForPreviewReady();
+      if (!isHovering || video.readyState < 2) return;
       await video.play();
     } catch (err) {
       console.log("Play blocked:", err);
@@ -913,12 +951,20 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   });
 
   hoverTarget.addEventListener("pointerleave", () => {
+    isHovering = false;
     pauseTimer = setTimeout(() => {
       video.pause();
     }, 180);
   });
 
+  wrapper?.querySelector(".video-loading")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  });
+
   hoverTarget.addEventListener("touchstart", () => {
+    if (!canLoadPreview()) return;
+    wrapper?.classList.add("is-video-loading");
     ensureVideoLoaded({ eager: true });
   }, { passive: true });
 
