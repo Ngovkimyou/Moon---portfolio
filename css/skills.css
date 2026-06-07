@@ -37,7 +37,7 @@
     
     perspective: 1200px;
     perspective-origin: center;
-    mix-blend-mode: screen;
+    /* mix-blend-mode: screen; */
     filter: contrast(1.1);
     overflow: visible;
     z-index: 2;
@@ -108,7 +108,7 @@
     height: 22%;
     object-fit: contain;
     opacity: .9;
-    mix-blend-mode: screen;
+    /* mix-blend-mode: screen; */
     filter: brightness(2) contrast(1.2) saturate(1.15);
     transform-origin: center;
     transform: translate(-50%, -50%) rotateZ(var(--star-rotate, 0deg));
