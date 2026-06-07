@@ -870,6 +870,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   video.disableRemotePlayback = true;
   const wrapper = video.closest(".video-wrapper");
   const hoverTarget = wrapper || video;
+  let pauseTimer;
 
   function markVideoReady() {
     wrapper?.classList.add("is-video-ready");
@@ -901,21 +902,20 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   video.addEventListener("canplay", markVideoReady);
 
   hoverTarget.addEventListener("pointerenter", async () => {
-    try {
-      // Rewind to start every time hover (optional — remove if want to resume)
-      ensureVideoLoaded({ eager: true });
-      video.currentTime = 0;
+    clearTimeout(pauseTimer);
 
+    try {
+      ensureVideoLoaded({ eager: true });
       await video.play();
     } catch (err) {
-      // Some browsers block play until user interacts — hover usually counts, but just in case
       console.log("Play blocked:", err);
     }
   });
 
   hoverTarget.addEventListener("pointerleave", () => {
-    video.pause();
-    video.currentTime = 0; // reset back
+    pauseTimer = setTimeout(() => {
+      video.pause();
+    }, 180);
   });
 
   hoverTarget.addEventListener("touchstart", () => {
