@@ -35,6 +35,7 @@
     object-fit: cover;
     border-radius: 1.5rem;
 
+    pointer-events: none;
     z-index: 1;
 }
 
@@ -45,43 +46,72 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: .7rem;
+    gap: .75rem;
 
     border-radius: 1.5rem;
     background:
-        radial-gradient(circle at center, rgba(255, 255, 255, .16), transparent 34%),
-        rgba(0, 0, 0, .72);
+        radial-gradient(circle at center, rgba(255, 255, 255, .22), transparent 20%),
+        radial-gradient(circle at 30% 22%, rgba(184, 214, 255, .18), transparent 22%),
+        radial-gradient(circle at 70% 78%, rgba(255, 255, 255, .12), transparent 18%),
+        rgba(0, 0, 0, .78);
     color: white;
     font-family: Syncopate, Tahoma, Geneva, Verdana, sans-serif;
     font-size: .75rem;
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 1;
+    pointer-events: auto;
     transition: opacity .2s ease;
-    z-index: 3;
+    z-index: 10;
 }
 
 .project-demo .video-spinner {
-    width: 2.6rem;
-    height: 2.6rem;
-    border: 3px solid rgba(255, 255, 255, .22);
-    border-top-color: white;
+    position: relative;
+    width: 3.6rem;
+    height: 3.6rem;
+    border: 1px solid rgba(255, 255, 255, .55);
     border-radius: 50%;
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, .7));
-    animation: video-loading-spin .8s linear infinite;
+    background:
+        radial-gradient(circle at 38% 35%, white 0 .38rem, rgba(255, 255, 255, .72) .4rem .9rem, transparent .95rem),
+        radial-gradient(circle at 55% 58%, rgba(255, 255, 255, .2), transparent 1.35rem);
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, .75),
+        inset 0 0 14px rgba(255, 255, 255, .28);
+}
+
+.project-demo .video-spinner::before,
+.project-demo .video-spinner::after {
+    content: "";
+    position: absolute;
+    inset: -.45rem;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top-color: rgba(255, 255, 255, .9);
+    border-right-color: rgba(255, 255, 255, .32);
+    animation: video-loading-spin 1.2s linear infinite;
+}
+
+.project-demo .video-spinner::after {
+    inset: .35rem;
+    border-top-color: rgba(184, 214, 255, .85);
+    border-left-color: rgba(255, 255, 255, .28);
+    animation-duration: 1.8s;
+    animation-direction: reverse;
 }
 
 .project-demo .video-loading-text {
     letter-spacing: 0;
-    text-shadow: 0 0 10px white;
+    text-shadow:
+        0 0 8px white,
+        0 0 18px rgba(184, 214, 255, .75);
 }
 
 .project-demo .video-loading-bar {
-    width: min(10rem, 70%);
+    width: min(11rem, 72%);
     height: .28rem;
     overflow: hidden;
     border-radius: 999px;
-    background: rgba(255, 255, 255, .18);
+    background: rgba(255, 255, 255, .16);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, .8);
 }
 
 .project-demo .video-loading-bar span {
@@ -90,18 +120,20 @@
     height: 100%;
     min-width: 18%;
     border-radius: inherit;
-    background: white;
-    box-shadow: 0 0 12px rgba(255, 255, 255, .9);
+    background: linear-gradient(90deg, rgba(184, 214, 255, .75), white, rgba(255, 255, 255, .7));
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, .9),
+        0 0 22px rgba(184, 214, 255, .75);
     transition: width .2s ease;
-}
-
-.project-demo .video-wrapper.is-video-loading:not(.is-video-ready) .video-loading {
-    opacity: 1;
-    pointer-events: auto;
 }
 
 .project-demo .video-wrapper.is-video-loading:not(.is-video-ready) .video-background {
     animation: none;
+}
+
+.project-demo .video-wrapper.is-video-ready .video-loading {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @keyframes video-loading-spin {
@@ -223,6 +255,7 @@ figcaption h3 {
     transform: scale(1);
     transition: all .2s linear;
     pointer-events: auto;
+    isolation: isolate;
     z-index: 2;
 }
 
@@ -278,6 +311,7 @@ figcaption h3 {
 
 .project-demo .video-wrapper .video-background { 
     position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
 
@@ -289,6 +323,7 @@ figcaption h3 {
     );
 
     will-change: transform;
+    pointer-events: none;
     z-index: 0;
 }
 

@@ -873,6 +873,9 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
   let pauseTimer;
   let isHovering = false;
 
+  wrapper?.classList.add("is-video-loading");
+  wrapper?.style.setProperty("--video-load-progress", "18%");
+
   function markVideoReady() {
     wrapper?.style.setProperty("--video-load-progress", "100%");
     wrapper?.classList.add("is-video-ready");
@@ -986,6 +989,7 @@ document.querySelectorAll(".video-wrapper video").forEach((video) => {
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
+        wrapper?.classList.add("is-video-loading");
         ensureVideoLoaded({ eager: false });
         io.disconnect();
       },
