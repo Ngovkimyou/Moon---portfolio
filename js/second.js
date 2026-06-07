@@ -305,11 +305,16 @@ if (!h1 || !video || !canvas) {
   }
 
   function drawOnce() {
-    // If video not ready enough, still draw text (so user sees something)
+    // Avoid showing the white text mask before a real video frame exists.
     const text = h1.dataset.text || "";
     const style = getComputedStyle(h1);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (video.readyState < 2 || !video.videoWidth || !video.videoHeight) {
+      h1.classList.remove("h1-video-ready");
+      return;
+    }
 
     // Draw text mask
     ctx.save();
@@ -321,29 +326,20 @@ if (!h1 || !video || !canvas) {
     // Clip content into text
     ctx.globalCompositeOperation = "source-in";
 
-    // If video has frame data, draw it. Otherwise fallback to a gradient fill.
-    if (video.readyState >= 2 && video.videoWidth && video.videoHeight) {
-      const vw = video.videoWidth;
-      const vh = video.videoHeight;
-      const cw = canvas.width;
-      const ch = canvas.height;
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    const cw = canvas.width;
+    const ch = canvas.height;
 
-      const scale = Math.max(cw / vw, ch / vh);
-      const sw = vw * scale;
-      const sh = vh * scale;
+    const scale = Math.max(cw / vw, ch / vh);
+    const sw = vw * scale;
+    const sh = vh * scale;
 
-      const dx = (cw - sw) * posX;
-      const dy = (ch - sh) * posY;
+    const dx = (cw - sw) * posX;
+    const dy = (ch - sh) * posY;
 
-      ctx.drawImage(video, dx, dy, sw, sh);
-    } else {
-      // fallback so you never see "nothing"
-      const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      g.addColorStop(0, "white");
-      g.addColorStop(1, "rgba(255,255,255,0.3)");
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
+    ctx.drawImage(video, dx, dy, sw, sh);
+    h1.classList.add("h1-video-ready");
 
     ctx.restore();
     ctx.globalCompositeOperation = "source-over";
@@ -378,21 +374,21 @@ if (!h1 || !video || !canvas) {
   function waitForVideoFrame(timeoutMs = 6000) {
     // Resolve as soon as we have enough data to draw a frame.
     return new Promise((resolve) => {
-      if (video.readyState >= 2 && video.videoWidth) return resolve();
+      if (video.readyState >= 2 && video.videoWidth) return resolve(true);
 
       let settled = false;
       const done = () => {
         if (settled) return;
         settled = true;
         cleanup();
-        resolve();
+        resolve(video.readyState >= 2 && Boolean(video.videoWidth));
       };
 
       const fail = () => {
         if (settled) return;
         settled = true;
         cleanup();
-        resolve();
+        resolve(false);
       };
 
       const cleanup = () => {
@@ -470,6 +466,7 @@ if (!h1 || !video || !canvas) {
 
   function drawH1WhenVideoUpdates() {
     if (video.readyState < 2 || !video.videoWidth) return;
+    h1.classList.add("h1-video-ready");
     drawOnce();
     startLoop();
   }
@@ -489,10 +486,10 @@ if (!h1 || !video || !canvas) {
     await requestH1Playback();
 
     // Wait until at least one frame is available
-    await waitForVideoFrame();
+    const hasFrame = await waitForVideoFrame();
 
     // Force one draw NOW so it appears instantly after reveal
-    drawOnce();
+    if (hasFrame) drawOnce();
 
     // Start continuous loop
     startLoop();
@@ -512,8 +509,8 @@ if (!h1 || !video || !canvas) {
 
     return Promise.resolve(playPromise)
       .then(waitForVideoFrame)
-      .then(() => {
-        drawOnce();
+      .then((hasFrame) => {
+        if (hasFrame) drawOnce();
         startLoop();
       });
   }

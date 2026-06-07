@@ -200,12 +200,17 @@ main .intro {
 
 .video-h1 canvas {
     display: block;
+    opacity: 0;
     mix-blend-mode: exclusion;
     filter:
         drop-shadow(0 0 .1px rgb(255, 255, 255)) 
         saturate(1.2) 
         brightness(1.1) 
         contrast(1.5);
+}
+
+.video-h1.h1-video-ready canvas {
+    opacity: 1;
 }
 
 .intro p {

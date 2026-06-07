@@ -568,7 +568,7 @@ window.addEventListener("load", () => {
     await waitForVideoFrame(bg);
   }
 
-  function playHeroBackgroundVideo() {
+  async function playHeroBackgroundVideo() {
     const bg = document.querySelector("video.background");
     if (!bg || !shouldLoadHeroVideo()) return;
 
@@ -578,21 +578,29 @@ window.addEventListener("load", () => {
     }
 
     if (bg.readyState === 0) bg.load();
-    if (!bg.paused && !bg.ended) return;
+    if (bg.paused || bg.ended) {
+      await bg.play().catch(() => {});
+    }
 
-    bg.play().catch(() => {});
+    await waitForVideoFrame(bg, 6500);
   }
 
-  function playHeroVisualsFromGesture() {
-    playHeroBackgroundVideo();
+  async function playHeroVisualsFromGesture() {
+    const backgroundReady = playHeroBackgroundVideo();
+    let h1Ready = Promise.resolve();
 
     if (typeof window.resumeH1Video === "function") {
-      window.resumeH1Video();
+      h1Ready = window.resumeH1Video();
     } else if (typeof window.prepareH1 === "function") {
-      window.prepareH1().catch((err) => {
+      h1Ready = window.prepareH1().catch((err) => {
         console.warn("H1 playback failed:", err);
       });
     }
+
+    await Promise.race([
+      Promise.allSettled([backgroundReady, h1Ready]),
+      new Promise((resolve) => setTimeout(resolve, 6800)),
+    ]);
   }
 
   function startHeroAutoplayWatch() {
@@ -812,13 +820,12 @@ window.addEventListener("load", () => {
     warmRemainingAssetsInBackground();
   }
 
-  const enter = () => {
+  const enter = async () => {
     if (!canEnter || entered) return;
     entered = true;
 
-    playHeroVisualsFromGesture();
+    await playHeroVisualsFromGesture();
 
-    // Reveal FIRST (instant feedback)
     loader.classList.add("reveal");
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
