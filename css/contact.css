@@ -266,6 +266,7 @@ input {
     border: none;
     outline: none;
     border-radius: 1.5rem;
+    background: white;
 
     will-change: transform;
     transition: transform .5s ease;
@@ -285,6 +286,7 @@ textarea {
     outline: none;
     border-radius: .5rem;
     resize: vertical;
+    background: white;
 
     will-change: transform;
     transition: transform .5s ease;

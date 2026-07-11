@@ -76,6 +76,12 @@
     "projects.nlp.title": "Smart Translator",
     "projects.nlp.desc": "A smart translation application that allows users to choose different translation styles, such as casual, polite, and business expressions. This project focuses not only on translation accuracy, but also on delivering local nuances, modern vocabulary, and cultural context to help bridge communication gaps.",
 
+    "projects.romanized-kh.title": "Khmer Transliteration Keyboard",
+    "projects.romanized-kh.desc": "A Romanized Khmer-to-Khmer script input system that converts Khmer words typed using Latin letters into proper Khmer script. A hybrid of rule-based and dictionary based system for candidate generation, model ranking, and manual label data. The project has successfully integrated into Window IME prototype.",
+
+    "projects.to-do-app.title": "To-Do App",
+    "projects.to-do-app.desc": "A task management app that helps users efficiently track task progress, accompanied by a calendar feature. The design is inspired by a comic style, the app makes completed tasks light up with green checkmarks, creating a satisfying sense of progress and motivating users to finish more — bringing to-do lists to life.",
+
     "projects.more": "View More Projects",
 
     "_commentE": "------------- Contact Section -------------",
